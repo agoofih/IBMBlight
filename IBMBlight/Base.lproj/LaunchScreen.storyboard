@@ -18,21 +18,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="InBlightMe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UgH-ob-2vd">
-                                <rect key="frame" x="0.0" y="220" width="768" height="100"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ibmLogoWhite800x320" translatesAutoresizingMaskIntoConstraints="NO" id="WdI-d8-Cpa" userLabel="IBMLogoWhite">
+                                <rect key="frame" x="275" y="220" width="218" height="100"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="4Fu-0h-ZdK"/>
+                                    <constraint firstAttribute="height" constant="100" id="YJD-1L-95n"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="75"/>
-                                <color key="textColor" red="0.4836921963785864" green="0.78874515087662422" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EnBlightMe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UgH-ob-2vd">
+                                <rect key="frame" x="0.0" y="325" width="768" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="4Fu-0h-ZdK"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="45"/>
+                                <color key="textColor" red="1" green="0.9999879002571106" blue="0.99999207258224487" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.19607843137254902" green="0.44313725490196076" blue="0.73333333333333328" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="UgH-ob-2vd" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="200" id="aOe-rw-RsU"/>
+                            <constraint firstItem="UgH-ob-2vd" firstAttribute="top" secondItem="WdI-d8-Cpa" secondAttribute="bottom" constant="5" id="8PD-E6-sYj"/>
+                            <constraint firstItem="WdI-d8-Cpa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="275" id="V21-aP-2gd"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="UgH-ob-2vd" secondAttribute="trailing" id="bZO-0M-4rM"/>
                             <constraint firstItem="UgH-ob-2vd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="jRS-1y-eDq"/>
+                            <constraint firstItem="WdI-d8-Cpa" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" constant="220" id="ofi-dt-bcl"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="WdI-d8-Cpa" secondAttribute="trailing" constant="275" id="yms-iH-FDL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -42,4 +51,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ibmLogoWhite800x320" width="800" height="320"/>
+    </resources>
 </document>

@@ -13,6 +13,8 @@
 		263D303E2063E534005BFE8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 263D303D2063E534005BFE8F /* Assets.xcassets */; };
 		263D30412063E534005BFE8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 263D303F2063E534005BFE8F /* LaunchScreen.storyboard */; };
 		263D30492063EBB6005BFE8F /* bluppfisk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D30482063EBB6005BFE8F /* bluppfisk.swift */; };
+		26D8E4A12073740900B69962 /* AlertTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A02073740900B69962 /* AlertTableViewCell.swift */; };
+		26D8E4A32073847F00B69962 /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A22073847F00B69962 /* NewsTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		263D30402063E534005BFE8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		263D30422063E534005BFE8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		263D30482063EBB6005BFE8F /* bluppfisk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bluppfisk.swift; sourceTree = "<group>"; };
+		26D8E4A02073740900B69962 /* AlertTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTableViewCell.swift; sourceTree = "<group>"; };
+		26D8E4A22073847F00B69962 /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +63,8 @@
 				263D30362063E533005BFE8F /* AppDelegate.swift */,
 				263D30382063E533005BFE8F /* ViewController.swift */,
 				263D303A2063E533005BFE8F /* Main.storyboard */,
+				26D8E4A02073740900B69962 /* AlertTableViewCell.swift */,
+				26D8E4A22073847F00B69962 /* NewsTableViewCell.swift */,
 				263D303D2063E534005BFE8F /* Assets.xcassets */,
 				263D303F2063E534005BFE8F /* LaunchScreen.storyboard */,
 				263D30422063E534005BFE8F /* Info.plist */,
@@ -141,6 +147,8 @@
 			files = (
 				263D30392063E533005BFE8F /* ViewController.swift in Sources */,
 				263D30492063EBB6005BFE8F /* bluppfisk.swift in Sources */,
+				26D8E4A32073847F00B69962 /* NewsTableViewCell.swift in Sources */,
+				26D8E4A12073740900B69962 /* AlertTableViewCell.swift in Sources */,
 				263D30372063E533005BFE8F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
