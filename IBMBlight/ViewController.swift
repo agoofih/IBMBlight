@@ -9,43 +9,53 @@
 import UIKit
 import CoreLocation
 import MapKit
+import MessageUI
 
-
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, MFMailComposeViewControllerDelegate {
     
-    
+    //Loadingscreen
     @IBOutlet weak var preScreen: UIView!
+    
+    //Main scrollView
     @IBOutlet weak var mainScrollview: UIScrollView!
+
+    //Top mapView
+    @IBOutlet weak var mainMapView: MKMapView!
+    
+    //CRV = cameraResultView
+    @IBOutlet weak var CRVheader: UILabel! //
+    @IBOutlet weak var CRVsuggestedInfectionHeader: UILabel! //
+    @IBOutlet weak var CRVsuggestedInfectionTypeValue: UILabel! //
+    @IBOutlet weak var CRVprababilityHeader: UILabel! //
+    @IBOutlet weak var CRVprobabilityDegreeValue: UILabel! //
+    @IBOutlet weak var CRVstageHeader: UILabel! //
+    @IBOutlet weak var CRVstageValue: UILabel! //
+    @IBOutlet weak var CRVsendResult: UIButton! //
+    @IBOutlet weak var CRVcloseBtn: UIButton!
     @IBOutlet weak var imageResultView: UIImageView!
     @IBOutlet weak var imageResultViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageResultViewTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var mainMapView: MKMapView!
-    @IBOutlet weak var alertTableView: UITableView!
-    @IBOutlet weak var newsTableView: UITableView!
     
-    var lastImage : UIImage? = nil // 1. ska fixa för att hämta senaste bilden
     var locationManager : CLLocationManager!
+    
+    //Base setup, GPS to IBM Malmö
     var localtion_lat = 55.611868
     var location_long = 12.977738
     
+    //Mailadress user puts in befor sending the report
+    var recipientValueMail : String = ""
+    
+    var todaysDate : String = ""
+    
+    var sendResultAlert = UIAlertController()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        alertTableView.dataSource = self
-        alertTableView.delegate = self
-        alertTableView.register(UITableViewCell.self, forCellReuseIdentifier: "alertCell")
-        
-        newsTableView.dataSource = self
-        newsTableView.delegate = self
-        newsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "newsCell")
-        
-//        longPress.addTarget(self, action: "longPressGestureRecognized:")
-//        tableView.addGestureRecognizer(longPress)
+        // Do any additional setup after loading the view, typically from a nib
         
         imageResultViewHeightConstraint.constant = 0
         imageResultViewTopConstraint.constant = 0
-        
+        imageResultView.isHidden = true
         locationManager = CLLocationManager()
         
         if CLLocationManager.locationServicesEnabled() {
@@ -56,34 +66,37 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             locationManager.startUpdatingLocation()
         }
         moveMap()
+        getCurrentDateTime()
     }
     
+    
     override func viewDidAppear(_ animated: Bool) {
-        DispatchQueue    .main.asyncAfter(deadline: .now() + .seconds(2), execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
             UIView.animate(withDuration: 0.7, animations: {
                 self.preScreen.alpha = 0
-                //self.preScreen.isHidden = true
             }, completion: nil)
         })
         
-        if lastImage != nil { // 1. ska fixa för att hämta senaste bilden
+        //Preload last taken image and show it
+        if UserDefaults.standard.value(forKey: "savedImage") == nil {
+            print("NUPPNUPP")
+        }else{
+            print("JUPPJUPP")
+            imageResultView.isHidden = false
             imageResultViewHeightConstraint.constant = 300
             imageResultViewTopConstraint.constant = 25
-            imageResultView.image = lastImage
+            CRVsetValuesText()
+            
+            let savedImage = UserDefaults.standard.object(forKey: "savedImage") as! NSData
+            imageResultView.image = UIImage(data: savedImage as Data)
         }
-        
-        
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let userLocation:CLLocation = locations[0]
-        
-        localtion_lat = userLocation.coordinate.latitude;
-        location_long = userLocation.coordinate.longitude;
-        
-        print(localtion_lat)
-        print(location_long)
-        
+        localtion_lat = userLocation.coordinate.latitude
+        location_long = userLocation.coordinate.longitude
+
         moveMap()
     }
     
@@ -102,7 +115,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.present(imagePicker, animated: true, completion: nil)
     }
     
-    
     @IBAction func getFromGallery(_ sender: UIButton) {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
@@ -112,57 +124,124 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        imageResultView.isHidden = false
         imageResultViewHeightConstraint.constant = 300
         imageResultViewTopConstraint.constant = 25
         let pickedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-        lastImage = pickedImage // 1. ska fixa för att hämta senaste bilden
-        imageResultView.image = lastImage // 1. ska fixa för att hämta senaste bilden
+        
+        //Encode image for userDefaults
+        let imageData : NSData = UIImagePNGRepresentation(pickedImage)! as NSData
+        
+        //Save image userDefaults
+        UserDefaults.standard.set(imageData, forKey: "savedImage")
+        
+        //Decode image and display
+        let activeImage = UserDefaults.standard.object(forKey: "savedImage") as! NSData
+        imageResultView.image = UIImage(data: activeImage as Data)
+
+        CRVsetValuesText()
         self.dismiss(animated: true, completion: nil)
-        print("senaste bilden är: \n \(String(describing:lastImage))")
-        
+    }
+    
+    func CRVsetValuesText(){
+        CRVheader.text = "Result of analysis"
+        CRVsuggestedInfectionHeader.text = "Suggested infection:"
+        CRVsuggestedInfectionTypeValue.text = "infectionTypeValue"
+        CRVprababilityHeader.text = "Propability of infection:"
+        CRVprobabilityDegreeValue.text = "degreeValue"
+        CRVstageHeader.text = "Stage of infection:"
+        CRVstageValue.text = "stageValue"
+        CRVsendResult.setTitle("Send result as email", for: .normal)
+        CRVcloseBtn.setTitle("X", for: .normal)
+    }
+    
+    func CRVresetValues() {
+        CRVheader.text = ""
+        CRVsuggestedInfectionHeader.text = ""
+        CRVsuggestedInfectionTypeValue.text = ""
+        CRVprababilityHeader.text = ""
+        CRVprobabilityDegreeValue.text = ""
+        CRVstageHeader.text = ""
+        CRVstageValue.text = ""
+        CRVsendResult.setTitle("", for: .normal)
+        CRVcloseBtn.setTitle("", for: .normal)
     }
     
     
-    
-    
-    var tempAlert = ["1. alert alert", "2. stuff is happening", "3. What do you want to do with this?", "4. Now it starts to get really seriouse about everything, I think you aught to think hard about this!"]
-    
-    var tempNews = ["1. BREAKING NEWS! Don't know", "2. Well there has to be something new... No?", "3. Some hackers did something bad. No shit..!", "4. The world ENDS! Bad day for us all. Free icecream!", "5. Something more something less, donno.."]
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        var count : Int = 1
-        
-        if tableView == self.alertTableView {
-            count = tempAlert.count
-        }
-        
-        if tableView == self.newsTableView {
-            count = tempNews.count
-        }
-        return count
+    @IBAction func CRVclose(_ sender: UIButton) {
+        CRVresetValues()
+        imageResultViewHeightConstraint.constant = 0
+        imageResultViewTopConstraint.constant = 0
+        imageResultView.isHidden = true
+        UserDefaults.standard.set(nil, forKey: "savedImage")
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        var cell : UITableViewCell?
+    @IBAction func CRVsendResult(_ sender: UIButton) {
+        sendResultAlert = UIAlertController(title: "Clickydiclick", message: "this will open an email with the results, enter the recivers mailadress below", preferredStyle: .alert)
         
-        if tableView == alertTableView {
-            cell = tableView.dequeueReusableCell(withIdentifier: "alertCell", for: indexPath) as! AlertTableViewCell
-
-            cell!.alertLabel!.text = tempAlert[indexPath.row]
-
+        sendResultAlert.addTextField { (textField) in
+            textField.text = ""
         }
-        if tableView == newsTableView {
-            cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as! NewsTableViewCell
+        sendResultAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        sendResultAlert.addAction(UIAlertAction(title: "Go", style: .default, handler: { [weak sendResultAlert] (_) in
+            let textField = sendResultAlert!.textFields![0] // Force unwrapping because we know it exists.
+            if textField.text != "" {
+                self.recipientValueMail = textField.text!
+                
+                let mailComposeViewController = self.configureMailController()
+                if MFMailComposeViewController.canSendMail() {
+                    self.present(mailComposeViewController, animated: true, completion: nil)
+                } else {
+                    self.showMailError()
+                }
+                
+            } else {
+                let noMailAdressAlert = UIAlertController(title: "No mailadress enterd", message: "Please enter a mailadress and try again", preferredStyle: .alert)
+                noMailAdressAlert.addAction(UIAlertAction(title: "Alright", style: .default, handler: { [weak sendResultAlert] (_) in
+                    self.present(sendResultAlert!, animated: true, completion: nil)
+                }))
+                self.present(noMailAdressAlert, animated: true, completion: nil)
+                print("Bitch")
+            }
             
-            cell!.newsLabel!.text = tempNews[indexPath.row]
-           
-        }
+        }))
         
-        return cell!
-        
+        self.present(sendResultAlert, animated: true, completion: nil)
     }
+    
+    func configureMailController() -> MFMailComposeViewController {
+        let mailComposerVC = MFMailComposeViewController()
+        mailComposerVC.mailComposeDelegate = self
+        
+        mailComposerVC.setToRecipients(["\(recipientValueMail)"])
+        //mailComposerVC.setToRecipients(["awd@awd.se"])
+        mailComposerVC.setSubject("Result of analysis: \(todaysDate)")
+        mailComposerVC.setMessageBody("<h2>Hi</h2></br><h4>Here is the \(CRVheader.text!) from \(todaysDate)</h4><p>\(CRVsuggestedInfectionHeader.text!)</p><h6>\(CRVsuggestedInfectionTypeValue.text!)</h6></br><p>\(CRVprababilityHeader.text!)</p><h6>\(CRVsuggestedInfectionTypeValue.text!)</h6><p>\(CRVstageHeader.text!)</p><h6>\(CRVstageValue.text!)</h6></br><p>The picture that got this result is in the attatchment</p><p>Please get back to me, Best regards", isHTML: true)
+        
+       // mailComposerVC.addAttachmentData(<#T##attachment: Data##Data#>, mimeType: <#T##String#>, fileName: <#T##String#>)
+        return mailComposerVC
+    }
+    
+    //Fixing an errormessage if the sendMail function don't work
+    func showMailError() {
+        let sendMailErrorAlert = UIAlertController(title: "Could not send email", message: "Your device cound not send email, please check your settings", preferredStyle: .alert)
+        let dismiss = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        sendMailErrorAlert.addAction(dismiss)
+        self.present(sendMailErrorAlert, animated: true, completion: nil)
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    //Get todays date
+    func getCurrentDateTime() {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        todaysDate = formatter.string(from: Date())
+        print(todaysDate)
+    }
+    
     
     
     
@@ -170,7 +249,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
 
 }
 

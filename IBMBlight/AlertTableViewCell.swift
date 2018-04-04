@@ -10,9 +10,9 @@ import UIKit
 
 class AlertTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var alertLabel: UILabel!
     
-
+    @IBOutlet weak var alertLabel: UILabel?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
