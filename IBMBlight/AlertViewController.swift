@@ -39,6 +39,7 @@ class AlertViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let cell = tableView.dequeueReusableCell(withIdentifier: "alertCell", for: indexPath) as! AlertTableViewCell
         
         cell.alertLabel?.text = tempAlert[indexPath.row]
+        tableView.separatorStyle = .none
         
         return cell
     }
