@@ -34,7 +34,6 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zaw-ge-jjm">
                                                 <rect key="frame" x="638" y="15" width="80" height="55"/>
-                                                <color key="backgroundColor" white="0.33333333329999998" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="80" id="3qu-P4-mU1"/>
                                                 </constraints>
@@ -48,7 +47,6 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tCc-Kh-Te7">
                                                 <rect key="frame" x="518" y="15" width="80" height="55"/>
-                                                <color key="backgroundColor" white="0.33333333329999998" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="80" id="3OZ-cb-HKb"/>
                                                 </constraints>
@@ -60,16 +58,25 @@
                                                     <action selector="getFromCamera:" destination="BYZ-38-t0r" eventType="touchUpInside" id="khU-Wx-xX2"/>
                                                 </connections>
                                             </button>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ibmLogoWhite800x320" translatesAutoresizingMaskIntoConstraints="NO" id="Phh-IV-zNW">
+                                                <rect key="frame" x="50" y="15" width="90" height="55"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="90" id="R6O-87-pXO"/>
+                                                </constraints>
+                                            </imageView>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.1960784314" green="0.4431372549" blue="0.73333333329999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstItem="Phh-IV-zNW" firstAttribute="leading" secondItem="bIV-ft-AQX" secondAttribute="leading" constant="50" id="CEP-L7-ltn"/>
                                             <constraint firstAttribute="height" constant="75" id="CIs-uH-Bcb"/>
                                             <constraint firstAttribute="bottom" secondItem="tCc-Kh-Te7" secondAttribute="bottom" constant="5" id="FGG-Ye-Kl2"/>
+                                            <constraint firstAttribute="bottom" secondItem="Phh-IV-zNW" secondAttribute="bottom" constant="5" id="NeX-IT-DOv"/>
                                             <constraint firstAttribute="bottom" secondItem="Zaw-ge-jjm" secondAttribute="bottom" constant="5" id="R8d-Db-YWk"/>
                                             <constraint firstItem="Zaw-ge-jjm" firstAttribute="leading" secondItem="tCc-Kh-Te7" secondAttribute="trailing" constant="40" id="WxI-lX-xO2"/>
                                             <constraint firstItem="tCc-Kh-Te7" firstAttribute="top" secondItem="bIV-ft-AQX" secondAttribute="top" constant="15" id="gOi-AD-R96"/>
                                             <constraint firstAttribute="trailing" secondItem="Zaw-ge-jjm" secondAttribute="trailing" constant="50" id="nbT-Iv-X6a"/>
                                             <constraint firstItem="Zaw-ge-jjm" firstAttribute="top" secondItem="bIV-ft-AQX" secondAttribute="top" constant="15" id="prk-t7-vY7"/>
+                                            <constraint firstItem="Phh-IV-zNW" firstAttribute="top" secondItem="bIV-ft-AQX" secondAttribute="top" constant="15" id="zMN-zp-UB3"/>
                                         </constraints>
                                     </view>
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="satellite" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fue-VW-sje">
@@ -406,7 +413,7 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.1960784314" green="0.4431372549" blue="0.73333333329999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.36213705899999998" green="0.63317681349999999" blue="0.14793032640000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="FPP-cR-oPI" firstAttribute="leading" secondItem="kWc-qN-Orb" secondAttribute="leading" constant="275" id="7V2-ge-feg"/>
                                     <constraint firstItem="T6R-Gl-ipz" firstAttribute="top" secondItem="bw3-G6-XQT" secondAttribute="bottom" constant="190" id="9Mt-8I-HWB"/>
@@ -436,6 +443,7 @@
                             <constraint firstAttribute="bottom" secondItem="kWc-qN-Orb" secondAttribute="bottom" id="zdW-Vh-yZH"/>
                         </constraints>
                         <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
+                        <viewLayoutGuide key="safeArea" id="61s-Jl-cOS"/>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="kWc-qN-Orb"/>
@@ -492,7 +500,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No news" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dzt-kR-yz3" userLabel="newsLabel">
                                                     <rect key="frame" x="25" y="10" width="668" height="97"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view alpha="0.14999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UIe-Uc-BQG" userLabel="devider">
@@ -525,7 +533,7 @@
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Latest News" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kJj-WB-B3C" userLabel="newsLabel">
                                 <rect key="frame" x="0.0" y="0.0" width="718" height="35"/>
-                                <color key="backgroundColor" red="0.1960784314" green="0.4431372549" blue="0.73333333329999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="6Ec-cv-EPM"/>
                                 </constraints>
@@ -576,7 +584,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No alerts" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="so6-m0-jvi" userLabel="alertLabel">
                                                     <rect key="frame" x="25" y="10" width="668" height="97.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view alpha="0.14999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="118-3k-XAG" userLabel="devider">
@@ -609,7 +617,7 @@
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Latest Alerts" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="etR-DY-Utc" userLabel="Latest Alerts">
                                 <rect key="frame" x="0.0" y="0.0" width="718" height="35"/>
-                                <color key="backgroundColor" red="0.19607843137254902" green="0.44313725490196076" blue="0.73333333333333328" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="zaj-hw-RHG"/>
                                 </constraints>

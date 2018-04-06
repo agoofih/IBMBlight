@@ -140,8 +140,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func moveMap() {
-        //let initialLocation = CLLocation(latitude: localtion_lat, longitude: location_long) //rätt sätt tillbaka sedan
-        let initialLocation = CLLocation(latitude: 55.606118, longitude: 13.197447) // tempdata GPS
+        let initialLocation = CLLocation(latitude: localtion_lat, longitude: location_long) //rätt sätt tillbaka sedan
+        //let initialLocation = CLLocation(latitude: 55.606118, longitude: 13.197447) // tempdata GPS
         let regionRadius: CLLocationDistance = 800
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate,regionRadius * 2.0, regionRadius * 2.0)
         mainMapView.setRegion(coordinateRegion, animated: true)
