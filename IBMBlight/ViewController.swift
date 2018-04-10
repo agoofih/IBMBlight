@@ -39,6 +39,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var imageResultViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageResultViewTopConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var windDirectionLabel: UILabel!
+    @IBOutlet weak var windSpeedLabel: UILabel!
+    @IBOutlet weak var degreesCelsiusLabel: UILabel!
     
     
     //Alert view wrapper
@@ -87,6 +90,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     var alertsBool = false
     var newsBool = false
+    
+    //var weatherDegrees : [String : Any]
     
     
     //Weather data Dark Sky API
@@ -168,6 +173,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         mainMapView.addAnnotation(myPin2)
         
         mainMapView.isRotateEnabled = false
+        
         updateWeatherForLocation(location: "New York")
     }
     
@@ -252,14 +258,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                     Weather.forecast(withLocation: ownPin.coordinate, completion: { (results:[Weather]?) in
                         
                         if let weatherData = results {
-                            print(self.forecastData.description)
                             self.forecastData = weatherData
-                            let weatherObject = self.forecastData
-                            //print(weatherObject.summary)
-                            DispatchQueue.main.async {
-                                
-                                //self.tableView.reloadData()
-                            }
+                            
+//                            DispatchQueue.main.async {
+//
+//                                self.tableView.reloadData()
+//                            }
                             
                         }
                         
@@ -270,6 +274,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
         }
     }
+    
+
     
 //    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 //
@@ -543,6 +549,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
 
 }
+
 
 
 

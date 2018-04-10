@@ -66,18 +66,18 @@ struct Weather {
                             
                             let array = ["poop"]
                             for dataPoint in array {
-//                                print("AD 5")
-//                                print("Vindens riktining: \(dailyForecasts["windBearing"]!)")
-//                                print("Vindens styrka: \(dailyForecasts["windSpeed"]!) m/s")
-//                                print("Temperaturen är: \(dailyForecasts["temperature"]!) celcius")
-//                                print(".")
-//                                print(dailyForecasts.description)
+                                print("AD 5")
+                                print("Vindens riktining: \(dailyForecasts["windBearing"]!)")
+                                print("Vindens styrka: \(dailyForecasts["windSpeed"]!) m/s")
+                                print("Temperaturen är: \(dailyForecasts["temperature"]!) celcius")
+                                print(".")
+                                print(dailyForecasts.description)
 //
-                                                                if let weatherObject = try? Weather(json: dailyForecasts) {
-                                                                    print("AD 7")
-                                                                    forecastArray.append(weatherObject)
-                                                                    print("Weather.swift säger att vinrikning är: \(weatherObject.windBearing) och hastighet är: \(weatherObject.windSpeed)")
-                                                                }
+                                if let weatherObject = try? Weather(json: dailyForecasts) {
+                                    print("AD 7")
+                                    forecastArray.append(weatherObject)
+                                    print("Weather.swift säger att vinrikning är: \(weatherObject.windBearing) och hastighet är: \(weatherObject.windSpeed)")
+                                }
                             }
                         }
                         
