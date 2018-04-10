@@ -11,7 +11,7 @@ import CoreLocation
 import MapKit
 import MessageUI
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, MFMailComposeViewControllerDelegate {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, MFMailComposeViewControllerDelegate, MKMapViewDelegate {
     
     //------------------------------ Outlets and standard variables -------------------------------
     
@@ -39,6 +39,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var imageResultViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageResultViewTopConstraint: NSLayoutConstraint!
     
+    
+    
     //Alert view wrapper
     @IBOutlet weak var alertView: UIView!
     
@@ -58,6 +60,24 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var localtion_lat = 55.611868
     var location_long = 12.977738
     
+    //FakeLocation in CPX File
+    //let initialLocation = CLLocation(latitude: 55.606118, longitude: 13.197447)
+    //Fake farm 1
+    var FF1_lat = 55.598424
+    var FF1_long = 13.214542
+    
+    //Fake farm 2
+    var FF2_lat = 55.584106
+    var FF2_long = 13.214832
+    
+    //Fake farm 3
+    var FF3_lat = 55.592145
+    var FF3_long = 13.191919
+    
+    //Fake farm 4
+    var FF4_lat = 55.606739
+    var FF4_long = 13.196711
+    
     //Mailadress user puts in befor sending the report
     var recipientValueMail : String = ""
     
@@ -67,6 +87,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     var alertsBool = false
     var newsBool = false
+    
+    
+    //Weather data Dark Sky API
+    var forecastData = [Weather]()
     
     //------------------------------ Basics -------------------------------
 
@@ -123,10 +147,28 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
         }
         
+        //imageResultView.transform = CGAffineTransform(rotationAngle: (180).pi)
+        
         mainMapView.dropShadow()
         alertView.dropShadow()
         newsView.dropShadow()
+
+        var myPin = OwnPin()
+        myPin.title = "Hej"
+        myPin.subtitle = "Tjena"
+        myPin.coordinate = CLLocationCoordinate2D(latitude: FF1_lat, longitude: FF1_long)
+        myPin.blight = true
+        mainMapView.addAnnotation(myPin)
         
+        var myPin2 = OwnPin()
+        myPin2.title = "myPin2"
+        myPin2.subtitle = "Wops"
+        myPin2.coordinate = CLLocationCoordinate2D(latitude: FF2_lat, longitude: FF2_long)
+        myPin2.blight = false
+        mainMapView.addAnnotation(myPin2)
+        
+        mainMapView.isRotateEnabled = false
+        updateWeatherForLocation(location: "New York")
     }
     
     //------------------------------ Map -------------------------------
@@ -135,17 +177,169 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let userLocation:CLLocation = locations[0]
         localtion_lat = userLocation.coordinate.latitude
         location_long = userLocation.coordinate.longitude
+        
+        var myPinOwnPlace = OwnPin()
+        myPinOwnPlace.title = "Hejsan popsan"
+        myPinOwnPlace.subtitle = "subtitle"
+        myPinOwnPlace.coordinate = CLLocationCoordinate2D(latitude: localtion_lat, longitude: location_long)
+        myPinOwnPlace.blight = false
+        mainMapView.addAnnotation(myPinOwnPlace)
 
-        moveMap()
+        //moveMap()
     }
     
     func moveMap() {
-        let initialLocation = CLLocation(latitude: localtion_lat, longitude: location_long) //rätt sätt tillbaka sedan
-        //let initialLocation = CLLocation(latitude: 55.606118, longitude: 13.197447) // tempdata GPS
-        let regionRadius: CLLocationDistance = 800
+        //let initialLocation = CLLocation(latitude: localtion_lat, longitude: location_long) //rätt sätt tillbaka sedan
+        let initialLocation = CLLocation(latitude: 55.606118, longitude: 13.197447) // tempdata GPS
+        let regionRadius: CLLocationDistance = 2500
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate,regionRadius * 2.0, regionRadius * 2.0)
         mainMapView.setRegion(coordinateRegion, animated: true)
     }
+    
+    func mapView(_ mapView: MKMapView,
+                 viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if let annotation = annotation as? OwnPin {
+            let identifier = "pin"
+            var view: MKPinAnnotationView
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                as? MKPinAnnotationView {
+                dequeuedView.annotation = annotation
+                view = dequeuedView
+            } else {
+                // 3
+                view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                view.canShowCallout = true
+                view.calloutOffset = CGPoint(x: -5, y: 5)
+                view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure) as UIView
+            }
+            print(annotation.blight)
+            if annotation.blight == true {
+                view.pinTintColor = MKPinAnnotationView.redPinColor()
+            } else {
+                view.pinTintColor = MKPinAnnotationView.greenPinColor()
+            }
+            //view.pinTintColor = MKPinAnnotationView.greenPinColor()
+            return view
+        }
+        return nil
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        print("calloutAccessoryControlTapped")
+        
+        let clickedAnnotation = view.annotation as! OwnPin
+        if clickedAnnotation.title != nil {
+            print(clickedAnnotation.title!)
+        }
+        
+    }
+    
+    
+    //I need to fix a couple of test annotations of diffrent farms. The data will be risklevel that will be checked in three % if else. One value that is my own and some other that is others
+    //0 - 10% = green
+    //10.1 - 50% = yellow
+    //50.1 - 100% = red
+    
+    //------------------------------ Weather -----------------------------
+    
+    func updateWeatherForLocation (location:String) {
+        CLGeocoder().geocodeAddressString(location) { (placemarks:[CLPlacemark]?, error:Error?) in
+            if error == nil {
+                if let location = placemarks?.first?.location {
+                    var ownPin = OwnPin()
+                    ownPin.coordinate = CLLocationCoordinate2D(latitude: 55.606118, longitude: 13.197447)
+                    
+                    Weather.forecast(withLocation: ownPin.coordinate, completion: { (results:[Weather]?) in
+                        
+                        if let weatherData = results {
+                            print(self.forecastData.description)
+                            self.forecastData = weatherData
+                            let weatherObject = self.forecastData
+                            //print(weatherObject.summary)
+                            DispatchQueue.main.async {
+                                
+                                //self.tableView.reloadData()
+                            }
+                            
+                        }
+                        
+                    })
+                }
+            }else{
+                print(error.debugDescription)
+            }
+        }
+    }
+    
+//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//
+//        //let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+//
+//        let weatherObject = forecastData[indexPath.section]
+//        print(weatherObject.summary)
+//        //cell.textLabel?.text = weatherObject.summary
+//        print("NUMERO 1")
+//        switch weatherObject.windBearing {
+//
+//        case 0 ... 11:
+//            print("Bearing : N - Speed : \(weatherObject.windSpeed) m/s")
+//        case 11 ... 34:
+//            print("Bearing : NNE - Speed : \(weatherObject.windSpeed) m/s")
+//        case 34 ... 56:
+//            print("Bearing : NE - Speed : \(weatherObject.windSpeed) m/s")
+//
+//        case 56 ... 79:
+//            print("Bearing : ENE - Speed : \(weatherObject.windSpeed) m/s")
+//
+//        case 79 ... 101:
+//            print("Bearing : E - Speed : \(weatherObject.windSpeed) m/s")
+//
+//        case 101 ... 124:
+//            print("Bearing : ESE - Speed : \(weatherObject.windSpeed) m/s")
+//
+//        case 124 ... 146:
+//            print("Bearing : SE - Speed : \(weatherObject.windSpeed) m/s")
+//
+//        case 146 ... 169:
+//            print("Bearing : SSE - Speed : \(weatherObject.windSpeed) m/s")
+//
+//        case 169 ... 191:
+//            print("Bearing : S - Speed : \(weatherObject.windSpeed) m/s")
+//
+//        case 191 ... 214:
+//            print("Bearing : SSW - Speed : \(weatherObject.windSpeed) m/s")
+//
+//        case 214 ... 236:
+//            print("Bearing : SW - Speed : \(weatherObject.windSpeed) m/s")
+//
+//        case 236 ... 259:
+//            print("Bearing : WSW - Speed : \(weatherObject.windSpeed) m/s")
+//
+//        case 259 ... 281:
+//            print("Bearing : W - Speed : \(weatherObject.windSpeed) m/s")
+//
+//        case 281 ... 304:
+//            print("Bearing : WNW - Speed : \(weatherObject.windSpeed) m/s")
+//
+//        case 304 ... 326:
+//            print("Bearing : NW - Speed : \(weatherObject.windSpeed) m/s")
+//
+//        case 326 ... 349:
+//            print("Bearing : NNW - Speed : \(weatherObject.windSpeed) m/s")
+//
+//        case 349 ... 360:
+//            print("Bearing : N - Speed : \(weatherObject.windSpeed) m/s")
+//
+//        default:
+//            print("failure")
+//            print("The wind bearing is BULLSHIT)")
+//        }
+//
+//        //cell.imageView?.image = UIImage(named: weatherObject.icon)
+//        print("NUMERO 3")
+//        //return cell
+//    }
+    
     
     //------------------------------ Camera -------------------------------
 
@@ -171,6 +365,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         imageResultViewHeightConstraint.constant = 300
         imageResultViewTopConstraint.constant = 25
         let pickedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        
+        
         
         //Encode image for userDefaults
         let imageData : NSData = UIImagePNGRepresentation(pickedImage)! as NSData

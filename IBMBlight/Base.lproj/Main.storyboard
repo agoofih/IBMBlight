@@ -84,6 +84,9 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="500" id="YOr-Ew-Xbu"/>
                                         </constraints>
+                                        <connections>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="HKq-0d-Tbk"/>
+                                        </connections>
                                     </mapView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QHM-pl-Uvx" userLabel="cameraResultView">
                                         <rect key="frame" x="25" y="600" width="718" height="450"/>

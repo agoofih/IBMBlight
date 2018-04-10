@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2615652C207B5EB6000501AD /* fakeLocation.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 2615652B207B5EB6000501AD /* fakeLocation.gpx */; };
+		2615652E207B69AD000501AD /* OwnPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2615652D207B69AD000501AD /* OwnPin.swift */; };
 		263D30372063E533005BFE8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D30362063E533005BFE8F /* AppDelegate.swift */; };
 		263D30392063E533005BFE8F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D30382063E533005BFE8F /* ViewController.swift */; };
 		263D303C2063E533005BFE8F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 263D303A2063E533005BFE8F /* Main.storyboard */; };
 		263D303E2063E534005BFE8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 263D303D2063E534005BFE8F /* Assets.xcassets */; };
 		263D30412063E534005BFE8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 263D303F2063E534005BFE8F /* LaunchScreen.storyboard */; };
 		263D30492063EBB6005BFE8F /* bluppfisk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D30482063EBB6005BFE8F /* bluppfisk.swift */; };
+		269437EE207CA46A00728DEA /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269437ED207CA46A00728DEA /* Weather.swift */; };
 		26D8E4A12073740900B69962 /* AlertTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A02073740900B69962 /* AlertTableViewCell.swift */; };
 		26D8E4A32073847F00B69962 /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A22073847F00B69962 /* NewsTableViewCell.swift */; };
 		26D8E4A520738C6000B69962 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A420738C6000B69962 /* AlertViewController.swift */; };
@@ -20,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2615652B207B5EB6000501AD /* fakeLocation.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = fakeLocation.gpx; sourceTree = "<group>"; };
+		2615652D207B69AD000501AD /* OwnPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnPin.swift; sourceTree = "<group>"; };
 		263D30332063E533005BFE8F /* IBMBlight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IBMBlight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		263D30362063E533005BFE8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		263D30382063E533005BFE8F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -28,6 +33,7 @@
 		263D30402063E534005BFE8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		263D30422063E534005BFE8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		263D30482063EBB6005BFE8F /* bluppfisk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bluppfisk.swift; sourceTree = "<group>"; };
+		269437ED207CA46A00728DEA /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		26D8E4A02073740900B69962 /* AlertTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTableViewCell.swift; sourceTree = "<group>"; };
 		26D8E4A22073847F00B69962 /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
 		26D8E4A420738C6000B69962 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
@@ -66,6 +72,7 @@
 			children = (
 				263D30362063E533005BFE8F /* AppDelegate.swift */,
 				263D30382063E533005BFE8F /* ViewController.swift */,
+				269437ED207CA46A00728DEA /* Weather.swift */,
 				26D8E4A420738C6000B69962 /* AlertViewController.swift */,
 				26D8E4A02073740900B69962 /* AlertTableViewCell.swift */,
 				26D8E4A620738C6E00B69962 /* NewsViewController.swift */,
@@ -74,7 +81,9 @@
 				263D303D2063E534005BFE8F /* Assets.xcassets */,
 				263D303F2063E534005BFE8F /* LaunchScreen.storyboard */,
 				263D30422063E534005BFE8F /* Info.plist */,
+				2615652B207B5EB6000501AD /* fakeLocation.gpx */,
 				263D30482063EBB6005BFE8F /* bluppfisk.swift */,
+				2615652D207B69AD000501AD /* OwnPin.swift */,
 			);
 			path = IBMBlight;
 			sourceTree = "<group>";
@@ -139,6 +148,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				263D30412063E534005BFE8F /* LaunchScreen.storyboard in Resources */,
+				2615652C207B5EB6000501AD /* fakeLocation.gpx in Resources */,
 				263D303E2063E534005BFE8F /* Assets.xcassets in Resources */,
 				263D303C2063E533005BFE8F /* Main.storyboard in Resources */,
 			);
@@ -153,7 +163,9 @@
 			files = (
 				263D30392063E533005BFE8F /* ViewController.swift in Sources */,
 				26D8E4A520738C6000B69962 /* AlertViewController.swift in Sources */,
+				2615652E207B69AD000501AD /* OwnPin.swift in Sources */,
 				263D30492063EBB6005BFE8F /* bluppfisk.swift in Sources */,
+				269437EE207CA46A00728DEA /* Weather.swift in Sources */,
 				26D8E4A32073847F00B69962 /* NewsTableViewCell.swift in Sources */,
 				26D8E4A720738C6E00B69962 /* NewsViewController.swift in Sources */,
 				26D8E4A12073740900B69962 /* AlertTableViewCell.swift in Sources */,
