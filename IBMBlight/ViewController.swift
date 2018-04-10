@@ -173,7 +173,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         mainMapView.addAnnotation(myPin2)
         
         mainMapView.isRotateEnabled = false
-        
         updateWeatherForLocation(location: "New York")
     }
     
@@ -252,18 +251,73 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         CLGeocoder().geocodeAddressString(location) { (placemarks:[CLPlacemark]?, error:Error?) in
             if error == nil {
                 if let location = placemarks?.first?.location {
-                    var ownPin = OwnPin()
+                    let ownPin = OwnPin()
                     ownPin.coordinate = CLLocationCoordinate2D(latitude: 55.606118, longitude: 13.197447)
                     
                     Weather.forecast(withLocation: ownPin.coordinate, completion: { (results:[Weather]?) in
-                        
                         if let weatherData = results {
                             self.forecastData = weatherData
                             
-//                            DispatchQueue.main.async {
-//
-//                                self.tableView.reloadData()
-//                            }
+                            if UserDefaults.standard.value(forKey: "weatherDegree") != nil {
+                                DispatchQueue.main.async {
+                                    self.degreesCelsiusLabel.text = "\(UserDefaults.standard.value(forKey: "weatherDegree")!) °C"
+                                }
+
+                            }
+                            if UserDefaults.standard.value(forKey: "weatherWindSpeed") != nil {
+                                DispatchQueue.main.async {
+                                    let x = UserDefaults.standard.value(forKey: "weatherWindSpeed")! as! Double
+                                    let y = Double(round(1000*x)/1000)
+                                    self.windSpeedLabel.text = "\(y) m/s"
+                                }
+
+                            }
+                            if UserDefaults.standard.value(forKey: "weatherWindDirection") != nil {
+                                DispatchQueue.main.async {
+                                    let t = UserDefaults.standard.value(forKey: "weatherWindDirection") as! Int
+                                        switch t {
+                                            case 0 ... 11:
+                                                self.windDirectionLabel.text = "Bearing : N"
+                                            case 11 ... 34:
+                                                self.windDirectionLabel.text = "Bearing : NNE"
+                                            case 34 ... 56:
+                                                self.windDirectionLabel.text = "Bearing : NE"
+                                            case 56 ... 79:
+                                                self.windDirectionLabel.text = "Bearing : ENE"
+                                            case 79 ... 101:
+                                                self.windDirectionLabel.text = "Bearing : E"
+                                            case 101 ... 124:
+                                                self.windDirectionLabel.text = "Bearing : ESE"
+                                            case 124 ... 146:
+                                                self.windDirectionLabel.text = "Bearing : SE"
+                                            case 146 ... 169:
+                                                self.windDirectionLabel.text = "Bearing : SSE"
+                                            case 169 ... 191:
+                                                self.windDirectionLabel.text = "Bearing : S"
+                                            case 191 ... 214:
+                                                self.windDirectionLabel.text = "Bearing : SSW"
+                                            case 214 ... 236:
+                                                self.windDirectionLabel.text = "Bearing : SW"
+                                            case 236 ... 259:
+                                                self.windDirectionLabel.text = "Bearing : WSW"
+                                            case 259 ... 281:
+                                                self.windDirectionLabel.text = "Bearing : W"
+                                            case 281 ... 304:
+                                                self.windDirectionLabel.text = "Bearing : WNW"
+                                            case 304 ... 326:
+                                                self.windDirectionLabel.text = "Bearing : NW"
+                                            case 326 ... 349:
+                                                self.windDirectionLabel.text = "Bearing : NNW"
+                                            case 349 ... 360:
+                                                self.windDirectionLabel.text = "Bearing : N"
+                                            default:
+                                                print("failure")
+                                                print("The wind bearing is BULLSHIT)")
+                                        }
+                                    //self.windDirectionLabel.text = "\(UserDefaults.standard.value(forKey: "weatherWindDirection")!) heading"
+                                }
+
+                            }
                             
                         }
                         
