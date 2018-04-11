@@ -39,7 +39,10 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as! NewsTableViewCell
         
         tableView.separatorStyle = .none
-        cell.newsLabel.text = tempNews[indexPath.row]
+        if cell.newsLabel != nil {
+             cell.newsLabel.text = tempNews[indexPath.row]
+        }
+       
         
         return cell
         

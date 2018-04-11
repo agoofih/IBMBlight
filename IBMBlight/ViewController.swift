@@ -39,10 +39,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var imageResultViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageResultViewTopConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var windDirectionLabel: UILabel!
-    @IBOutlet weak var windSpeedLabel: UILabel!
-    @IBOutlet weak var degreesCelsiusLabel: UILabel!
-    
     
     //Alert view wrapper
     @IBOutlet weak var alertView: UIView!
@@ -90,12 +86,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     var alertsBool = false
     var newsBool = false
-    
-    //var weatherDegrees : [String : Any]
-    
-    
-    //Weather data Dark Sky API
-    var forecastData = [Weather]()
     
     //------------------------------ Basics -------------------------------
 
@@ -173,7 +163,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         mainMapView.addAnnotation(myPin2)
         
         mainMapView.isRotateEnabled = false
-        updateWeatherForLocation(location: "New York")
+        
+        if Reachability.isConnectedToNetwork(){
+            print("Internet Connection Available!")
+        }else{
+            let alert = UIAlertController(title: "No internet connection", message: "Please check your connection and then restart the application", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            
+            self.present(alert, animated: true)
+        }
     }
     
     //------------------------------ Map -------------------------------
@@ -223,7 +222,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             } else {
                 view.pinTintColor = MKPinAnnotationView.greenPinColor()
             }
-            //view.pinTintColor = MKPinAnnotationView.greenPinColor()
             return view
         }
         return nil
@@ -247,160 +245,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     //------------------------------ Weather -----------------------------
     
-    func updateWeatherForLocation (location:String) {
-        CLGeocoder().geocodeAddressString(location) { (placemarks:[CLPlacemark]?, error:Error?) in
-            if error == nil {
-                if let location = placemarks?.first?.location {
-                    let ownPin = OwnPin()
-                    ownPin.coordinate = CLLocationCoordinate2D(latitude: 55.606118, longitude: 13.197447)
-                    
-                    Weather.forecast(withLocation: ownPin.coordinate, completion: { (results:[Weather]?) in
-                        if let weatherData = results {
-                            self.forecastData = weatherData
-                            
-                            if UserDefaults.standard.value(forKey: "weatherDegree") != nil {
-                                DispatchQueue.main.async {
-                                    self.degreesCelsiusLabel.text = "\(UserDefaults.standard.value(forKey: "weatherDegree")!) °C"
-                                }
+    // Seperate VC - TopWeatherDataVC
 
-                            }
-                            if UserDefaults.standard.value(forKey: "weatherWindSpeed") != nil {
-                                DispatchQueue.main.async {
-                                    let x = UserDefaults.standard.value(forKey: "weatherWindSpeed")! as! Double
-                                    let y = Double(round(1000*x)/1000)
-                                    self.windSpeedLabel.text = "\(y) m/s"
-                                }
-
-                            }
-                            if UserDefaults.standard.value(forKey: "weatherWindDirection") != nil {
-                                DispatchQueue.main.async {
-                                    let t = UserDefaults.standard.value(forKey: "weatherWindDirection") as! Int
-                                        switch t {
-                                            case 0 ... 11:
-                                                self.windDirectionLabel.text = "Bearing : N"
-                                            case 11 ... 34:
-                                                self.windDirectionLabel.text = "Bearing : NNE"
-                                            case 34 ... 56:
-                                                self.windDirectionLabel.text = "Bearing : NE"
-                                            case 56 ... 79:
-                                                self.windDirectionLabel.text = "Bearing : ENE"
-                                            case 79 ... 101:
-                                                self.windDirectionLabel.text = "Bearing : E"
-                                            case 101 ... 124:
-                                                self.windDirectionLabel.text = "Bearing : ESE"
-                                            case 124 ... 146:
-                                                self.windDirectionLabel.text = "Bearing : SE"
-                                            case 146 ... 169:
-                                                self.windDirectionLabel.text = "Bearing : SSE"
-                                            case 169 ... 191:
-                                                self.windDirectionLabel.text = "Bearing : S"
-                                            case 191 ... 214:
-                                                self.windDirectionLabel.text = "Bearing : SSW"
-                                            case 214 ... 236:
-                                                self.windDirectionLabel.text = "Bearing : SW"
-                                            case 236 ... 259:
-                                                self.windDirectionLabel.text = "Bearing : WSW"
-                                            case 259 ... 281:
-                                                self.windDirectionLabel.text = "Bearing : W"
-                                            case 281 ... 304:
-                                                self.windDirectionLabel.text = "Bearing : WNW"
-                                            case 304 ... 326:
-                                                self.windDirectionLabel.text = "Bearing : NW"
-                                            case 326 ... 349:
-                                                self.windDirectionLabel.text = "Bearing : NNW"
-                                            case 349 ... 360:
-                                                self.windDirectionLabel.text = "Bearing : N"
-                                            default:
-                                                print("failure")
-                                                print("The wind bearing is BULLSHIT)")
-                                        }
-                                    //self.windDirectionLabel.text = "\(UserDefaults.standard.value(forKey: "weatherWindDirection")!) heading"
-                                }
-
-                            }
-                            
-                        }
-                        
-                    })
-                }
-            }else{
-                print(error.debugDescription)
-            }
-        }
-    }
-    
-
-    
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//
-//        //let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-//
-//        let weatherObject = forecastData[indexPath.section]
-//        print(weatherObject.summary)
-//        //cell.textLabel?.text = weatherObject.summary
-//        print("NUMERO 1")
-//        switch weatherObject.windBearing {
-//
-//        case 0 ... 11:
-//            print("Bearing : N - Speed : \(weatherObject.windSpeed) m/s")
-//        case 11 ... 34:
-//            print("Bearing : NNE - Speed : \(weatherObject.windSpeed) m/s")
-//        case 34 ... 56:
-//            print("Bearing : NE - Speed : \(weatherObject.windSpeed) m/s")
-//
-//        case 56 ... 79:
-//            print("Bearing : ENE - Speed : \(weatherObject.windSpeed) m/s")
-//
-//        case 79 ... 101:
-//            print("Bearing : E - Speed : \(weatherObject.windSpeed) m/s")
-//
-//        case 101 ... 124:
-//            print("Bearing : ESE - Speed : \(weatherObject.windSpeed) m/s")
-//
-//        case 124 ... 146:
-//            print("Bearing : SE - Speed : \(weatherObject.windSpeed) m/s")
-//
-//        case 146 ... 169:
-//            print("Bearing : SSE - Speed : \(weatherObject.windSpeed) m/s")
-//
-//        case 169 ... 191:
-//            print("Bearing : S - Speed : \(weatherObject.windSpeed) m/s")
-//
-//        case 191 ... 214:
-//            print("Bearing : SSW - Speed : \(weatherObject.windSpeed) m/s")
-//
-//        case 214 ... 236:
-//            print("Bearing : SW - Speed : \(weatherObject.windSpeed) m/s")
-//
-//        case 236 ... 259:
-//            print("Bearing : WSW - Speed : \(weatherObject.windSpeed) m/s")
-//
-//        case 259 ... 281:
-//            print("Bearing : W - Speed : \(weatherObject.windSpeed) m/s")
-//
-//        case 281 ... 304:
-//            print("Bearing : WNW - Speed : \(weatherObject.windSpeed) m/s")
-//
-//        case 304 ... 326:
-//            print("Bearing : NW - Speed : \(weatherObject.windSpeed) m/s")
-//
-//        case 326 ... 349:
-//            print("Bearing : NNW - Speed : \(weatherObject.windSpeed) m/s")
-//
-//        case 349 ... 360:
-//            print("Bearing : N - Speed : \(weatherObject.windSpeed) m/s")
-//
-//        default:
-//            print("failure")
-//            print("The wind bearing is BULLSHIT)")
-//        }
-//
-//        //cell.imageView?.image = UIImage(named: weatherObject.icon)
-//        print("NUMERO 3")
-//        //return cell
-//    }
-    
-    
     //------------------------------ Camera -------------------------------
 
     @IBAction func getFromCamera(_ sender: UIButton) {
