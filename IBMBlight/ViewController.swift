@@ -11,6 +11,11 @@ import CoreLocation
 import MapKit
 import MessageUI
 
+struct getID : Decodable {
+    let idDefault : String
+    let idUsable : String
+}
+
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, MFMailComposeViewControllerDelegate, MKMapViewDelegate {
     
     //------------------------------ Outlets and standard variables -------------------------------
@@ -87,6 +92,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var alertsBool = false
     var newsBool = false
     
+    var sendImage : UIImage = UIImage()
+    var sendClassifierId : String = ""
+    var sendTileImages : String = "true"
+    var sendLat : String = ""
+    var sendLng : String = ""
+    
+    
     //------------------------------ Basics -------------------------------
 
     override func viewDidLoad() {
@@ -107,6 +119,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         moveMap()
         getCurrentDateTime()
+        getClassifierID()
         
     }
     
@@ -148,14 +161,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         alertView.dropShadow()
         newsView.dropShadow()
 
-        var myPin = OwnPin()
+        let myPin = OwnPin()
         myPin.title = "Hej"
         myPin.subtitle = "Tjena"
         myPin.coordinate = CLLocationCoordinate2D(latitude: FF1_lat, longitude: FF1_long)
         myPin.blight = true
         mainMapView.addAnnotation(myPin)
         
-        var myPin2 = OwnPin()
+        let myPin2 = OwnPin()
         myPin2.title = "myPin2"
         myPin2.subtitle = "Wops"
         myPin2.coordinate = CLLocationCoordinate2D(latitude: FF2_lat, longitude: FF2_long)
@@ -173,6 +186,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             self.present(alert, animated: true)
         }
+        
+        getClassifierID()
     }
     
     //------------------------------ Map -------------------------------
@@ -181,8 +196,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let userLocation:CLLocation = locations[0]
         localtion_lat = userLocation.coordinate.latitude
         location_long = userLocation.coordinate.longitude
+        sendLat = "\(userLocation.coordinate.latitude)"
+        sendLng = "\(userLocation.coordinate.longitude)"
         
-        var myPinOwnPlace = OwnPin()
+        let myPinOwnPlace = OwnPin()
         myPinOwnPlace.title = "Hejsan popsan"
         myPinOwnPlace.subtitle = "subtitle"
         myPinOwnPlace.coordinate = CLLocationCoordinate2D(latitude: localtion_lat, longitude: location_long)
@@ -273,6 +290,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let pickedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         
         
+        sendImage = pickedImage
+        sendTileImages = "true"
+        if UserDefaults.standard.object(forKey: "classifiID") != nil {
+            sendClassifierId = UserDefaults.standard.object(forKey: "classifiID") as! String
+            print("ClassifierID is: \(sendClassifierId)")
+        }
+
+        print("Latitude is: \(sendLat)")
+        print("Longitude is: \(sendLng)")
+        print("Tile the image is: \(sendTileImages)")
+        print("Image is: \(sendImage)")
         
         //Encode image for userDefaults
         let imageData : NSData = UIImagePNGRepresentation(pickedImage)! as NSData
@@ -388,6 +416,99 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)
     }
+    // ------------------------------ Get data from Joost -----------------------------------------------
+    
+    
+    func getClassifierID() {
+        
+        guard let urlGet = URL(string: "https://blighttoaster.eu-gb.mybluemix.net/api/get_classifier_ids") else { return }
+        
+        let session = URLSession.shared
+        session.dataTask(with: urlGet) { (data, response, error) in
+            if let response = response {
+                //print(response)
+            }
+            if let data = data {
+                do {
+//                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+//                    print(json)
+                    let id = try JSONDecoder().decode([getID].self, from: data)
+                    print("IDT: ",id)
+                   
+                } catch {
+                    print(error)
+                }
+                //print(data)
+            }
+        }.resume()
+        
+//        let urlString = URL(string: "https://blighttoaster.eu-gb.mybluemix.net/api/get_classifier_ids")
+//        var emptyList = [String]()
+//
+//        if let url = urlString {
+//            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+//                if error != nil {
+//                    print("THIS IS THE ERROR: \(String(describing: error))")
+//                } else {
+//                    if let usableData = data {
+//
+//                        let jsonResult = try? JSONSerialization.jsonObject(with: usableData, options: []) as! [String]
+//
+//                        for ids in (jsonResult)! {
+//                            emptyList.append(ids)
+//                            print("\(emptyList.description)")
+//                        }
+//                        //UserDefaults.standard.set(-theVarIWant-, forKey: "classifiID")
+//                        //emptyList.append(jsonResult)
+//                    }
+//                }
+//            }
+//            task.resume()
+//        }
+        
+    }
+    
+    
+    //------------------------------- Send data to imagerecognition --------------------------------------
+//
+//     sendImage : UIImage = UIImage()
+//     sendClassifierId : String = ""
+//     sendTileImages : String = "true"
+//     sendLat : String = ""
+//     sendLng : String = ""
+    
+    func sendToJoost() {
+
+        let parameters = ["classifier_id" : sendClassifierId, "tile_images" : "true", "lat" : sendLat, "lng" : sendLng, "image" : sendImage ] as [String : Any]
+        
+        guard let url = URL(string: "https://blighttoaster.eu-gb.mybluemix.net/api/analyze_images") else { return }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else { return }
+        request.httpBody = httpBody
+        
+        let session = URLSession.shared
+        session.dataTask(with: request) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+            if let data = data {
+                
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    print(json)
+                } catch {
+                    print(error)
+                }
+                
+            }
+        }.resume()
+    }
+    
+    
     
     //------------------------------ Alerts View ( seperate viewController ) -----------------------------
     

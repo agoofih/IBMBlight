@@ -20,6 +20,7 @@ class TopWeatherDataVC: UIViewController {
     
     var piSixteensths = 0.39269908169
     
+    
     //Weather data Dark Sky API
     var forecastData = [Weather]()
     
@@ -32,6 +33,8 @@ class TopWeatherDataVC: UIViewController {
         
         updateWeatherForLocation(location: "New York")
     }
+    
+    
     
     
     func updateWeatherForLocation (location:String) {
@@ -205,3 +208,4 @@ class TopWeatherDataVC: UIViewController {
     }
 
 }
+

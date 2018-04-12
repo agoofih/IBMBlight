@@ -43,6 +43,8 @@ struct Weather {
     
     static let basePath = "https://api.darksky.net/forecast/a6c9c6e1f763444d051c57cf36f360dc/"
     
+    let sendImageURL = "https://blighttoaster.eu-gb.mybluemix.net/api/analyze_images"
+    
     static func forecast (withLocation location:CLLocationCoordinate2D, completion: @escaping ([Weather]?) -> ()) {
         
         let url = basePath + "\(location.latitude),\(location.longitude)?units=auto"
@@ -79,6 +81,7 @@ struct Weather {
                         
                     }
                 }catch {
+                    
                     print(error.localizedDescription)
                 }
                 completion(forecastArray)
