@@ -138,9 +138,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         //Preload last taken image and show it
         if UserDefaults.standard.value(forKey: "savedImage") == nil {
-            print("NUPPNUPP")
+            //print("NUPPNUPP")
         }else{
-            print("JUPPJUPP")
+            //print("JUPPJUPP")
             cameraResultView.dropShadowRemove()
             imageResultView.isHidden = false
             imageResultViewHeightConstraint.constant = 300
@@ -233,7 +233,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 view.calloutOffset = CGPoint(x: -5, y: 5)
                 view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure) as UIView
             }
-            print(annotation.blight)
+            //print(annotation.blight)
             if annotation.blight == true {
                 view.pinTintColor = MKPinAnnotationView.redPinColor()
             } else {
@@ -294,13 +294,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         sendTileImages = "true"
         if UserDefaults.standard.object(forKey: "classifiID") != nil {
             sendClassifierId = UserDefaults.standard.object(forKey: "classifiID") as! String
-            print("ClassifierID is: \(sendClassifierId)")
+            //print("ClassifierID is: \(sendClassifierId)")
         }
 
         print("Latitude is: \(sendLat)")
         print("Longitude is: \(sendLng)")
         print("Tile the image is: \(sendTileImages)")
         print("Image is: \(sendImage)")
+        print("The classifier is is: \(sendClassifierId)")
         
         //Encode image for userDefaults
         let imageData : NSData = UIImagePNGRepresentation(pickedImage)! as NSData
@@ -320,7 +321,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.dismiss(animated: true, completion: nil)
     }
     
+    
     //------------------------------ Camera Result View -------------------------------
+    
     
     func CRVsetValuesText(){
         CRVheader.text = "Result of analysis"
@@ -346,7 +349,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         CRVcloseBtn.setTitle("", for: .normal)
     }
     
-    
     @IBAction func CRVclose(_ sender: UIButton) {
         CRVresetValues()
         imageResultViewHeightConstraint.constant = 0
@@ -357,7 +359,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func CRVsendResult(_ sender: UIButton) {
-        sendResultAlert = UIAlertController(title: "Clickydiclick", message: "this will open an email with the results, enter the recivers mailadress below", preferredStyle: .alert)
+        sendResultAlert = UIAlertController(title: "Problem with mail", message: "this will open an email with the results, enter the recivers mailadress below", preferredStyle: .alert)
         
         sendResultAlert.addTextField { (textField) in
             textField.text = ""
@@ -381,11 +383,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                     self.present(sendResultAlert!, animated: true, completion: nil)
                 }))
                 self.present(noMailAdressAlert, animated: true, completion: nil)
-                print("Bitch")
             }
-            
         }))
-        
         self.present(sendResultAlert, animated: true, completion: nil)
     }
     
@@ -416,12 +415,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)
     }
+    
+    
     // ------------------------------ Get data from Joost -----------------------------------------------
     
-    
+
     func getClassifierID() {
         
         guard let urlGet = URL(string: "https://blighttoaster.eu-gb.mybluemix.net/api/get_classifier_ids") else { return }
+        var blightIDArray = [String]()
         
         let session = URLSession.shared
         session.dataTask(with: urlGet) { (data, response, error) in
@@ -430,53 +432,24 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
             if let data = data {
                 do {
-//                    let json = try JSONSerialization.jsonObject(with: data, options: [])
-//                    print(json)
-                    let id = try JSONDecoder().decode([getID].self, from: data)
-                    print("IDT: ",id)
-                   
+                    let jsonResult = try? JSONSerialization.jsonObject(with: data, options: []) as! [String]
+                    for ids in (jsonResult)! {
+                        blightIDArray.append(ids)
+                    }
+                    if blightIDArray[1] != "" {
+                        self.sendClassifierId = blightIDArray[1]
+                    }
                 } catch {
                     print(error)
                 }
                 //print(data)
             }
         }.resume()
-        
-//        let urlString = URL(string: "https://blighttoaster.eu-gb.mybluemix.net/api/get_classifier_ids")
-//        var emptyList = [String]()
-//
-//        if let url = urlString {
-//            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-//                if error != nil {
-//                    print("THIS IS THE ERROR: \(String(describing: error))")
-//                } else {
-//                    if let usableData = data {
-//
-//                        let jsonResult = try? JSONSerialization.jsonObject(with: usableData, options: []) as! [String]
-//
-//                        for ids in (jsonResult)! {
-//                            emptyList.append(ids)
-//                            print("\(emptyList.description)")
-//                        }
-//                        //UserDefaults.standard.set(-theVarIWant-, forKey: "classifiID")
-//                        //emptyList.append(jsonResult)
-//                    }
-//                }
-//            }
-//            task.resume()
-//        }
-        
     }
     
     
     //------------------------------- Send data to imagerecognition --------------------------------------
-//
-//     sendImage : UIImage = UIImage()
-//     sendClassifierId : String = ""
-//     sendTileImages : String = "true"
-//     sendLat : String = ""
-//     sendLng : String = ""
-    
+
     func sendToJoost() {
 
         let parameters = ["classifier_id" : sendClassifierId, "tile_images" : "true", "lat" : sendLat, "lng" : sendLng, "image" : sendImage ] as [String : Any]
@@ -493,15 +466,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let session = URLSession.shared
         session.dataTask(with: request) { (data, response, error) in
             if let response = response {
-                print(response)
+                //print(response)
             }
             if let data = data {
                 
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [])
-                    print(json)
+                    //print(json)
                 } catch {
-                    print(error)
+                    //print(error)
                 }
                 
             }
@@ -570,10 +543,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
 
 }
-
-
-
-
 
 extension UIView {
     // OUTPUT 1

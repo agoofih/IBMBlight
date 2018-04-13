@@ -25,6 +25,7 @@ struct Weather {
     }
     
     init(json:[String:Any]) throws {
+        
         guard let summary = json["summary"] as? String else {throw SerializationError.missing("summary is missing")}
         guard let icon = json["icon"] as? String else {throw SerializationError.missing("icon is missing")}
         guard let bearing = json["windBearing"] as? Int else {throw SerializationError.missing("windBearing is missing")}
@@ -43,15 +44,10 @@ struct Weather {
     
     static let basePath = "https://api.darksky.net/forecast/a6c9c6e1f763444d051c57cf36f360dc/"
     
-    let sendImageURL = "https://blighttoaster.eu-gb.mybluemix.net/api/analyze_images"
-    
     static func forecast (withLocation location:CLLocationCoordinate2D, completion: @escaping ([Weather]?) -> ()) {
         
         let url = basePath + "\(location.latitude),\(location.longitude)?units=auto"
-        print(url)
-        
-        
-        
+
         let request = URLRequest(url: URL(string: url)!)
         
         let task = URLSession.shared.dataTask(with: request) { (data:Data?, response:URLResponse?, error:Error?) in
@@ -66,7 +62,7 @@ struct Weather {
                             
                             let array = ["poop"]
                             for dataPoint in array {
-                                print(dailyForecasts)
+                                //print(dailyForecasts)
                                 
                                 UserDefaults.standard.set(dailyForecasts["windBearing"]!, forKey: "weatherWindDirection")
                                 UserDefaults.standard.set(dailyForecasts["windSpeed"]!, forKey: "weatherWindSpeed")
@@ -78,10 +74,8 @@ struct Weather {
                                 
                             }
                         }
-                        
                     }
                 }catch {
-                    
                     print(error.localizedDescription)
                 }
                 completion(forecastArray)
