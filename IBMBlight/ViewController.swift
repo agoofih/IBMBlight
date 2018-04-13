@@ -12,8 +12,7 @@ import MapKit
 import MessageUI
 
 struct getID : Decodable {
-    let idDefault : String
-    let idUsable : String
+    let classifier_id : String
 }
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, MFMailComposeViewControllerDelegate, MKMapViewDelegate {
@@ -98,6 +97,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var sendLat : String = ""
     var sendLng : String = ""
     
+    var imageData : NSData? = nil
+    
+    var base64StringImage : String = "awdad"
+    
     
     //------------------------------ Basics -------------------------------
 
@@ -131,7 +134,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewDidAppear(_ animated: Bool) {
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
-            UIView.animate(withDuration: 0.7, animations: {
+            UIView.animate(withDuration: 0.3, animations: {
                 self.preScreen.alpha = 0
             }, completion: nil)
         })
@@ -245,7 +248,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        print("calloutAccessoryControlTapped")
+        //print("calloutAccessoryControlTapped")
         
         let clickedAnnotation = view.annotation as! OwnPin
         if clickedAnnotation.title != nil {
@@ -297,14 +300,69 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             //print("ClassifierID is: \(sendClassifierId)")
         }
 
-        print("Latitude is: \(sendLat)")
-        print("Longitude is: \(sendLng)")
-        print("Tile the image is: \(sendTileImages)")
-        print("Image is: \(sendImage)")
-        print("The classifier is is: \(sendClassifierId)")
+//        print("Latitude is: \(sendLat)")
+//        print("Longitude is: \(sendLng)")
+//        print("Tile the image is: \(sendTileImages)")
+        
+//        print("The classifier is is: \(sendClassifierId)")
+        
+        //sendToJoost()
+        
+        
+//        "user_id"  : userid,
+//        "email"    : email,
+//        "password" : password]
+        
+        
         
         //Encode image for userDefaults
-        let imageData : NSData = UIImagePNGRepresentation(pickedImage)! as NSData
+//        imageData = UIImageJPEGRepresentation(pickedImage, 1) ?? nil
+        
+        imageData = UIImagePNGRepresentation(pickedImage)! as NSData
+        base64StringImage = imageData?.base64EncodedString() ?? "" // Your String Image
+        print("Image is: \(imageData)")
+        //TEST
+        
+
+            
+            
+            let request: URLRequest
+            
+            do {
+                request = try createRequest(userid: "userid", password: "password", email: "email")
+            } catch {
+                print(error)
+                return
+            }
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard error == nil else {
+                    // handle error here
+                    print(error!)
+                    return
+                }
+                
+                print(response)
+                
+                // if response was JSON, then parse it
+                
+                do {
+                    let responseDictionary = try JSONSerialization.jsonObject(with: data!)
+                    print("success == \(responseDictionary)")
+                    
+                    // note, if you want to update the UI, make sure to dispatch that to the main queue, e.g.:
+                    //
+                    // DispatchQueue.main.async {
+                    //     // update your UI and model objects here
+                    // }
+                } catch {
+                    print(error)
+                    
+                    let responseString = String(data: data!, encoding: .utf8)
+                    print("responseString = \(responseString)")
+                }
+            }
+            task.resume()
         
         //Save image userDefaults
         UserDefaults.standard.set(imageData, forKey: "savedImage")
@@ -422,25 +480,34 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     func getClassifierID() {
         
-        guard let urlGet = URL(string: "https://blighttoaster.eu-gb.mybluemix.net/api/get_classifier_ids") else { return }
-        var blightIDArray = [String]()
+        guard let urlGet = URL(string: "https://blighttoaster.eu-gb.mybluemix.net/api/get_classifier_id") else { return }
+        //var blightIDArray = [String]()
         
         let session = URLSession.shared
         session.dataTask(with: urlGet) { (data, response, error) in
             if let response = response {
-                //print(response)
+//                print(response)
             }
             if let data = data {
                 do {
-                    let jsonResult = try? JSONSerialization.jsonObject(with: data, options: []) as! [String]
-                    for ids in (jsonResult)! {
-                        blightIDArray.append(ids)
+//                    let jsonResult = try? JSONSerialization.jsonObject(with: data, options: [])
+//                    print(jsonResult ?? "non")
+
+                    guard let json = try? JSONDecoder().decode(getID.self, from: data) else {
+                        print("Error: Couldn't decode data into getID")
+                        return
                     }
-                    if blightIDArray[1] != "" {
-                        self.sendClassifierId = blightIDArray[1]
-                    }
+//                    print(json.classifier_id)
+                    self.sendClassifierId = json.classifier_id
+                    //for ids in (jsonResult)! {
+                        
+                    //    blightIDArray.append(ids)
+                    //}
+//                    if blightIDArray[1] != "" {
+//                        self.sendClassifierId = blightIDArray[1]x§
+//                    }
                 } catch {
-                    print(error)
+//                    print(error)
                 }
                 //print(data)
             }
@@ -450,35 +517,98 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     //------------------------------- Send data to imagerecognition --------------------------------------
 
-    func sendToJoost() {
+//    func sendToJoost() {
+//
+//        let parameters = ["classifier_id" : sendClassifierId, "tile_images" : "true", "lat" : sendLat, "lng" : sendLng, "files[]" : imageData ] as [String : Any]
+//
+//        guard let url = URL(string: "https://blighttoaster.eu-gb.mybluemix.net/api/analyze_images") else { return }
+//
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "POST"
+//        request.addValue("application/json", forHTTPHeaderField: "multipart/form-data")
+//
+//        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else { return }
+//        request.httpBody = httpBody
+//
+//        let session = URLSession.shared
+//        session.dataTask(with: request) { (data, response, error) in
+//            if let response = response {
+//                print("----- respons for sening ------: ", response)
+//            }
+//            if let data = data {
+//
+//                do {
+//                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+//
+//                } catch {
+//                    print("********** Error for sending ***********: ",error)
+//                }
+//            }
+//        }.resume()
+//    }
 
-        let parameters = ["classifier_id" : sendClassifierId, "tile_images" : "true", "lat" : sendLat, "lng" : sendLng, "image" : sendImage ] as [String : Any]
+    func createRequest(userid: String, password: String, email: String) throws -> URLRequest {
+        let parameters = [
+            "user_id"  : userid,
+            "email"    : email,
+            "password" : password]  // build your dictionary however appropriate
         
-        guard let url = URL(string: "https://blighttoaster.eu-gb.mybluemix.net/api/analyze_images") else { return }
+        let boundary = generateBoundaryString()
         
+        let url = URL(string: "https://blighttoaster.eu-gb.mybluemix.net/api/analyze_images")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
-        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else { return }
-        request.httpBody = httpBody
+        let path1 = Bundle.main.path(forResource: "image1", ofType: "png")!
+        request.httpBody = try createBody(with: parameters, filePathKey: "file", paths: [path1], boundary: boundary)
         
-        let session = URLSession.shared
-        session.dataTask(with: request) { (data, response, error) in
-            if let response = response {
-                //print(response)
+        
+        return request
+    }
+    
+    private func createBody(with parameters: [String: String]?, filePathKey: String, paths: [String], boundary: String) throws -> Data {
+        var body = Data()
+        
+        if parameters != nil {
+            for (key, value) in parameters! {
+                body.append("--\(boundary)\r\n")
+                body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+                body.append("\(value)\r\n")
             }
-            if let data = data {
-                
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: [])
-                    //print(json)
-                } catch {
-                    //print(error)
-                }
-                
-            }
-        }.resume()
+        }
+        
+        for path in paths {
+            let url = URL(fileURLWithPath: path)
+            let filename = url.lastPathComponent
+            let data = try Data(contentsOf: url)
+            let mimetype = mimeType(for: path)
+            
+            body.append("--\(boundary)\r\n")
+            body.append("Content-Disposition: form-data; name=\"\(filePathKey)\"; filename=\"\(filename)\"\r\n")
+            body.append("Content-Type: \(mimetype)\r\n\r\n")
+            body.append(data)
+            body.append("\r\n")
+        }
+        
+        body.append("--\(boundary)--\r\n")
+        return body
+    }
+    
+    private func generateBoundaryString() -> String {
+        return "Boundary-\(UUID().uuidString)"
+    }
+    
+    private func mimeType(for path: String) -> String {
+//        let url = URL(fileURLWithPath: path)
+//        let pathExtension = url.pathExtension
+//
+//        if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue() {
+//            if let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
+//                return mimetype as String
+//            }
+//        }
+        return "application/octet-stream"
     }
     
     
@@ -533,7 +663,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         todaysDate = formatter.string(from: Date())
-        print(todaysDate)
+        //print(todaysDate)
     }
     
 
@@ -542,6 +672,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // Dispose of any resources that can be recreated.
     }
 
+}
+
+extension Data {
+    
+    /// Append string to Data
+    ///
+    /// Rather than littering my code with calls to `data(using: .utf8)` to convert `String` values to `Data`, this wraps it in a nice convenient little extension to Data. This defaults to converting using UTF-8.
+    ///
+    /// - parameter string:       The string to be added to the `Data`.
+    
+    mutating func append(_ string: String, using encoding: String.Encoding = .utf8) {
+        if let data = string.data(using: encoding) {
+            append(data)
+        }
+    }
 }
 
 extension UIView {

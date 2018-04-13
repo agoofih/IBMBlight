@@ -18,6 +18,8 @@
 		269437EE207CA46A00728DEA /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269437ED207CA46A00728DEA /* Weather.swift */; };
 		269437F0207CD55400728DEA /* TopWeatherDataVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269437EF207CD55400728DEA /* TopWeatherDataVC.swift */; };
 		269BF574207E1C62008DED4C /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269BF573207E1C62008DED4C /* Reachability.swift */; };
+		269BF57A2080CEED008DED4C /* json in Resources */ = {isa = PBXBuildFile; fileRef = 269BF5792080CEED008DED4C /* json */; };
+		269BF57C2080D709008DED4C /* image1.png in Resources */ = {isa = PBXBuildFile; fileRef = 269BF57B2080D709008DED4C /* image1.png */; };
 		26D8E4A12073740900B69962 /* AlertTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A02073740900B69962 /* AlertTableViewCell.swift */; };
 		26D8E4A32073847F00B69962 /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A22073847F00B69962 /* NewsTableViewCell.swift */; };
 		26D8E4A520738C6000B69962 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A420738C6000B69962 /* AlertViewController.swift */; };
@@ -38,6 +40,8 @@
 		269437ED207CA46A00728DEA /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		269437EF207CD55400728DEA /* TopWeatherDataVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopWeatherDataVC.swift; sourceTree = "<group>"; };
 		269BF573207E1C62008DED4C /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		269BF5792080CEED008DED4C /* json */ = {isa = PBXFileReference; lastKnownFileType = text; path = json; sourceTree = "<group>"; };
+		269BF57B2080D709008DED4C /* image1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image1.png; sourceTree = "<group>"; };
 		26D8E4A02073740900B69962 /* AlertTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTableViewCell.swift; sourceTree = "<group>"; };
 		26D8E4A22073847F00B69962 /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
 		26D8E4A420738C6000B69962 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
@@ -74,8 +78,10 @@
 		263D30352063E533005BFE8F /* IBMBlight */ = {
 			isa = PBXGroup;
 			children = (
+				269BF57B2080D709008DED4C /* image1.png */,
 				263D30362063E533005BFE8F /* AppDelegate.swift */,
 				263D30382063E533005BFE8F /* ViewController.swift */,
+				269BF5792080CEED008DED4C /* json */,
 				269437ED207CA46A00728DEA /* Weather.swift */,
 				269BF573207E1C62008DED4C /* Reachability.swift */,
 				26D8E4A420738C6000B69962 /* AlertViewController.swift */,
@@ -153,8 +159,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				269BF57A2080CEED008DED4C /* json in Resources */,
 				263D30412063E534005BFE8F /* LaunchScreen.storyboard in Resources */,
 				2615652C207B5EB6000501AD /* fakeLocation.gpx in Resources */,
+				269BF57C2080D709008DED4C /* image1.png in Resources */,
 				263D303E2063E534005BFE8F /* Assets.xcassets in Resources */,
 				263D303C2063E533005BFE8F /* Main.storyboard in Resources */,
 			);

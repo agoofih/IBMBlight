@@ -1,0 +1,23 @@
+"Body": {
+"content": [
+{
+"contentType":"multipart\/mixed; Boundary=\"0__=0A44F337DFD4CB448f9e8a93df938690918c0ABBF337DFD4CB36\""
+},
+{
+"contentType":"text\/plain; charset=US-ASCII",
+"contentTransferEncoding":"quoted-printable",
+"boundary":"--2__=0A44F337DFD4CB448f9e8a93df938690918c0ABBF337DFD4CB36",
+"data":"\r\nA text here.\r\nAttachment: (See attached file: image.png)\r\n"
+},
+{
+"contentType":"image\/png; name=\"SomeImage.png\"",
+"contentID":"<2__=0AFAF335GFD4CB368f9e8a54df93869091@local>",
+"contentTransferEncsoding":"base64",
+"boundary":"--1__=0A44F337DFD4CB448f9e8a93df938690918c0ABBF337DFD4CB36",
+"data":"R0lGODlhDAAOALMAAAAAAP\/\/\/7q6w7m5wrW1vf7+\/u\/v7+Hh4dLS0dasdasdKysqKiooCAgP\/\/\r\n\/wAAACH5BAEAAA4ALAAAAAcAAARCdsvsOuEqudasdOuEquzjsBJNuraOuEqu\/Z4zPV6\r\nBLzcOALMAAAABRCFJyfPEKIiwWqsXAiAVFqKiofPEKjFb1CcCADs=\r\n\r\n",
+"contentDisposition":"inline; filename=\"SomeImage.png\""
+}
+],
+"type":"multipart"
+}
+

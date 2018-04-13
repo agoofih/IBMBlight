@@ -18,17 +18,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="WdI-d8-Cpa" userLabel="IBMLogoWhite">
-                                <rect key="frame" x="275" y="150" width="218" height="150"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="WdI-d8-Cpa">
+                                <rect key="frame" x="309" y="150" width="150" height="150"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="YJD-1L-95n"/>
+                                    <constraint firstAttribute="width" constant="150" id="t94-G0-Fee"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zme-NY-U9k" userLabel="bottomHalf">
                                 <rect key="frame" x="0.0" y="350" width="768" height="674"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EnBlightMe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UgH-ob-2vd">
-                                        <rect key="frame" x="0.0" y="20" width="768" height="70"/>
+                                        <rect key="frame" x="0.0" y="30" width="768" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="PTl-0a-JEB"/>
                                         </constraints>
@@ -40,7 +41,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="UgH-ob-2vd" firstAttribute="leading" secondItem="Zme-NY-U9k" secondAttribute="leading" id="Rbe-HA-2lX"/>
-                                    <constraint firstItem="UgH-ob-2vd" firstAttribute="top" secondItem="Zme-NY-U9k" secondAttribute="top" constant="20" id="jBk-vR-KBs"/>
+                                    <constraint firstItem="UgH-ob-2vd" firstAttribute="top" secondItem="Zme-NY-U9k" secondAttribute="top" constant="30" id="jBk-vR-KBs"/>
                                     <constraint firstAttribute="trailing" secondItem="UgH-ob-2vd" secondAttribute="trailing" id="sHN-Xz-8oj"/>
                                 </constraints>
                             </view>
@@ -50,10 +51,9 @@
                             <constraint firstItem="Zme-NY-U9k" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="2zG-bg-8TX"/>
                             <constraint firstItem="Zme-NY-U9k" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="6xN-ix-mAs"/>
                             <constraint firstItem="Zme-NY-U9k" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Q1n-QS-Vij"/>
-                            <constraint firstItem="WdI-d8-Cpa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="275" id="V21-aP-2gd"/>
+                            <constraint firstItem="WdI-d8-Cpa" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="SNT-KG-sl9"/>
                             <constraint firstItem="Zme-NY-U9k" firstAttribute="top" secondItem="WdI-d8-Cpa" secondAttribute="bottom" constant="50" id="W6J-Oz-VzP"/>
                             <constraint firstItem="WdI-d8-Cpa" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" constant="150" id="ofi-dt-bcl"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="WdI-d8-Cpa" secondAttribute="trailing" constant="275" id="yms-iH-FDL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
