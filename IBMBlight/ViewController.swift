@@ -8,8 +8,10 @@
 
 import UIKit
 import CoreLocation
+import Photos
 import MapKit
 import MessageUI
+import MobileCoreServices
 
 struct getID : Decodable {
     let classifier_id : String
@@ -17,7 +19,11 @@ struct getID : Decodable {
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, MFMailComposeViewControllerDelegate, MKMapViewDelegate {
     
+    //------------------------------ ------------------------------ -------------------------------
+    
     //------------------------------ Outlets and standard variables -------------------------------
+    
+    //------------------------------ ------------------------------ -------------------------------
     
     //Loadingscreen
     @IBOutlet weak var preScreen: UIView!
@@ -101,9 +107,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     var base64StringImage : String = "awdad"
     
+    var filepathcomplete : String = ""
+    
+    //------------------------------ ------------------------------ -------------------------------
     
     //------------------------------ Basics -------------------------------
 
+    //------------------------------ ------------------------------ -------------------------------
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib
@@ -122,7 +133,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         moveMap()
         getCurrentDateTime()
-        getClassifierID()
         
     }
     
@@ -158,8 +168,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
         }
         
-        //imageResultView.transform = CGAffineTransform(rotationAngle: (180).pi)
-        
         mainMapView.dropShadow()
         alertView.dropShadow()
         newsView.dropShadow()
@@ -189,11 +197,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             self.present(alert, animated: true)
         }
-        
         getClassifierID()
     }
+    //------------------------------ ------------------------------ -------------------------------
     
     //------------------------------ Map -------------------------------
+    
+    //------------------------------ ------------------------------ -------------------------------
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let userLocation:CLLocation = locations[0]
@@ -256,18 +266,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         
     }
-    
-    
-    //I need to fix a couple of test annotations of diffrent farms. The data will be risklevel that will be checked in three % if else. One value that is my own and some other that is others
-    //0 - 10% = green
-    //10.1 - 50% = yellow
-    //50.1 - 100% = red
+    //------------------------------ ------------------------------ -------------------------------
     
     //------------------------------ Weather -----------------------------
     
+    //------------------------------ ------------------------------ -------------------------------
+    
+    
     // Seperate VC - TopWeatherDataVC
+    
+    
+    //------------------------------ ------------------------------ -------------------------------
 
     //------------------------------ Camera -------------------------------
+    
+    //------------------------------ ------------------------------ -------------------------------
 
     @IBAction func getFromCamera(_ sender: UIButton) {
         let imagePicker = UIImagePickerController()
@@ -283,7 +296,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
         imagePicker.allowsEditing = true
         self.present(imagePicker, animated: true, completion: nil)
+        
+        //save()
     }
+    
+    
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         imageResultView.isHidden = false
@@ -292,13 +309,29 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         imageResultViewTopConstraint.constant = 25
         let pickedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         
+        let path = info[UIImagePickerControllerImageURL]
+        //let pathOld = info[UIImagePickerControllerReferenceURL]
+        print("Path är: \(path!)")
+        filepathcomplete = "\(path!)"
         
         sendImage = pickedImage
         sendTileImages = "true"
-        if UserDefaults.standard.object(forKey: "classifiID") != nil {
-            sendClassifierId = UserDefaults.standard.object(forKey: "classifiID") as! String
-            //print("ClassifierID is: \(sendClassifierId)")
-        }
+        
+//        let tempImage = info[UIImagePickerControllerOriginalImage] as? UIImage
+//
+//        let image = UIImageJPEGRepresentation(tempImage!, 0.2)
+//
+//        let path = try! FileManager.default.url(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask, appropriateFor: nil, create: false)
+//        let imageName = UUID().uuidString + ".jpeg"
+//        let imageName2 = UUID().uuidString
+//
+//        let aPath = path.path
+//
+//        let imagePath = (aPath as NSString).appendingPathComponent(imageName)
+//        try? image?.write(to: URL(fileURLWithPath: aPath), options: .atomic)
+//
+//        filepathcomplete = aPath+"/"+imageName2
+//        print("---------- THIS IS PATH: ",filepathcomplete,"----------")
 
 //        print("Latitude is: \(sendLat)")
 //        print("Longitude is: \(sendLng)")
@@ -307,25 +340,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 //        print("The classifier is is: \(sendClassifierId)")
         
         //sendToJoost()
-        
-        
-//        "user_id"  : userid,
-//        "email"    : email,
-//        "password" : password]
-        
-        
-        
+
         //Encode image for userDefaults
 //        imageData = UIImageJPEGRepresentation(pickedImage, 1) ?? nil
+        //imageData = UIImageJPEGRepresentation(pickedImage, 1) as NSData
         
         imageData = UIImagePNGRepresentation(pickedImage)! as NSData
         base64StringImage = imageData?.base64EncodedString() ?? "" // Your String Image
         print("Image is: \(imageData)")
         //TEST
-        
 
-            
-            
             let request: URLRequest
             
             do {
@@ -334,18 +358,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 print(error)
                 return
             }
-            
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
                 guard error == nil else {
                     // handle error here
                     print(error!)
                     return
                 }
-                
                 print(response)
-                
                 // if response was JSON, then parse it
-                
                 do {
                     let responseDictionary = try JSONSerialization.jsonObject(with: data!)
                     print("success == \(responseDictionary)")
@@ -379,8 +399,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.dismiss(animated: true, completion: nil)
     }
     
+    //------------------------------ ------------------------------ -------------------------------
     
     //------------------------------ Camera Result View -------------------------------
+    
+    //------------------------------ ------------------------------ -------------------------------
     
     
     func CRVsetValuesText(){
@@ -474,14 +497,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         controller.dismiss(animated: true, completion: nil)
     }
     
+    //------------------------------ ------------------------------ -------------------------------
     
     // ------------------------------ Get data from Joost -----------------------------------------------
     
+    //------------------------------ ------------------------------ -------------------------------
 
     func getClassifierID() {
         
         guard let urlGet = URL(string: "https://blighttoaster.eu-gb.mybluemix.net/api/get_classifier_id") else { return }
-        //var blightIDArray = [String]()
         
         let session = URLSession.shared
         session.dataTask(with: urlGet) { (data, response, error) in
@@ -490,32 +514,25 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
             if let data = data {
                 do {
-//                    let jsonResult = try? JSONSerialization.jsonObject(with: data, options: [])
-//                    print(jsonResult ?? "non")
-
                     guard let json = try? JSONDecoder().decode(getID.self, from: data) else {
                         print("Error: Couldn't decode data into getID")
                         return
                     }
-//                    print(json.classifier_id)
                     self.sendClassifierId = json.classifier_id
-                    //for ids in (jsonResult)! {
-                        
-                    //    blightIDArray.append(ids)
-                    //}
-//                    if blightIDArray[1] != "" {
-//                        self.sendClassifierId = blightIDArray[1]x§
-//                    }
+                    print(json.classifier_id)
+
                 } catch {
-//                    print(error)
+                    print(error)
                 }
-                //print(data)
             }
         }.resume()
     }
     
+    //------------------------------ ------------------------------ -------------------------------
     
     //------------------------------- Send data to imagerecognition --------------------------------------
+    
+    //------------------------------ ------------------------------ -------------------------------
 
 //    func sendToJoost() {
 //
@@ -559,12 +576,27 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        print("filepathcomplete :", filepathcomplete)
+        print("Parameters: ",parameters)
+        print("boundary :", boundary)
+        print("request : ",request)
         
-        let path1 = Bundle.main.path(forResource: "image1", ofType: "png")!
-        request.httpBody = try createBody(with: parameters, filePathKey: "file", paths: [path1], boundary: boundary)
+        //let path1 = Bundle.main.path(forResource: filepathcomplete, ofType: "jpeg")!
+//        var content : String = ""
+//        let path = Bundle.main.path(forResource: filepathcomplete, ofType: "jpeg")!
+//        do {
+//            content = try String(contentsOfFile:path, encoding: String.Encoding.utf8)
+//            print("content :",content)
+//        } catch {
+//            print("nil")
+//        }
         
+        //print("path1 :", path1)
         
+        request.httpBody = try createBody(with: parameters, filePathKey: "files[]", paths: [filepathcomplete], boundary: boundary)
+
         return request
+        
     }
     
     private func createBody(with parameters: [String: String]?, filePathKey: String, paths: [String], boundary: String) throws -> Data {
@@ -583,6 +615,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             let filename = url.lastPathComponent
             let data = try Data(contentsOf: url)
             let mimetype = mimeType(for: path)
+            print("THIS IS MIMETYPE: ", mimetype)
             
             body.append("--\(boundary)\r\n")
             body.append("Content-Disposition: form-data; name=\"\(filePathKey)\"; filename=\"\(filename)\"\r\n")
@@ -600,20 +633,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     private func mimeType(for path: String) -> String {
-//        let url = URL(fileURLWithPath: path)
-//        let pathExtension = url.pathExtension
-//
-//        if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue() {
-//            if let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
-//                return mimetype as String
-//            }
-//        }
+        let url = URL(fileURLWithPath: path)
+        let pathExtension = url.pathExtension
+
+        if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue() {
+            if let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
+                return mimetype as String
+            }
+        }
         return "application/octet-stream"
     }
     
-    
+    //------------------------------ ------------------------------ -------------------------------
     
     //------------------------------ Alerts View ( seperate viewController ) -----------------------------
+    
+    //------------------------------ ------------------------------ -------------------------------
     
     @IBAction func alertMoreClick(_ sender: UIButton) {
         if alertsBool == false {
@@ -633,8 +668,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
+    //------------------------------ ------------------------------ -------------------------------
     
     //------------------------------ News View ( seperate viewController ) -------------------------------
+    
+    //------------------------------ ------------------------------ -------------------------------
     
     @IBAction func newsMoreClick(_ sender: UIButton) {
         if newsBool == false {
@@ -655,8 +693,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
+    //------------------------------ ------------------------------ -------------------------------
     
     //------------------------------ Global -------------------------------
+    
+    //------------------------------ ------------------------------ -------------------------------
     
     //Get todays date
     func getCurrentDateTime() {
@@ -673,6 +714,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
 
 }
+
+
+
 
 extension Data {
     

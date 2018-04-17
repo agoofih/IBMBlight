@@ -12,8 +12,8 @@ import CoreLocation
 
 struct Weather {
     
-    let summary:String
-    let icon:String
+//    let summary:String
+//    let icon:String
     let temperature:Double
     let windBearing : Int
     let windSpeed : Int
@@ -26,21 +26,26 @@ struct Weather {
     
     init(json:[String:Any]) throws {
         
-        guard let summary = json["summary"] as? String else {throw SerializationError.missing("summary is missing")}
-        guard let icon = json["icon"] as? String else {throw SerializationError.missing("icon is missing")}
+//        guard let summary = json["summary"] as? String else {throw SerializationError.missing("summary is missing")}
+//        guard let icon = json["icon"] as? String else {throw SerializationError.missing("icon is missing")}
         guard let bearing = json["windBearing"] as? Int else {throw SerializationError.missing("windBearing is missing")}
         guard let speed = json["windSpeed"] as? Int else {throw SerializationError.missing("windSpeed is missing")}
         guard let temperature = json["temperatureMax"] as? Double else {throw SerializationError.missing("temp is missing")}
         guard let humidity = json["humidity"] as? Double else {throw SerializationError.missing("humidity is missing")}
         
-        self.summary = summary
-        self.icon = icon
+//        self.summary = summary
+//        self.icon = icon
         self.temperature = temperature
         self.windBearing = bearing
         self.windSpeed = speed
         self.humidity = humidity
         
     }
+    
+    
+    // when the api change is here: https://blighttoaster.eu-gb.mybluemix.net/api/current_weather?lat=[MY VALUE]&lng=[MY VALUE]
+    // the [] surrandoing MY VALUE is not suposed to be there.
+    
     
     static let basePath = "https://api.darksky.net/forecast/a6c9c6e1f763444d051c57cf36f360dc/"
     
