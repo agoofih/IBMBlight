@@ -121,11 +121,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         imageResultViewHeightConstraint.constant = 0
         imageResultViewTopConstraint.constant = 0
-        imageResultView.isHidden = true
+        
+        //news fix
+        //imageResultView.isHidden = true
+        cameraResultView.isHidden = true
         locationManager = CLLocationManager()
         
         if CLLocationManager.locationServicesEnabled() {
-            //locationManager.requestAlwaysAuthorization()
             locationManager.requestWhenInUseAuthorization()
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -141,7 +143,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return .lightContent
     }
     
-    
     override func viewDidAppear(_ animated: Bool) {
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
             UIView.animate(withDuration: 0.3, animations: {
@@ -151,15 +152,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         //Preload last taken image and show it
         if UserDefaults.standard.value(forKey: "savedImage") == nil {
-            //print("NUPPNUPP")
         }else{
-            //print("JUPPJUPP")
             cameraResultView.dropShadowRemove()
-            imageResultView.isHidden = false
+            cameraResultView.isHidden = false
             imageResultViewHeightConstraint.constant = 300
             imageResultViewTopConstraint.constant = 25
-        
-            CRVsetValuesText()
             
             let savedImage = UserDefaults.standard.object(forKey: "savedImage") as! NSData
             imageResultView.image = UIImage(data: savedImage as Data)
@@ -223,7 +220,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func moveMap() {
-        //let initialLocation = CLLocation(latitude: localtion_lat, longitude: location_long) //rätt sätt tillbaka sedan
+        //let initialLocation = CLLocation(latitude: localtion_lat, longitude: location_long) //correct, replase to this when live
         let initialLocation = CLLocation(latitude: 55.606118, longitude: 13.197447) // tempdata GPS
         let regionRadius: CLLocationDistance = 2500
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate,regionRadius * 2.0, regionRadius * 2.0)
@@ -246,7 +243,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 view.calloutOffset = CGPoint(x: -5, y: 5)
                 view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure) as UIView
             }
-            //print(annotation.blight)
             if annotation.blight == true {
                 view.pinTintColor = MKPinAnnotationView.redPinColor()
             } else {
@@ -273,7 +269,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     //------------------------------ ------------------------------ -------------------------------
     
     
-    // Seperate VC - TopWeatherDataVC
+    // Seperate VC - TopWeatherDataVC & WeatherServer
     
     
     //------------------------------ ------------------------------ -------------------------------
@@ -296,23 +292,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
         imagePicker.allowsEditing = true
         self.present(imagePicker, animated: true, completion: nil)
-        
-        //save()
     }
     
     
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        imageResultView.isHidden = false
+        cameraResultView.isHidden = false
+        
         cameraResultView.dropShadowRemove()
         imageResultViewHeightConstraint.constant = 300
         imageResultViewTopConstraint.constant = 25
         let pickedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         
-        let path = info[UIImagePickerControllerImageURL]
+       // let path = info[UIImagePickerControllerImageURL]
         //let pathOld = info[UIImagePickerControllerReferenceURL]
-        print("Path är: \(path!)")
-        filepathcomplete = "\(path!)"
+//        print("Path är: \(path!)")
+//        filepathcomplete = "\(path!)"
         
         sendImage = pickedImage
         sendTileImages = "true"
@@ -347,42 +342,42 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         imageData = UIImagePNGRepresentation(pickedImage)! as NSData
         base64StringImage = imageData?.base64EncodedString() ?? "" // Your String Image
-        print("Image is: \(imageData)")
+        //print("Image is: \(imageData)")
         //TEST
 
-            let request: URLRequest
-            
-            do {
-                request = try createRequest(userid: "userid", password: "password", email: "email")
-            } catch {
-                print(error)
-                return
-            }
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                guard error == nil else {
-                    // handle error here
-                    print(error!)
-                    return
-                }
-                print(response)
-                // if response was JSON, then parse it
-                do {
-                    let responseDictionary = try JSONSerialization.jsonObject(with: data!)
-                    print("success == \(responseDictionary)")
-                    
-                    // note, if you want to update the UI, make sure to dispatch that to the main queue, e.g.:
-                    //
-                    // DispatchQueue.main.async {
-                    //     // update your UI and model objects here
-                    // }
-                } catch {
-                    print(error)
-                    
-                    let responseString = String(data: data!, encoding: .utf8)
-                    print("responseString = \(responseString)")
-                }
-            }
-            task.resume()
+//            let request: URLRequest
+//
+//            do {
+//                request = try createRequest(userid: "userid", password: "password", email: "email")
+//            } catch {
+//                print(error)
+//                return
+//            }
+//            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+//                guard error == nil else {
+//                    // handle error here
+//                    print(error!)
+//                    return
+//                }
+//                print(response)
+//                // if response was JSON, then parse it
+//                do {
+//                    let responseDictionary = try JSONSerialization.jsonObject(with: data!)
+//                    print("success == \(responseDictionary)")
+//
+//                    // note, if you want to update the UI, make sure to dispatch that to the main queue, e.g.:
+//                    //
+//                    // DispatchQueue.main.async {
+//                    //     // update your UI and model objects here
+//                    // }
+//                } catch {
+//                    print(error)
+//
+//                    let responseString = String(data: data!, encoding: .utf8)
+//                    print("responseString = \(responseString)")
+//                }
+//            }
+//            task.resume()
         
         //Save image userDefaults
         UserDefaults.standard.set(imageData, forKey: "savedImage")
@@ -391,7 +386,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let activeImage = UserDefaults.standard.object(forKey: "savedImage") as! NSData
         imageResultView.image = UIImage(data: activeImage as Data)
 
-        CRVsetValuesText()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
             self.cameraResultView.dropShadow()
         }
@@ -404,38 +398,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     //------------------------------ Camera Result View -------------------------------
     
     //------------------------------ ------------------------------ -------------------------------
-    
-    
-    func CRVsetValuesText(){
-        CRVheader.text = "Result of analysis"
-        CRVsuggestedInfectionHeader.text = "Suggested infection:"
-        CRVsuggestedInfectionTypeValue.text = "infectionTypeValue"
-        CRVprababilityHeader.text = "Propability of infection:"
-        CRVprobabilityDegreeValue.text = "degreeValue"
-        CRVstageHeader.text = "Stage of infection:"
-        CRVstageValue.text = "stageValue"
-        CRVsendResult.setTitle("Send result as email", for: .normal)
-        CRVcloseBtn.setTitle("X", for: .normal)
-    }
-    
-    func CRVresetValues() {
-        CRVheader.text = ""
-        CRVsuggestedInfectionHeader.text = ""
-        CRVsuggestedInfectionTypeValue.text = ""
-        CRVprababilityHeader.text = ""
-        CRVprobabilityDegreeValue.text = ""
-        CRVstageHeader.text = ""
-        CRVstageValue.text = ""
-        CRVsendResult.setTitle("", for: .normal)
-        CRVcloseBtn.setTitle("", for: .normal)
-    }
+
     
     @IBAction func CRVclose(_ sender: UIButton) {
-        CRVresetValues()
         imageResultViewHeightConstraint.constant = 0
         imageResultViewTopConstraint.constant = 0
         cameraResultView.dropShadowRemove()
-        imageResultView.isHidden = true
+        cameraResultView.isHidden = true
+        
         UserDefaults.standard.set(nil, forKey: "savedImage")
     }
     
