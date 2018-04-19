@@ -57,7 +57,7 @@ struct Weather {
         
         let task = URLSession.shared.dataTask(with: request) { (data:Data?, response:URLResponse?, error:Error?) in
             
-            var forecastArray:[Weather] = []
+            let forecastArray:[Weather] = []
             
             if let data = data {
             

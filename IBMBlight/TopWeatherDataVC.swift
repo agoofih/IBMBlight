@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class TopWeatherDataVC: UIViewController {
+class TopWeatherDataVC: UIViewController, CLLocationManagerDelegate {
     
     @IBOutlet weak var windSpeed: UILabel!
     @IBOutlet weak var windDirection: UILabel!
@@ -20,21 +20,40 @@ class TopWeatherDataVC: UIViewController {
     
     var piSixteensths = 0.39269908169
     
+    //Own weather API
+    var forecastData2 = [WeatherServer]()
     
-    //Weather data Dark Sky API
-    var forecastData = [Weather]()
+    //Live code for location instead of dummy
+    let locationManager = CLLocationManager()
+    var location : CLLocation?
+    var locLat : String = ""
+    var locLng : String = ""
+    var jsonUrlString : String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        //Live code for location instead of dummy
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
     }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        ////Live code for location instead of dummy, Use below instead for ownPin in forcast.
+        location = locations[0]
+        locLat = "\(location!.coordinate.latitude)"
+        locLng = "\(location!.coordinate.longitude)"
+        jsonUrlString = "https://blighttoaster.eu-gb.mybluemix.net/api/current_weather?lat=\(locLat)&lng=\(locLng)"
+        manager.stopUpdatingLocation()
+    }
+    
     
     override func viewDidAppear(_ animated: Bool) {
-        
         updateWeatherForLocation(location: "New York")
     }
-    
-    
     
     
     func updateWeatherForLocation (location:String) {
@@ -44,9 +63,9 @@ class TopWeatherDataVC: UIViewController {
                     let ownPin = OwnPin()
                     ownPin.coordinate = CLLocationCoordinate2D(latitude: 55.606118, longitude: 13.197447)
                     
-                    Weather.forecast(withLocation: ownPin.coordinate, completion: { (results:[Weather]?) in
+                    WeatherServer.forecast(withLocation: ownPin.coordinate, completion: { (results:[WeatherServer]?) in
                         if let weatherData = results {
-                            self.forecastData = weatherData
+                            self.forecastData2 = weatherData
                             
                             if UserDefaults.standard.value(forKey: "weatherDegree") != nil {
                                 DispatchQueue.main.async {

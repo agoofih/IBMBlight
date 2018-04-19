@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2615652C207B5EB6000501AD /* fakeLocation.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 2615652B207B5EB6000501AD /* fakeLocation.gpx */; };
 		2615652E207B69AD000501AD /* OwnPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2615652D207B69AD000501AD /* OwnPin.swift */; };
+		262FF1982087328100FADA96 /* WeatherServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262FF1972087328100FADA96 /* WeatherServer.swift */; };
 		263D30372063E533005BFE8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D30362063E533005BFE8F /* AppDelegate.swift */; };
 		263D30392063E533005BFE8F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D30382063E533005BFE8F /* ViewController.swift */; };
 		263D303C2063E533005BFE8F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 263D303A2063E533005BFE8F /* Main.storyboard */; };
@@ -28,6 +29,7 @@
 /* Begin PBXFileReference section */
 		2615652B207B5EB6000501AD /* fakeLocation.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = fakeLocation.gpx; sourceTree = "<group>"; };
 		2615652D207B69AD000501AD /* OwnPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnPin.swift; sourceTree = "<group>"; };
+		262FF1972087328100FADA96 /* WeatherServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherServer.swift; sourceTree = "<group>"; };
 		263D30332063E533005BFE8F /* IBMBlight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IBMBlight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		263D30362063E533005BFE8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		263D30382063E533005BFE8F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 				263D30362063E533005BFE8F /* AppDelegate.swift */,
 				263D30382063E533005BFE8F /* ViewController.swift */,
 				269437ED207CA46A00728DEA /* Weather.swift */,
+				262FF1972087328100FADA96 /* WeatherServer.swift */,
 				269BF573207E1C62008DED4C /* Reachability.swift */,
 				26D8E4A420738C6000B69962 /* AlertViewController.swift */,
 				26D8E4A02073740900B69962 /* AlertTableViewCell.swift */,
@@ -172,6 +175,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				263D30392063E533005BFE8F /* ViewController.swift in Sources */,
+				262FF1982087328100FADA96 /* WeatherServer.swift in Sources */,
 				26D8E4A520738C6000B69962 /* AlertViewController.swift in Sources */,
 				2615652E207B69AD000501AD /* OwnPin.swift in Sources */,
 				269437F0207CD55400728DEA /* TopWeatherDataVC.swift in Sources */,
