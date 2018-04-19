@@ -21,7 +21,7 @@ class TopWeatherDataVC: UIViewController, CLLocationManagerDelegate {
     var piSixteensths = 0.39269908169
     
     //Own weather API
-    var forecastData2 = [WeatherServer]()
+    var forecastData = [WeatherServer]()
     
     //Live code for location instead of dummy
     let locationManager = CLLocationManager()
@@ -65,7 +65,7 @@ class TopWeatherDataVC: UIViewController, CLLocationManagerDelegate {
                     
                     WeatherServer.forecast(withLocation: ownPin.coordinate, completion: { (results:[WeatherServer]?) in
                         if let weatherData = results {
-                            self.forecastData2 = weatherData
+                            self.forecastData = weatherData
                             
                             if UserDefaults.standard.value(forKey: "weatherDegree") != nil {
                                 DispatchQueue.main.async {
