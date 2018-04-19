@@ -69,10 +69,12 @@ class TopWeatherDataVC: UIViewController, CLLocationManagerDelegate {
                             
                             if UserDefaults.standard.value(forKey: "weatherDegree") != nil {
                                 DispatchQueue.main.async {
-                                    self.degreeCel.text = "\(UserDefaults.standard.value(forKey: "weatherDegree")!) °C"
+                                    let x = UserDefaults.standard.value(forKey: "weatherDegree")! as! Double
+                                    let y = Double(round(1000*x)/1000)
+                                    self.degreeCel.text = "\(y) °C"
                                 }
                                 
-                            }else{
+                            } else {
                                 self.degreeCel.text = "- no data -"
                             }
                             if UserDefaults.standard.value(forKey: "weatherWindSpeed") != nil {
