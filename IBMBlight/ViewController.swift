@@ -169,6 +169,23 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         alertView.dropShadow()
         newsView.dropShadow()
 
+        myPintemp()
+        
+        if Reachability.isConnectedToNetwork(){
+            print("Internet Connection Available!")
+        }else{
+            let alert = UIAlertController(title: "No internet connection", message: "Please check your connection and then restart the application", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            
+            self.present(alert, animated: true)
+        }
+        getClassifierID()
+    }
+    
+    //Pin creation
+    
+    func myPintemp() {
         let myPin = OwnPin()
         myPin.title = "Hej"
         myPin.subtitle = "Tjena"
@@ -185,17 +202,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         mainMapView.isRotateEnabled = false
         
-        if Reachability.isConnectedToNetwork(){
-            print("Internet Connection Available!")
-        }else{
-            let alert = UIAlertController(title: "No internet connection", message: "Please check your connection and then restart the application", preferredStyle: .alert)
-            
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            
-            self.present(alert, animated: true)
-        }
-        getClassifierID()
     }
+    
     //------------------------------ ------------------------------ -------------------------------
     
     //------------------------------ Map -------------------------------
@@ -304,80 +312,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         imageResultViewTopConstraint.constant = 25
         let pickedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         
-       // let path = info[UIImagePickerControllerImageURL]
-        //let pathOld = info[UIImagePickerControllerReferenceURL]
-//        print("Path är: \(path!)")
-//        filepathcomplete = "\(path!)"
-        
         sendImage = pickedImage
         sendTileImages = "true"
         
-//        let tempImage = info[UIImagePickerControllerOriginalImage] as? UIImage
-//
-//        let image = UIImageJPEGRepresentation(tempImage!, 0.2)
-//
-//        let path = try! FileManager.default.url(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask, appropriateFor: nil, create: false)
-//        let imageName = UUID().uuidString + ".jpeg"
-//        let imageName2 = UUID().uuidString
-//
-//        let aPath = path.path
-//
-//        let imagePath = (aPath as NSString).appendingPathComponent(imageName)
-//        try? image?.write(to: URL(fileURLWithPath: aPath), options: .atomic)
-//
-//        filepathcomplete = aPath+"/"+imageName2
-//        print("---------- THIS IS PATH: ",filepathcomplete,"----------")
-
-//        print("Latitude is: \(sendLat)")
-//        print("Longitude is: \(sendLng)")
-//        print("Tile the image is: \(sendTileImages)")
-        
-//        print("The classifier is is: \(sendClassifierId)")
-        
-        //sendToJoost()
-
-        //Encode image for userDefaults
-//        imageData = UIImageJPEGRepresentation(pickedImage, 1) ?? nil
-        //imageData = UIImageJPEGRepresentation(pickedImage, 1) as NSData
-        
         imageData = UIImagePNGRepresentation(pickedImage)! as NSData
         base64StringImage = imageData?.base64EncodedString() ?? "" // Your String Image
-        //print("Image is: \(imageData)")
-        //TEST
-
-//            let request: URLRequest
-//
-//            do {
-//                request = try createRequest(userid: "userid", password: "password", email: "email")
-//            } catch {
-//                print(error)
-//                return
-//            }
-//            let task = URLSession.shared.dataTask(with: request) { data, response, error in
-//                guard error == nil else {
-//                    // handle error here
-//                    print(error!)
-//                    return
-//                }
-//                print(response)
-//                // if response was JSON, then parse it
-//                do {
-//                    let responseDictionary = try JSONSerialization.jsonObject(with: data!)
-//                    print("success == \(responseDictionary)")
-//
-//                    // note, if you want to update the UI, make sure to dispatch that to the main queue, e.g.:
-//                    //
-//                    // DispatchQueue.main.async {
-//                    //     // update your UI and model objects here
-//                    // }
-//                } catch {
-//                    print(error)
-//
-//                    let responseString = String(data: data!, encoding: .utf8)
-//                    print("responseString = \(responseString)")
-//                }
-//            }
-//            task.resume()
         
         //Save image userDefaults
         UserDefaults.standard.set(imageData, forKey: "savedImage")
@@ -503,116 +442,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     //------------------------------- Send data to imagerecognition --------------------------------------
     
     //------------------------------ ------------------------------ -------------------------------
-
-//    func sendToJoost() {
-//
-//        let parameters = ["classifier_id" : sendClassifierId, "tile_images" : "true", "lat" : sendLat, "lng" : sendLng, "files[]" : imageData ] as [String : Any]
-//
-//        guard let url = URL(string: "https://blighttoaster.eu-gb.mybluemix.net/api/analyze_images") else { return }
-//
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "POST"
-//        request.addValue("application/json", forHTTPHeaderField: "multipart/form-data")
-//
-//        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else { return }
-//        request.httpBody = httpBody
-//
-//        let session = URLSession.shared
-//        session.dataTask(with: request) { (data, response, error) in
-//            if let response = response {
-//                print("----- respons for sening ------: ", response)
-//            }
-//            if let data = data {
-//
-//                do {
-//                    let json = try JSONSerialization.jsonObject(with: data, options: [])
-//
-//                } catch {
-//                    print("********** Error for sending ***********: ",error)
-//                }
-//            }
-//        }.resume()
-//    }
-
-    func createRequest(userid: String, password: String, email: String) throws -> URLRequest {
-        let parameters = [
-            "user_id"  : userid,
-            "email"    : email,
-            "password" : password]  // build your dictionary however appropriate
-        
-        let boundary = generateBoundaryString()
-        
-        let url = URL(string: "https://blighttoaster.eu-gb.mybluemix.net/api/analyze_images")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        print("filepathcomplete :", filepathcomplete)
-        print("Parameters: ",parameters)
-        print("boundary :", boundary)
-        print("request : ",request)
-        
-        //let path1 = Bundle.main.path(forResource: filepathcomplete, ofType: "jpeg")!
-//        var content : String = ""
-//        let path = Bundle.main.path(forResource: filepathcomplete, ofType: "jpeg")!
-//        do {
-//            content = try String(contentsOfFile:path, encoding: String.Encoding.utf8)
-//            print("content :",content)
-//        } catch {
-//            print("nil")
-//        }
-        
-        //print("path1 :", path1)
-        
-        request.httpBody = try createBody(with: parameters, filePathKey: "files[]", paths: [filepathcomplete], boundary: boundary)
-
-        return request
-        
-    }
     
-    private func createBody(with parameters: [String: String]?, filePathKey: String, paths: [String], boundary: String) throws -> Data {
-        var body = Data()
-        
-        if parameters != nil {
-            for (key, value) in parameters! {
-                body.append("--\(boundary)\r\n")
-                body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
-                body.append("\(value)\r\n")
-            }
-        }
-        
-        for path in paths {
-            let url = URL(fileURLWithPath: path)
-            let filename = url.lastPathComponent
-            let data = try Data(contentsOf: url)
-            let mimetype = mimeType(for: path)
-            print("THIS IS MIMETYPE: ", mimetype)
-            
-            body.append("--\(boundary)\r\n")
-            body.append("Content-Disposition: form-data; name=\"\(filePathKey)\"; filename=\"\(filename)\"\r\n")
-            body.append("Content-Type: \(mimetype)\r\n\r\n")
-            body.append(data)
-            body.append("\r\n")
-        }
-        
-        body.append("--\(boundary)--\r\n")
-        return body
-    }
-    
-    private func generateBoundaryString() -> String {
-        return "Boundary-\(UUID().uuidString)"
-    }
-    
-    private func mimeType(for path: String) -> String {
-        let url = URL(fileURLWithPath: path)
-        let pathExtension = url.pathExtension
-
-        if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue() {
-            if let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
-                return mimetype as String
-            }
-        }
-        return "application/octet-stream"
-    }
+    // SOOOOOOON
     
     //------------------------------ ------------------------------ -------------------------------
     
@@ -685,9 +516,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
 }
 
-
-
-
 extension Data {
     
     /// Append string to Data
@@ -704,6 +532,12 @@ extension Data {
 }
 
 extension UIView {
+    
+    func BadgeView() {
+        self.layoutIfNeeded()
+        layer.cornerRadius = self.frame.height / 2.0
+        layer.masksToBounds = true
+    }
     // OUTPUT 1
     func dropShadow(scale: Bool = true) {
         layer.masksToBounds = false

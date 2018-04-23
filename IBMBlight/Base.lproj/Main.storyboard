@@ -255,12 +255,18 @@
                                             <constraint firstAttribute="bottom" secondItem="cft-Eg-Ysw" secondAttribute="bottom" constant="15" id="yCj-tI-V9b"/>
                                             <constraint firstItem="mlB-O9-MFK" firstAttribute="width" secondItem="QHM-pl-Uvx" secondAttribute="width" multiplier="0.25" id="zBa-mR-3fz"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="5"/>
+                                        </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LQY-on-yqx" userLabel="alertView">
                                         <rect key="frame" x="25" y="1085" width="718" height="250"/>
                                         <subviews>
                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gCX-tu-x6k">
                                                 <rect key="frame" x="0.0" y="0.0" width="718" height="250"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="5"/>
+                                                </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <segue destination="5jG-xa-MNo" kind="embed" id="sNz-ph-b41"/>
                                                 </connections>
@@ -304,6 +310,9 @@
                                         <subviews>
                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t0X-XX-rvH">
                                                 <rect key="frame" x="0.0" y="0.0" width="718" height="250"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="5"/>
+                                                </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <segue destination="DEY-op-gkX" kind="embed" id="6cb-sy-l8a"/>
                                                 </connections>
@@ -647,7 +656,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tCF-gB-6tS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="746.875" y="69.7265625"/>
+            <point key="canvasLocation" x="917" y="70"/>
         </scene>
         <!--Alert View Controller-->
         <scene sceneID="vtC-Nt-9DC">
@@ -731,7 +740,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b7u-di-eiH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="746.875" y="-129.4921875"/>
+            <point key="canvasLocation" x="905" y="-236"/>
         </scene>
         <!--Top Weather DataVC-->
         <scene sceneID="Ykg-ZM-i9D">
@@ -899,7 +908,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2bk-dC-92o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="765.625" y="-786.328125"/>
+            <point key="canvasLocation" x="820" y="-806"/>
         </scene>
     </scenes>
     <resources>
