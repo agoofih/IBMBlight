@@ -58,12 +58,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var CRVprobabilityDegreeValue: UILabel! //
     @IBOutlet weak var CRVstageHeader: UILabel! //
     @IBOutlet weak var CRVstageValue: UILabel! //
+    @IBOutlet weak var CRVblightScore: UILabel!
     @IBOutlet weak var CRVsendResult: UIButton! //
     @IBOutlet weak var CRVcloseBtn: UIButton!
     @IBOutlet weak var imageResultView: UIImageView!
     @IBOutlet weak var imageResultViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageResultViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var CRVSendView: UIView!
+    @IBOutlet weak var newsViewWrapper: UIView!
+    @IBOutlet weak var cameraResultViewWrapper: UIView!
+    @IBOutlet weak var CRVanalyzeButton: UIButton!
     
     
     //Alert view wrapper
@@ -131,6 +135,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var dataUsageAlertTitle = ""
     var dataUsageAlertText = ""
     
+    var scoreCalc : Double = 0.0
+    
     
     
     //------------------------------ ------------------------------ -------------------------------
@@ -160,6 +166,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         moveMap()
         getCurrentDateTime()
         
+        //CRVblightScore.text = "98"
+        
     }
     
     //Changes the top statusbar to white
@@ -185,14 +193,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             let savedImage = UserDefaults.standard.object(forKey: "savedImage") as! NSData
             imageResultView.image = UIImage(data: savedImage as Data)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-                self.cameraResultView.dropShadow()
+//                self.cameraResultView.dropShadow()
+                self.cameraResultView.BadgeView()
             }
         }
         
+        
+        
         mainMapView.dropShadow()
-        alertView.dropShadow()
-        newsView.dropShadow()
-
+//        alertView.dropShadow()
+//        newsView.dropShadow()
+        
+        alertView.BadgeView()
+        newsViewWrapper.BadgeView()
+        CRVanalyzeButton.BadgeView()
+        
         myPintemp()
         
         if Reachability.isConnectedToNetwork(){
@@ -428,6 +443,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                     print("Succesfully uploaded")
                     if let err = response.error{
                         onError?(err)
+                        UIViewController.removeSpinner(spinner: sv)
                         self.dataUsageAlertTitle = "No response from the server"
                         self.dataUsageAlertText = "There was no response from the server, please check your internet connection and try again, if the problem persists, contact the IT wizards"
                         self.dataUsageError()
@@ -453,6 +469,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                                 highResultScore = response.blightscore
                                 highResultCoords = response.coords
                                 highResultUrl = "https://blighttoaster.eu-gb.mybluemix.net\(response.url)"
+                                self.scoreCalc = highResultScore * 100
+                                
+//                                if #available(iOS 11.0, *) {
+//                                    let color: UIColor = UIColor(named: "MartianRed")!
+//                                    self.view.backgroundColor = color
+//                                }
+                                
+                                if self.scoreCalc <= 30.0 {
+                                    self.CRVblightScore.textColor = UIColor(named: "darkGreen")
+                                } else if self.scoreCalc > 30.0 && self.scoreCalc < 60.0 {
+                                    self.CRVblightScore.textColor = UIColor(named: "darkYellow")
+                                } else {
+                                    self.CRVblightScore.textColor = UIColor(named: "darkRed")
+                                }
+                                self.CRVblightScore.text = "\(self.scoreCalc) %"
                             }
                         }
                         
@@ -476,7 +507,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 self.dataUsageAlertTitle = "Problem with upload"
                 self.dataUsageAlertText = "There was no response from the server, please check your internet connection and try again, if the problem persists, contact the IT wizards"
                 self.dataUsageError()
-                
             }
         }
     }
@@ -549,7 +579,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         mailComposerVC.setToRecipients(["\(recipientValueMail)"])
         mailComposerVC.setSubject("Result of analysis: \(todaysDate)")
-        mailComposerVC.setMessageBody("<h2 style='color:#3271BB'>Hi</h2><h4>Here is the \(CRVheader.text!) from \(todaysDate)</h4><p>\(CRVsuggestedInfectionHeader.text!)</p><h6>\(CRVsuggestedInfectionTypeValue.text!)</h6></br><p>\(CRVprababilityHeader.text!)</p><h6>\(CRVsuggestedInfectionTypeValue.text!)</h6><p>\(CRVstageHeader.text!)</p><h6>\(CRVstageValue.text!)</h6></br><p>The picture that got this result is down below</p><p>Please get back to me, Best regards </br> \(mailImage)", isHTML: true)
+        //mailComposerVC.setMessageBody("<h2 style='color:#3271BB'>Hi</h2><h4>Here is the \(CRVheader.text!) from \(todaysDate)</h4><p>\(CRVsuggestedInfectionHeader.text!)</p><h6>\(CRVsuggestedInfectionTypeValue.text!)</h6></br><p>\(CRVprababilityHeader.text!)</p><h6>\(CRVsuggestedInfectionTypeValue.text!)</h6><p>\(CRVstageHeader.text!)</p><h6>\(CRVstageValue.text!)</h6></br><p>The picture that got this result is down below</p><p>Please get back to me, Best regards </br> \(mailImage)", isHTML: true)
+
+        mailComposerVC.setMessageBody("<h2 style='color:#3271BB'>Hi</h2><h5>Here is the blightscore from \(todaysDate)</h5></br><p>This image got an score of:</p><h3>\(CRVblightScore.text!) %</h3></br><p>The picture that got this result is down below</p><p>Please get back to me, Best regards </br> \(mailImage)", isHTML: true)
 
         return mailComposerVC
     }
@@ -684,16 +716,20 @@ extension Data {
 }
 
 extension UIView {
-//    func BadgeView() {
-//        self.layoutIfNeeded()
-//        layer.cornerRadius = self.frame.height / 2.0
-//        layer.masksToBounds = true
-//    }
+    func BadgeView() {
+        layer.cornerRadius = 5.0
+        layer.masksToBounds = true
+        self.layoutIfNeeded()
+    }
+}
+
+extension UIView {
+    
     func dropShadow(scale: Bool = true) {
         layer.masksToBounds = false
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOpacity = 0.2
-        layer.shadowOffset = CGSize(width: 3, height: 3)
+        layer.shadowOffset = CGSize(width: 0, height: 13)
         layer.shadowRadius = 5
         
         layer.shadowPath = UIBezierPath(rect: bounds).cgPath
