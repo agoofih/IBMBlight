@@ -12,6 +12,17 @@ import Photos
 import MapKit
 import MessageUI
 import MobileCoreServices
+import Alamofire
+
+struct TopResponse : Decodable {
+    let files : [Response]
+}
+
+struct Response : Decodable {
+    let blightscore : Double
+    let coords : [Double]
+    let url : String
+}
 
 struct getID : Decodable {
     let classifier_id : String
@@ -19,11 +30,15 @@ struct getID : Decodable {
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, MFMailComposeViewControllerDelegate, MKMapViewDelegate {
     
+    
+    
     //------------------------------ ------------------------------ -------------------------------
     
     //------------------------------ Outlets and standard variables -------------------------------
     
     //------------------------------ ------------------------------ -------------------------------
+    
+    
     
     //Loadingscreen
     @IBOutlet weak var preScreen: UIView!
@@ -48,6 +63,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var imageResultView: UIImageView!
     @IBOutlet weak var imageResultViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageResultViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var CRVSendView: UIView!
     
     
     //Alert view wrapper
@@ -93,6 +109,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var todaysDate : String = ""
     
     var sendResultAlert = UIAlertController()
+    var dataUsageAlert = UIAlertController()
     
     var alertsBool = false
     var newsBool = false
@@ -108,6 +125,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var base64StringImage : String = "awdad"
     
     var filepathcomplete : String = ""
+    
+    var urlSend : String = ""
+    
+    var dataUsageAlertTitle = ""
+    var dataUsageAlertText = ""
+    
+    
     
     //------------------------------ ------------------------------ -------------------------------
     
@@ -155,7 +179,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }else{
             cameraResultView.dropShadowRemove()
             cameraResultView.isHidden = false
-            imageResultViewHeightConstraint.constant = 300
+            imageResultViewHeightConstraint.constant = 350
             imageResultViewTopConstraint.constant = 25
             
             let savedImage = UserDefaults.standard.object(forKey: "savedImage") as! NSData
@@ -308,7 +332,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         cameraResultView.isHidden = false
         
         cameraResultView.dropShadowRemove()
-        imageResultViewHeightConstraint.constant = 300
+        imageResultViewHeightConstraint.constant = 350
         imageResultViewTopConstraint.constant = 25
         let pickedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         
@@ -328,9 +352,145 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
             self.cameraResultView.dropShadow()
         }
-        
+        self.CRVSendView.isHidden = false
         self.dismiss(animated: true, completion: nil)
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //------------------------------ ------------------------------ -------------------------------
+    
+    //------------------------------ Analyze View -------------------------------
+    
+    //------------------------------ ------------------------------ -------------------------------
+    
+    
+    
+    @IBAction func analyzeClick(_ sender: UIButton) {
+        print("SEND")
+        if imageResultView.image != nil {
+            let img = imageResultView.image
+            let data = UIImageJPEGRepresentation(img!, 1.0)
+            
+            let para = ["tile_images" : "true", "classifier_id" : sendClassifierId]
+            
+            sendDataFunc(endUrl: urlSend, imageData: data, parameters: para)
+        } else {
+            self.dataUsageAlertTitle = "Could not send the image to the sky"
+            self.dataUsageAlertText = "There was a problem with sending the image, check your internet connection and restar the application. If the problem persists, contact the IT wizards"
+            self.dataUsageError()
+        }
+    }
+    
+
+    
+    //------------------------------ ------------------------------ -------------------------------
+    
+    //------------------------------ Alamofire Send and recive data -------------------------------
+    
+    //------------------------------ ------------------------------ -------------------------------
+    
+    
+    
+    
+    
+    func sendDataFunc(endUrl: String, imageData: Data?, parameters: [String : Any], onError: ((Error?) -> Void)? = nil){
+        let sv = UIViewController.displaySpinner(onView: self.view)
+        urlSend = "https://blighttoaster.eu-gb.mybluemix.net/api/analyze_images" /* your API url */
+        let headers: HTTPHeaders = [
+            /* "Authorization": "your_access_token",  in case you need authorization header */
+            "Content-type": "multipart/form-data"
+        ]
+        Alamofire.upload(multipartFormData: { (multipartFormData) in
+            
+            Alamofire.SessionManager.default.session.configuration.timeoutIntervalForRequest = 300
+            
+            for (key, value) in parameters {
+                multipartFormData.append("\(value)".data(using: String.Encoding.utf8)!, withName: key as String)
+            }
+            
+            if let data = imageData{
+                multipartFormData.append(data, withName: "files[]", fileName: "image.jpeg", mimeType: "image/jpeg")
+                
+            }
+            
+        }, usingThreshold: UInt64.init(), to: urlSend, method: .post, headers: headers) { (result) in
+            switch result{
+            case .success(let upload, _, _):
+                upload.responseJSON { response in
+                    print("Succesfully uploaded")
+                    if let err = response.error{
+                        onError?(err)
+                        self.dataUsageAlertTitle = "No response from the server"
+                        self.dataUsageAlertText = "There was no response from the server, please check your internet connection and try again, if the problem persists, contact the IT wizards"
+                        self.dataUsageError()
+                        return
+                    }
+                    var highResultScore = 0.0
+                    var highResultCoords = [Double]()
+                    var highResultUrl = ""
+                    
+                    //print("this is the response: ", response.description)
+                    
+                    //List below
+                    //var id : Int = 0
+                    do {
+                        let topResponse = try JSONDecoder().decode(TopResponse.self, from: response.data!)
+                   
+                        for response in topResponse.files {
+                            print("blightscore: ",response.blightscore)
+                            print("coords: ",response.coords)
+                            print("url: ",response.url, "\n")
+                            
+                            if response.blightscore > highResultScore {
+                                highResultScore = response.blightscore
+                                highResultCoords = response.coords
+                                highResultUrl = "https://blighttoaster.eu-gb.mybluemix.net\(response.url)"
+                            }
+                        }
+                        
+                        print("---- Highest blightscore is: \(highResultScore) and the coords is: \(highResultCoords) and the imageURL is: \(highResultUrl) ----")
+                        self.CRVSendView.isHidden = true
+                        UIViewController.removeSpinner(spinner: sv)
+                        
+                        
+                    } catch {
+                        print("ERROR .......")
+                        UIViewController.removeSpinner(spinner: sv)
+                        self.dataUsageAlertTitle = "Problem with data"
+                        self.dataUsageAlertText = "There was a problem with the retrival of data, restar the application and try again, if the problem persists, contact the IT wizards"
+                        self.dataUsageError()
+                    }
+                }
+            case .failure(let error):
+                print("Error in upload: \(error.localizedDescription)")
+                onError?(error)
+                UIViewController.removeSpinner(spinner: sv)
+                self.dataUsageAlertTitle = "Problem with upload"
+                self.dataUsageAlertText = "There was no response from the server, please check your internet connection and try again, if the problem persists, contact the IT wizards"
+                self.dataUsageError()
+                
+            }
+        }
+    }
+    
+    func dataUsageError() {
+        dataUsageAlert = UIAlertController(title: dataUsageAlertTitle, message: dataUsageAlertText, preferredStyle: .alert)
+        dataUsageAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        self.present(dataUsageAlert, animated: true, completion: nil)
+    }
+    
+    
+    
+    
+    
     
     //------------------------------ ------------------------------ -------------------------------
     
@@ -413,7 +573,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     //------------------------------ ------------------------------ -------------------------------
 
     func getClassifierID() {
-        
         guard let urlGet = URL(string: "https://blighttoaster.eu-gb.mybluemix.net/api/get_classifier_id") else { return }
         
         let session = URLSession.shared
@@ -436,14 +595,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
         }.resume()
     }
-    
-    //------------------------------ ------------------------------ -------------------------------
-    
-    //------------------------------- Send data to imagerecognition --------------------------------------
-    
-    //------------------------------ ------------------------------ -------------------------------
-    
-    // SOOOOOOON
+
     
     //------------------------------ ------------------------------ -------------------------------
     
@@ -532,13 +684,11 @@ extension Data {
 }
 
 extension UIView {
-    
-    func BadgeView() {
-        self.layoutIfNeeded()
-        layer.cornerRadius = self.frame.height / 2.0
-        layer.masksToBounds = true
-    }
-    // OUTPUT 1
+//    func BadgeView() {
+//        self.layoutIfNeeded()
+//        layer.cornerRadius = self.frame.height / 2.0
+//        layer.masksToBounds = true
+//    }
     func dropShadow(scale: Bool = true) {
         layer.masksToBounds = false
         layer.shadowColor = UIColor.black.cgColor
@@ -550,8 +700,6 @@ extension UIView {
         layer.shouldRasterize = true
         layer.rasterizationScale = scale ? UIScreen.main.scale : 1
     }
-    
-    // OUTPUT 2
     func dropShadow(color: UIColor, opacity: Float = 0.5, offSet: CGSize, radius: CGFloat = 1, scale: Bool = true) {
         layer.masksToBounds = false
         layer.shadowColor = color.cgColor
@@ -574,5 +722,29 @@ extension UIView {
         layer.shadowPath = UIBezierPath(rect: bounds).cgPath
         layer.shouldRasterize = true
         layer.rasterizationScale = scale ? UIScreen.main.scale : 1
+    }
+}
+
+extension UIViewController {
+    class func displaySpinner(onView : UIView) -> UIView {
+        let spinnerView = UIView.init(frame: onView.bounds)
+        //spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.6)
+        spinnerView.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.8)
+        let ai = UIActivityIndicatorView.init(activityIndicatorStyle: .whiteLarge)
+        ai.startAnimating()
+        ai.center = spinnerView.center
+        
+        DispatchQueue.main.async {
+            spinnerView.addSubview(ai)
+            onView.addSubview(spinnerView)
+        }
+        
+        return spinnerView
+    }
+    
+    class func removeSpinner(spinner :UIView) {
+        DispatchQueue.main.async {
+            spinner.removeFromSuperview()
+        }
     }
 }

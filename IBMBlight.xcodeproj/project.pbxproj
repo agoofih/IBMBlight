@@ -22,6 +22,7 @@
 		26D8E4A32073847F00B69962 /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A22073847F00B69962 /* NewsTableViewCell.swift */; };
 		26D8E4A520738C6000B69962 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A420738C6000B69962 /* AlertViewController.swift */; };
 		26D8E4A720738C6E00B69962 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A620738C6E00B69962 /* NewsViewController.swift */; };
+		6216B261ED18587A3E869E72 /* Pods_IBMBlight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2792179399FB634B495E4595 /* Pods_IBMBlight.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,9 @@
 		26D8E4A22073847F00B69962 /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
 		26D8E4A420738C6000B69962 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		26D8E4A620738C6E00B69962 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
+		2792179399FB634B495E4595 /* Pods_IBMBlight.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IBMBlight.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		632A87A4AB1CC3DD1C4A1A6C /* Pods-IBMBlight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IBMBlight.release.xcconfig"; path = "Pods/Target Support Files/Pods-IBMBlight/Pods-IBMBlight.release.xcconfig"; sourceTree = "<group>"; };
+		766D3DA15D7CF87276377E34 /* Pods-IBMBlight.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IBMBlight.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IBMBlight/Pods-IBMBlight.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,17 +53,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6216B261ED18587A3E869E72 /* Pods_IBMBlight.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04480E4B3535A8E48F86B9DD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2792179399FB634B495E4595 /* Pods_IBMBlight.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		263D302A2063E533005BFE8F = {
 			isa = PBXGroup;
 			children = (
 				263D30352063E533005BFE8F /* IBMBlight */,
 				263D30342063E533005BFE8F /* Products */,
+				61BD0A236AAC376B1FD67AD6 /* Pods */,
+				04480E4B3535A8E48F86B9DD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -94,6 +109,15 @@
 			path = IBMBlight;
 			sourceTree = "<group>";
 		};
+		61BD0A236AAC376B1FD67AD6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				766D3DA15D7CF87276377E34 /* Pods-IBMBlight.debug.xcconfig */,
+				632A87A4AB1CC3DD1C4A1A6C /* Pods-IBMBlight.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -101,9 +125,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 263D30452063E534005BFE8F /* Build configuration list for PBXNativeTarget "IBMBlight" */;
 			buildPhases = (
+				0D2E8A7D49A5050B7DAB9C29 /* [CP] Check Pods Manifest.lock */,
 				263D302F2063E533005BFE8F /* Sources */,
 				263D30302063E533005BFE8F /* Frameworks */,
 				263D30312063E533005BFE8F /* Resources */,
+				72FC05015493547DCE457882 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -162,6 +188,45 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0D2E8A7D49A5050B7DAB9C29 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-IBMBlight-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		72FC05015493547DCE457882 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-IBMBlight/Pods-IBMBlight-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IBMBlight/Pods-IBMBlight-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		263D302F2063E533005BFE8F /* Sources */ = {
@@ -312,6 +377,7 @@
 		};
 		263D30462063E534005BFE8F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 766D3DA15D7CF87276377E34 /* Pods-IBMBlight.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -328,6 +394,7 @@
 		};
 		263D30472063E534005BFE8F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 632A87A4AB1CC3DD1C4A1A6C /* Pods-IBMBlight.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
