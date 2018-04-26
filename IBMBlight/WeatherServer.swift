@@ -42,7 +42,7 @@ struct WeatherServer {
         
         
         let url = basePath + "lat=\(location.latitude)&lng=\(location.longitude)"
-        print(url)
+//        print(url)
         
         let request = URLRequest(url: URL(string: url)!)
         

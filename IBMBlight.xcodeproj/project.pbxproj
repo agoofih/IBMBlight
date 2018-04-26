@@ -19,6 +19,9 @@
 		264DDC832080E75200493734 /* image1.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 264DDC822080E75200493734 /* image1.jpeg */; };
 		269437F0207CD55400728DEA /* TopWeatherDataVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269437EF207CD55400728DEA /* TopWeatherDataVC.swift */; };
 		269BF574207E1C62008DED4C /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269BF573207E1C62008DED4C /* Reachability.swift */; };
+		26ABC2562091C9A500A2AC39 /* noBlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 26ABC2532091C9A400A2AC39 /* noBlight.png */; };
+		26ABC2572091C9A500A2AC39 /* warningBlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 26ABC2542091C9A400A2AC39 /* warningBlight.png */; };
+		26ABC2582091C9A500A2AC39 /* blight.png in Resources */ = {isa = PBXBuildFile; fileRef = 26ABC2552091C9A500A2AC39 /* blight.png */; };
 		26D8E4A12073740900B69962 /* AlertTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A02073740900B69962 /* AlertTableViewCell.swift */; };
 		26D8E4A32073847F00B69962 /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A22073847F00B69962 /* NewsTableViewCell.swift */; };
 		26D8E4A520738C6000B69962 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A420738C6000B69962 /* AlertViewController.swift */; };
@@ -41,6 +44,9 @@
 		264DDC822080E75200493734 /* image1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image1.jpeg; sourceTree = "<group>"; };
 		269437EF207CD55400728DEA /* TopWeatherDataVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopWeatherDataVC.swift; sourceTree = "<group>"; };
 		269BF573207E1C62008DED4C /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		26ABC2532091C9A400A2AC39 /* noBlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noBlight.png; sourceTree = "<group>"; };
+		26ABC2542091C9A400A2AC39 /* warningBlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warningBlight.png; sourceTree = "<group>"; };
+		26ABC2552091C9A500A2AC39 /* blight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blight.png; sourceTree = "<group>"; };
 		26D8E4A02073740900B69962 /* AlertTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTableViewCell.swift; sourceTree = "<group>"; };
 		26D8E4A22073847F00B69962 /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
 		26D8E4A420738C6000B69962 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
@@ -108,6 +114,9 @@
 				263D30422063E534005BFE8F /* Info.plist */,
 				2615652B207B5EB6000501AD /* fakeLocation.gpx */,
 				2615652D207B69AD000501AD /* OwnPin.swift */,
+				26ABC2552091C9A500A2AC39 /* blight.png */,
+				26ABC2532091C9A400A2AC39 /* noBlight.png */,
+				26ABC2542091C9A400A2AC39 /* warningBlight.png */,
 			);
 			path = IBMBlight;
 			sourceTree = "<group>";
@@ -185,8 +194,11 @@
 				263D30412063E534005BFE8F /* LaunchScreen.storyboard in Resources */,
 				2615652C207B5EB6000501AD /* fakeLocation.gpx in Resources */,
 				263D303E2063E534005BFE8F /* Assets.xcassets in Resources */,
+				26ABC2562091C9A500A2AC39 /* noBlight.png in Resources */,
+				26ABC2572091C9A500A2AC39 /* warningBlight.png in Resources */,
 				263C09EB208F589800551BF5 /* Colors.xcassets in Resources */,
 				264DDC832080E75200493734 /* image1.jpeg in Resources */,
+				26ABC2582091C9A500A2AC39 /* blight.png in Resources */,
 				263D303C2063E533005BFE8F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

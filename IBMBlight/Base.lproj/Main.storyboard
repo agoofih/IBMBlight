@@ -134,13 +134,16 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QHM-pl-Uvx" userLabel="cameraResultView">
                                         <rect key="frame" x="25" y="610" width="718" height="350"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EOT-Bc-687">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EOT-Bc-687">
                                                 <rect key="frame" x="0.0" y="0.0" width="359" height="350"/>
                                             </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cft-Eg-Ysw">
-                                                <rect key="frame" x="572" y="302" width="138" height="40"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="CRVsend Result"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cft-Eg-Ysw">
+                                                <rect key="frame" x="568" y="302" width="140" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="B6I-85-b5h"/>
+                                                    <constraint firstAttribute="width" constant="140" id="u9f-dB-aAo"/>
+                                                </constraints>
+                                                <state key="normal" title="Send result as email"/>
                                                 <connections>
                                                     <action selector="CRVsendResult:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hBa-nh-Srg"/>
                                                 </connections>
@@ -226,7 +229,7 @@
                                                             <constraint firstAttribute="height" constant="30" id="Lab-YG-xyL"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="25"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ceZ-nk-QSy">
@@ -255,10 +258,10 @@
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aLj-eX-quk">
-                                                <rect key="frame" x="668" y="10" width="40" height="40"/>
+                                                <rect key="frame" x="673" y="10" width="35" height="35"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="40" id="3Jp-Iy-vWH"/>
-                                                    <constraint firstAttribute="height" constant="40" id="6fi-of-bic"/>
+                                                    <constraint firstAttribute="width" constant="35" id="3Jp-Iy-vWH"/>
+                                                    <constraint firstAttribute="height" constant="35" id="6fi-of-bic"/>
                                                 </constraints>
                                                 <state key="normal" image="closeDark"/>
                                                 <connections>
@@ -269,7 +272,9 @@
                                         <color key="backgroundColor" red="1" green="0.99998790029999995" blue="0.9999920726" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="EOT-Bc-687" secondAttribute="bottom" id="08Z-aY-l0Y"/>
+                                            <constraint firstAttribute="trailing" secondItem="cft-Eg-Ysw" secondAttribute="trailing" constant="10" id="0lV-gx-cep"/>
                                             <constraint firstItem="UqD-6S-gta" firstAttribute="leading" secondItem="EOT-Bc-687" secondAttribute="trailing" id="0sI-Zd-tP2"/>
+                                            <constraint firstAttribute="bottom" secondItem="cft-Eg-Ysw" secondAttribute="bottom" constant="8" id="17t-qX-TLF"/>
                                             <constraint firstItem="Ude-KX-lh7" firstAttribute="leading" secondItem="EOT-Bc-687" secondAttribute="trailing" constant="15" id="1Ni-dW-SYp"/>
                                             <constraint firstItem="mlB-O9-MFK" firstAttribute="top" secondItem="Pz9-sl-xbT" secondAttribute="bottom" constant="35" id="3Zj-D8-mDk"/>
                                             <constraint firstItem="kxV-Fg-os5" firstAttribute="leading" secondItem="EOT-Bc-687" secondAttribute="trailing" id="3im-Ry-aaZ"/>
@@ -466,7 +471,7 @@
                                             <constraint firstItem="RTw-Qz-Fq4" firstAttribute="top" secondItem="r6K-sC-cV9" secondAttribute="top" id="qSr-aM-P9e"/>
                                         </constraints>
                                     </view>
-                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KeD-N9-eg7">
+                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KeD-N9-eg7" userLabel="topContainerView">
                                         <rect key="frame" x="0.0" y="85" width="768" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="OL1-xT-6Zu"/>
@@ -631,6 +636,7 @@
                         <outlet property="newsViewHeightConstraint" destination="eC0-YU-XMe" id="ogM-KS-W8r"/>
                         <outlet property="newsViewWrapper" destination="FcQ-SD-pHS" id="xfL-Kw-sce"/>
                         <outlet property="preScreen" destination="kWc-qN-Orb" id="0Pe-gQ-kAp"/>
+                        <outlet property="topWeatherContainerView" destination="KeD-N9-eg7" id="OUL-ep-yuh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

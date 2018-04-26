@@ -17,13 +17,11 @@ import Alamofire
 struct TopResponse : Decodable {
     let files : [Response]
 }
-
 struct Response : Decodable {
     let blightscore : Double
-    let coords : [Double]
+//    let coords : [Double]
     let url : String
 }
-
 struct getID : Decodable {
     let classifier_id : String
 }
@@ -69,6 +67,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var cameraResultViewWrapper: UIView!
     @IBOutlet weak var CRVanalyzeButton: UIButton!
     
+    @IBOutlet weak var topWeatherContainerView: UIView!
     
     //Alert view wrapper
     @IBOutlet weak var alertView: UIView!
@@ -111,19 +110,18 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var recipientValueMail : String = ""
     
     var todaysDate : String = ""
-    
-    var sendResultAlert = UIAlertController()
-    var dataUsageAlert = UIAlertController()
-    
+
     var alertsBool = false
     var newsBool = false
     
+    // variales used for sending Image for analyzation.
     var sendImage : UIImage = UIImage()
     var sendClassifierId : String = ""
     var sendTileImages : String = "true"
     var sendLat : String = ""
     var sendLng : String = ""
     
+    // turns the picked UIImage to NSData so it can be stored in userDefault and sent for analyzation.
     var imageData : NSData? = nil
     
     var base64StringImage : String = "awdad"
@@ -132,10 +130,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     var urlSend : String = ""
     
+    var sendResultAlert = UIAlertController()
+    var dataUsageAlert = UIAlertController()
+    
+    // changes depending on the alert
     var dataUsageAlertTitle = ""
     var dataUsageAlertText = ""
     
+    // calculator for % in blightscoore
     var scoreCalc : Double = 0.0
+    
+    // coords we get from response after picture is analyzed
+    var reciveLat : Double = 0.0
+    var reciveLng : Double = 0.0
+    
+    //Test pin
     
     
     
@@ -145,15 +154,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     //------------------------------ ------------------------------ -------------------------------
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib
         
         imageResultViewHeightConstraint.constant = 0
         imageResultViewTopConstraint.constant = 0
-        
-        //news fix
-        //imageResultView.isHidden = true
         cameraResultView.isHidden = true
         locationManager = CLLocationManager()
         
@@ -163,10 +170,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
         }
+        mainMapView.delegate = self
         moveMap()
         getCurrentDateTime()
         
-        //CRVblightScore.text = "98"
+        
         
     }
     
@@ -182,7 +190,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }, completion: nil)
         })
         
-        //Preload last taken image and show it
+        //Preload last choosen image and show it
         if UserDefaults.standard.value(forKey: "savedImage") == nil {
         }else{
             cameraResultView.dropShadowRemove()
@@ -193,16 +201,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             let savedImage = UserDefaults.standard.object(forKey: "savedImage") as! NSData
             imageResultView.image = UIImage(data: savedImage as Data)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-//                self.cameraResultView.dropShadow()
                 self.cameraResultView.BadgeView()
             }
         }
         
-        
-        
+        topWeatherContainerView.dropShadow()
         mainMapView.dropShadow()
-//        alertView.dropShadow()
-//        newsView.dropShadow()
         
         alertView.BadgeView()
         newsViewWrapper.BadgeView()
@@ -274,8 +278,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         mainMapView.setRegion(coordinateRegion, animated: true)
     }
     
-    func mapView(_ mapView: MKMapView,
-                 viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if let annotation = annotation as? OwnPin {
             let identifier = "pin"
             var view: MKPinAnnotationView
@@ -289,16 +292,23 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 view.canShowCallout = true
                 view.calloutOffset = CGPoint(x: -5, y: 5)
                 view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure) as UIView
+
             }
             if annotation.blight == true {
-                view.pinTintColor = MKPinAnnotationView.redPinColor()
+                //view.pinTintColor = MKPinAnnotationView.redPinColor()
+                view.image = UIImage(named: "blight.png")
             } else {
-                view.pinTintColor = MKPinAnnotationView.greenPinColor()
+                //view.pinTintColor = MKPinAnnotationView.greenPinColor()
+                view.image = UIImage(named: "noBlight.png")
             }
             return view
         }
         return nil
     }
+    
+//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+//        let annotationView = MKAnnotationView(annotation: myPin, reuseIdentifier: <#T##String?#>)
+//    }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         //print("calloutAccessoryControlTapped")
@@ -309,6 +319,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         
     }
+
+    
+    
     //------------------------------ ------------------------------ -------------------------------
     
     //------------------------------ Weather -----------------------------
@@ -324,6 +337,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     //------------------------------ Camera -------------------------------
     
     //------------------------------ ------------------------------ -------------------------------
+    
+    
 
     @IBAction func getFromCamera(_ sender: UIButton) {
         let imagePicker = UIImagePickerController()
@@ -372,14 +387,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     
-    
-    
-    
-    
-    
-    
-    
-    
     //------------------------------ ------------------------------ -------------------------------
     
     //------------------------------ Analyze View -------------------------------
@@ -411,7 +418,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     //------------------------------ Alamofire Send and recive data -------------------------------
     
     //------------------------------ ------------------------------ -------------------------------
-    
     
     
     
@@ -450,26 +456,31 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                         return
                     }
                     var highResultScore = 0.0
-                    var highResultCoords = [Double]()
+//                    var highResultCoords = [Double]()
                     var highResultUrl = ""
                     
                     //print("this is the response: ", response.description)
-                    
-                    //List below
-                    //var id : Int = 0
+
                     do {
                         let topResponse = try JSONDecoder().decode(TopResponse.self, from: response.data!)
                    
                         for response in topResponse.files {
-                            print("blightscore: ",response.blightscore)
-                            print("coords: ",response.coords)
-                            print("url: ",response.url, "\n")
-                            
+                            //print("blightscore: ",response.blightscore)
+                            //print("coords: ",response.coords)
+                            //print("url: ",response.url, "\n")
                             if response.blightscore > highResultScore {
                                 highResultScore = response.blightscore
-                                highResultCoords = response.coords
+//                                highResultCoords = response.coords
+//                                self.reciveLat = highResultCoords[0]
+//                                self.reciveLng = highResultCoords[1]
                                 highResultUrl = "https://blighttoaster.eu-gb.mybluemix.net\(response.url)"
                                 self.scoreCalc = highResultScore * 100
+                                
+                                //print("Lat is: ", self.reciveLat)
+                                //print("Lng is: ", self.reciveLng)
+                                //print(highResultUrl)
+                                
+                                self.imageResultView.downloadedFrom(link: highResultUrl)
                                 
 //                                if #available(iOS 11.0, *) {
 //                                    let color: UIColor = UIColor(named: "MartianRed")!
@@ -487,14 +498,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                             }
                         }
                         
-                        print("---- Highest blightscore is: \(highResultScore) and the coords is: \(highResultCoords) and the imageURL is: \(highResultUrl) ----")
+//                        print("---- Highest blightscore is: \(highResultScore) and the coords is: \(highResultCoords) and the imageURL is: \(highResultUrl) ----")
                         self.CRVSendView.isHidden = true
                         UIViewController.removeSpinner(spinner: sv)
                         
                         
                     } catch {
-                        print("ERROR .......")
+                        print("response.debugDescription ERROR: ", response.debugDescription)
                         UIViewController.removeSpinner(spinner: sv)
+                        
                         self.dataUsageAlertTitle = "Problem with data"
                         self.dataUsageAlertText = "There was a problem with the retrival of data, restar the application and try again, if the problem persists, contact the IT wizards"
                         self.dataUsageError()
@@ -518,10 +530,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     
-    
-    
-    
-    
     //------------------------------ ------------------------------ -------------------------------
     
     //------------------------------ Camera Result View -------------------------------
@@ -539,12 +547,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func CRVsendResult(_ sender: UIButton) {
-        sendResultAlert = UIAlertController(title: "Problem with mail", message: "this will open an email with the results, enter the recivers mailadress below", preferredStyle: .alert)
+        sendResultAlert = UIAlertController(title: "Send results to consult", message: "this will open an email with the results, enter the recivers mailadress below", preferredStyle: .alert)
         
         sendResultAlert.addTextField { (textField) in
             textField.text = ""
         }
-        sendResultAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        sendResultAlert.addAction(UIAlertAction(title: "Don't", style: .cancel, handler: nil))
         sendResultAlert.addAction(UIAlertAction(title: "Go", style: .default, handler: { [weak sendResultAlert] (_) in
             let textField = sendResultAlert!.textFields![0]
             if textField.text != "" {
@@ -581,7 +589,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         mailComposerVC.setSubject("Result of analysis: \(todaysDate)")
         //mailComposerVC.setMessageBody("<h2 style='color:#3271BB'>Hi</h2><h4>Here is the \(CRVheader.text!) from \(todaysDate)</h4><p>\(CRVsuggestedInfectionHeader.text!)</p><h6>\(CRVsuggestedInfectionTypeValue.text!)</h6></br><p>\(CRVprababilityHeader.text!)</p><h6>\(CRVsuggestedInfectionTypeValue.text!)</h6><p>\(CRVstageHeader.text!)</p><h6>\(CRVstageValue.text!)</h6></br><p>The picture that got this result is down below</p><p>Please get back to me, Best regards </br> \(mailImage)", isHTML: true)
 
-        mailComposerVC.setMessageBody("<h2 style='color:#3271BB'>Hi</h2><h5>Here is the blightscore from \(todaysDate)</h5></br><p>This image got an score of:</p><h3>\(CRVblightScore.text!) %</h3></br><p>The picture that got this result is down below</p><p>Please get back to me, Best regards </br> \(mailImage)", isHTML: true)
+        mailComposerVC.setMessageBody("<h2 style='color:#3271BB'>Hi</h2><h5>Here is the blightscore from \(todaysDate)</h5></br><p>This image got an score of:</p><h3>\(CRVblightScore.text!)</h3></br><p>The picture that got this result is down below</p><p>Please get back to me, Best regards </br> \(mailImage)", isHTML: true)
 
         return mailComposerVC
     }
@@ -598,11 +606,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         controller.dismiss(animated: true, completion: nil)
     }
     
+    
     //------------------------------ ------------------------------ -------------------------------
     
     // ------------------------------ Get data from Joost -----------------------------------------------
     
     //------------------------------ ------------------------------ -------------------------------
+    
+    
 
     func getClassifierID() {
         guard let urlGet = URL(string: "https://blighttoaster.eu-gb.mybluemix.net/api/get_classifier_id") else { return }
@@ -689,25 +700,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         todaysDate = formatter.string(from: Date())
-        //print(todaysDate)
     }
-    
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 }
 
 extension Data {
-    
     /// Append string to Data
-    ///
     /// Rather than littering my code with calls to `data(using: .utf8)` to convert `String` values to `Data`, this wraps it in a nice convenient little extension to Data. This defaults to converting using UTF-8.
-    ///
     /// - parameter string:       The string to be added to the `Data`.
-    
     mutating func append(_ string: String, using encoding: String.Encoding = .utf8) {
         if let data = string.data(using: encoding) {
             append(data)
@@ -782,5 +781,26 @@ extension UIViewController {
         DispatchQueue.main.async {
             spinner.removeFromSuperview()
         }
+    }
+}
+
+extension UIImageView {
+    func downloadedFrom(url: URL, contentMode mode: UIViewContentMode = .scaleAspectFit) {
+        contentMode = mode
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard
+                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                let data = data, error == nil,
+                let image = UIImage(data: data)
+                else { return }
+            DispatchQueue.main.async() {
+                self.image = image
+            }
+            }.resume()
+    }
+    func downloadedFrom(link: String, contentMode mode: UIViewContentMode = .scaleToFill) {
+        guard let url = URL(string: link) else { return }
+        downloadedFrom(url: url, contentMode: mode)
     }
 }
