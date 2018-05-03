@@ -471,6 +471,15 @@
                                             <constraint firstItem="RTw-Qz-Fq4" firstAttribute="top" secondItem="r6K-sC-cV9" secondAttribute="top" id="qSr-aM-P9e"/>
                                         </constraints>
                                     </view>
+                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3YD-T0-zfx" userLabel="mapContainerView">
+                                        <rect key="frame" x="0.0" y="85" width="768" height="500"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="500" id="drz-Qq-afc"/>
+                                        </constraints>
+                                        <connections>
+                                            <segue destination="0FP-eX-fz3" kind="embed" id="Dzs-z7-ozi"/>
+                                        </connections>
+                                    </containerView>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KeD-N9-eg7" userLabel="topContainerView">
                                         <rect key="frame" x="0.0" y="85" width="768" height="70"/>
                                         <constraints>
@@ -489,6 +498,7 @@
                                     <constraint firstAttribute="trailing" secondItem="KeD-N9-eg7" secondAttribute="trailing" id="AIE-MT-iXI"/>
                                     <constraint firstItem="pm4-5G-rL5" firstAttribute="leading" secondItem="q2D-Ie-XK5" secondAttribute="leading" constant="25" id="AQu-m6-yHK"/>
                                     <constraint firstItem="LQY-on-yqx" firstAttribute="leading" secondItem="q2D-Ie-XK5" secondAttribute="leading" constant="25" id="Eoc-OV-ck1"/>
+                                    <constraint firstItem="3YD-T0-zfx" firstAttribute="top" secondItem="bIV-ft-AQX" secondAttribute="bottom" id="G8v-Gb-ogQ"/>
                                     <constraint firstAttribute="trailing" secondItem="LQY-on-yqx" secondAttribute="trailing" constant="25" id="Gqt-9v-pub"/>
                                     <constraint firstItem="KeD-N9-eg7" firstAttribute="top" secondItem="bIV-ft-AQX" secondAttribute="bottom" id="Gzn-jS-cpD"/>
                                     <constraint firstItem="bIV-ft-AQX" firstAttribute="top" secondItem="q2D-Ie-XK5" secondAttribute="top" id="HL0-vN-kf5"/>
@@ -504,8 +514,10 @@
                                     <constraint firstItem="usn-rf-x7s" firstAttribute="top" secondItem="q2D-Ie-XK5" secondAttribute="top" id="dzD-Sz-6Jb"/>
                                     <constraint firstItem="r6K-sC-cV9" firstAttribute="leading" secondItem="q2D-Ie-XK5" secondAttribute="leading" constant="25" id="fGs-Um-d1M"/>
                                     <constraint firstItem="Fue-VW-sje" firstAttribute="leading" secondItem="q2D-Ie-XK5" secondAttribute="leading" id="g1p-g2-LVP"/>
+                                    <constraint firstItem="3YD-T0-zfx" firstAttribute="leading" secondItem="q2D-Ie-XK5" secondAttribute="leading" id="hfo-wP-UBD"/>
                                     <constraint firstItem="Fue-VW-sje" firstAttribute="top" secondItem="bIV-ft-AQX" secondAttribute="bottom" id="jmB-tu-I9m"/>
-                                    <constraint firstItem="QHM-pl-Uvx" firstAttribute="top" secondItem="Fue-VW-sje" secondAttribute="bottom" constant="25" id="leo-dP-I4H"/>
+                                    <constraint firstItem="QHM-pl-Uvx" firstAttribute="top" secondItem="3YD-T0-zfx" secondAttribute="bottom" constant="25" id="leo-dP-I4H"/>
+                                    <constraint firstAttribute="trailing" secondItem="3YD-T0-zfx" secondAttribute="trailing" id="mRV-MX-qbR"/>
                                     <constraint firstAttribute="bottom" secondItem="r6K-sC-cV9" secondAttribute="bottom" constant="20" id="mpf-Ax-loU"/>
                                     <constraint firstAttribute="trailing" secondItem="QHM-pl-Uvx" secondAttribute="trailing" constant="25" id="pjz-4p-LJI"/>
                                     <constraint firstItem="bIV-ft-AQX" firstAttribute="leading" secondItem="q2D-Ie-XK5" secondAttribute="leading" id="sD0-4c-bVX"/>
@@ -725,7 +737,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tCF-gB-6tS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="917" y="70"/>
+            <point key="canvasLocation" x="734" y="-32"/>
         </scene>
         <!--Alert View Controller-->
         <scene sceneID="vtC-Nt-9DC">
@@ -809,7 +821,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b7u-di-eiH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="905" y="-236"/>
+            <point key="canvasLocation" x="-577" y="-191"/>
         </scene>
         <!--Top Weather DataVC-->
         <scene sceneID="Ykg-ZM-i9D">
@@ -977,7 +989,35 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2bk-dC-92o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="820" y="-806"/>
+            <point key="canvasLocation" x="-596" y="-819"/>
+        </scene>
+        <!--Map View Controller-->
+        <scene sceneID="D2M-Q8-Jq5">
+            <objects>
+                <viewController id="0FP-eX-fz3" customClass="MapViewController" customModule="IBMBlight" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6bt-dI-t2b">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="500"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="4BF-kz-VEg">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="500"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="4BF-kz-VEg" secondAttribute="trailing" id="AQZ-fi-5Er"/>
+                            <constraint firstItem="4BF-kz-VEg" firstAttribute="leading" secondItem="6bt-dI-t2b" secondAttribute="leading" id="Unr-2J-6pq"/>
+                            <constraint firstItem="4BF-kz-VEg" firstAttribute="top" secondItem="6bt-dI-t2b" secondAttribute="top" id="Ww8-yi-eOK"/>
+                            <constraint firstAttribute="bottom" secondItem="4BF-kz-VEg" secondAttribute="bottom" id="sJd-zn-gwC"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mainMapView" destination="4BF-kz-VEg" id="C8Y-UZ-ZGB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xP1-Te-sVV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="754" y="-648"/>
         </scene>
     </scenes>
     <resources>

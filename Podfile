@@ -7,5 +7,6 @@ target 'IBMBlight' do
 
   # Pods for IBMBlight
 	pod 'Alamofire', '~> 4.7'
+	pod 'GEOSwift'
 
 end

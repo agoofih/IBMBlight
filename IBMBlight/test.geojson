@@ -1,0 +1,41 @@
+{
+    "features": [
+                 {
+                 "geometry": {
+                 "coordinates": [
+                                 -11.89,
+                                 -43.47
+                                 ],
+                 "type": "Point"
+                 },
+                 "properties": {
+                 "colour": "#df7000",
+                 "dates": [
+                           {
+                           "date": "2018-04-26",
+                           "max_blight": 0.76078,
+                           "mean_blight": 0.7332930476190476,
+                           "median_blight": 0.759174,
+                           "n": 21
+                           },
+                           {
+                           "date": "2018-04-27",
+                           "max_blight": 0.759174,
+                           "mean_blight": 0.759174,
+                           "median_blight": 0.759174,
+                           "n": 1
+                           },
+                           {
+                           "date": "2018-04-28",
+                           "max_blight": 0.759174,
+                           "mean_blight": 0.759174,
+                           "median_blight": 0.759174,
+                           "n": 1
+                           }
+                           ]
+                 },
+                 "type": "Feature"
+                 }
+                 ],
+    "type": "FeatureCollection"
+}

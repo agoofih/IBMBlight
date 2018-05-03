@@ -22,6 +22,8 @@
 		26ABC2562091C9A500A2AC39 /* noBlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 26ABC2532091C9A400A2AC39 /* noBlight.png */; };
 		26ABC2572091C9A500A2AC39 /* warningBlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 26ABC2542091C9A400A2AC39 /* warningBlight.png */; };
 		26ABC2582091C9A500A2AC39 /* blight.png in Resources */ = {isa = PBXBuildFile; fileRef = 26ABC2552091C9A500A2AC39 /* blight.png */; };
+		26ABC25A2091D1CC00A2AC39 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ABC2592091D1CC00A2AC39 /* MapViewController.swift */; };
+		26D2556E209B280E00400733 /* test.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 26D2556D209B280E00400733 /* test.geojson */; };
 		26D8E4A12073740900B69962 /* AlertTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A02073740900B69962 /* AlertTableViewCell.swift */; };
 		26D8E4A32073847F00B69962 /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A22073847F00B69962 /* NewsTableViewCell.swift */; };
 		26D8E4A520738C6000B69962 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A420738C6000B69962 /* AlertViewController.swift */; };
@@ -47,6 +49,8 @@
 		26ABC2532091C9A400A2AC39 /* noBlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noBlight.png; sourceTree = "<group>"; };
 		26ABC2542091C9A400A2AC39 /* warningBlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warningBlight.png; sourceTree = "<group>"; };
 		26ABC2552091C9A500A2AC39 /* blight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blight.png; sourceTree = "<group>"; };
+		26ABC2592091D1CC00A2AC39 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		26D2556D209B280E00400733 /* test.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = test.geojson; sourceTree = "<group>"; };
 		26D8E4A02073740900B69962 /* AlertTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTableViewCell.swift; sourceTree = "<group>"; };
 		26D8E4A22073847F00B69962 /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
 		26D8E4A420738C6000B69962 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
@@ -97,6 +101,8 @@
 		263D30352063E533005BFE8F /* IBMBlight */ = {
 			isa = PBXGroup;
 			children = (
+				26ABC2592091D1CC00A2AC39 /* MapViewController.swift */,
+				26D2556D209B280E00400733 /* test.geojson */,
 				264DDC822080E75200493734 /* image1.jpeg */,
 				263D30362063E533005BFE8F /* AppDelegate.swift */,
 				263D30382063E533005BFE8F /* ViewController.swift */,
@@ -198,6 +204,7 @@
 				26ABC2572091C9A500A2AC39 /* warningBlight.png in Resources */,
 				263C09EB208F589800551BF5 /* Colors.xcassets in Resources */,
 				264DDC832080E75200493734 /* image1.jpeg in Resources */,
+				26D2556E209B280E00400733 /* test.geojson in Resources */,
 				26ABC2582091C9A500A2AC39 /* blight.png in Resources */,
 				263D303C2063E533005BFE8F /* Main.storyboard in Resources */,
 			);
@@ -232,10 +239,14 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-IBMBlight/Pods-IBMBlight-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/GEOSwift/GEOSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/geos/geos.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GEOSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/geos.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -249,6 +260,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26ABC25A2091D1CC00A2AC39 /* MapViewController.swift in Sources */,
 				263D30392063E533005BFE8F /* ViewController.swift in Sources */,
 				262FF1982087328100FADA96 /* WeatherServer.swift in Sources */,
 				26D8E4A520738C6000B69962 /* AlertViewController.swift in Sources */,

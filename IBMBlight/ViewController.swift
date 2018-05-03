@@ -19,7 +19,7 @@ struct TopResponse : Decodable {
 }
 struct Response : Decodable {
     let blightscore : Double
-//    let coords : [Double]
+    let coords : [Double]
     let url : String
 }
 struct getID : Decodable {
@@ -85,8 +85,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var locationManager : CLLocationManager!
     
     //Base setup, GPS to IBM Malmö
-    var localtion_lat = 55.611868
-    var location_long = 12.977738
+    var location_lat = 55.611868
+    var location_lng = 12.977738
     
     //FakeLocation in CPX File
     //let initialLocation = CLLocation(latitude: 55.606118, longitude: 13.197447)
@@ -143,9 +143,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     // coords we get from response after picture is analyzed
     var reciveLat : Double = 0.0
     var reciveLng : Double = 0.0
-    
-    //Test pin
-    
     
     
     //------------------------------ ------------------------------ -------------------------------
@@ -233,14 +230,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         myPin.title = "Hej"
         myPin.subtitle = "Tjena"
         myPin.coordinate = CLLocationCoordinate2D(latitude: FF1_lat, longitude: FF1_long)
-        myPin.blight = true
+//        myPin.blight = true
         mainMapView.addAnnotation(myPin)
         
         let myPin2 = OwnPin()
         myPin2.title = "myPin2"
         myPin2.subtitle = "Wops"
         myPin2.coordinate = CLLocationCoordinate2D(latitude: FF2_lat, longitude: FF2_long)
-        myPin2.blight = false
+//        myPin2.blight = false
         mainMapView.addAnnotation(myPin2)
         
         mainMapView.isRotateEnabled = false
@@ -255,16 +252,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let userLocation:CLLocation = locations[0]
-        localtion_lat = userLocation.coordinate.latitude
-        location_long = userLocation.coordinate.longitude
+        location_lat = userLocation.coordinate.latitude
+        location_lng = userLocation.coordinate.longitude
         sendLat = "\(userLocation.coordinate.latitude)"
         sendLng = "\(userLocation.coordinate.longitude)"
         
         let myPinOwnPlace = OwnPin()
         myPinOwnPlace.title = "Hejsan popsan"
         myPinOwnPlace.subtitle = "subtitle"
-        myPinOwnPlace.coordinate = CLLocationCoordinate2D(latitude: localtion_lat, longitude: location_long)
-        myPinOwnPlace.blight = false
+        myPinOwnPlace.coordinate = CLLocationCoordinate2D(latitude: location_lat, longitude: location_lng)
+//        myPinOwnPlace.blight = false
         mainMapView.addAnnotation(myPinOwnPlace)
 
         //moveMap()
@@ -294,13 +291,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure) as UIView
 
             }
-            if annotation.blight == true {
-                //view.pinTintColor = MKPinAnnotationView.redPinColor()
-                view.image = UIImage(named: "blight.png")
-            } else {
-                //view.pinTintColor = MKPinAnnotationView.greenPinColor()
-                view.image = UIImage(named: "noBlight.png")
-            }
+//            if annotation.blight == true {
+//                //view.pinTintColor = MKPinAnnotationView.redPinColor()
+//                view.image = UIImage(named: "blight.png")
+//            } else {
+//                //view.pinTintColor = MKPinAnnotationView.greenPinColor()
+//                view.image = UIImage(named: "noBlight.png")
+//            }
             return view
         }
         return nil
@@ -401,7 +398,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             let img = imageResultView.image
             let data = UIImageJPEGRepresentation(img!, 1.0)
             
-            let para = ["tile_images" : "true", "classifier_id" : sendClassifierId]
+            print("**** - Classifierid: \(sendClassifierId), lat: \(location_lat), lng: \(location_lng)")
+            let para = ["tile_images" : "true", "classifier_id" : sendClassifierId, "lat" : location_lat, "lng" : location_lng] as [String : Any]
             
             sendDataFunc(endUrl: urlSend, imageData: data, parameters: para)
         } else {
@@ -456,7 +454,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                         return
                     }
                     var highResultScore = 0.0
-//                    var highResultCoords = [Double]()
+                    var highResultCoords = [Double]()
                     var highResultUrl = ""
                     
                     //print("this is the response: ", response.description)
@@ -465,12 +463,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                         let topResponse = try JSONDecoder().decode(TopResponse.self, from: response.data!)
                    
                         for response in topResponse.files {
-                            //print("blightscore: ",response.blightscore)
-                            //print("coords: ",response.coords)
-                            //print("url: ",response.url, "\n")
+                            print("blightscore: ",response.blightscore)
+                            print("coords: ",response.coords)
+                            print("url: ",response.url, "\n")
                             if response.blightscore > highResultScore {
                                 highResultScore = response.blightscore
-//                                highResultCoords = response.coords
+                                highResultCoords = response.coords
 //                                self.reciveLat = highResultCoords[0]
 //                                self.reciveLng = highResultCoords[1]
                                 highResultUrl = "https://blighttoaster.eu-gb.mybluemix.net\(response.url)"
@@ -498,7 +496,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                             }
                         }
                         
-//                        print("---- Highest blightscore is: \(highResultScore) and the coords is: \(highResultCoords) and the imageURL is: \(highResultUrl) ----")
+                        print("---- Highest blightscore is: \(highResultScore) and the coords is: \(highResultCoords) and the imageURL is: \(highResultUrl) ----")
                         self.CRVSendView.isHidden = true
                         UIViewController.removeSpinner(spinner: sv)
                         

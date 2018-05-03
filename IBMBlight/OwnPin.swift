@@ -13,5 +13,6 @@ class OwnPin: NSObject, MKAnnotation {
     var title: String?
     var subtitle: String?
     var coordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 55.611461, longitude: 12.9941182)
-    var blight : Bool = false
+//    var blight : Bool = false
+    var color : String = "#d3d3d3"
 }
