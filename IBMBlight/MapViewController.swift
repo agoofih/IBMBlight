@@ -36,6 +36,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var pinLng : Double = 0.0
     var pinColor : String = ""
     var pinCounter : Int = 0
+    var pinTitle : String = ""
+    var pinSubTitle : String = ""
     
     var ownPin = OwnPin()
 
@@ -71,6 +73,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             
             var counter : Int = 0
             var counter2 : Int = 0
+            var counter3 : Int = 0
+            var counter4 : Int = 0
             
             if let data = data {
                 DispatchQueue.main.async {
@@ -105,18 +109,28 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                                         
                                         if let dates = properties.value(forKey: "dates") as? NSArray {
                                             
-                                            print("****Detta är dates :", dates)
+                                            //print("****Detta är dates :", dates)
                                             
                                             if let date = dates.value(forKey: "date") as? NSArray {
                                                 
-                                                print("*--*Detta är date :", date)
-                                                
+                                                //print("*--*Detta är date :", date)
+                                                let abo = date[counter3] as! NSArray
+                                                let aboa = abo.count - 1
+//                                                print("abo :", abo)
+//                                                print("latest date :", abo[aboa])
+                                                self.pinSubTitle = "Latest update: \(abo[aboa])"
+                                                counter3 += 1
                                                 
                                             }
                                             if let maxBlight = dates.value(forKey: "max_blight") as? NSArray {
                                                 
-                                                print("----Detta är maxBlight :", maxBlight)
-                                                
+                                                //print("----Detta är maxBlight :", maxBlight)
+                                                let abo = maxBlight[counter4] as! NSArray
+                                                let aboa = abo.count - 1
+                                                //                                                print("abo :", abo)
+                                                //                                                print("latest date :", abo[aboa])
+                                                self.pinTitle = "\(abo[aboa])"
+                                                counter4 += 1
                                                 
                                             }
                                             
@@ -124,11 +138,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                                         
                                     }
                                     
-                                    print("Rullande: lat = \(self.pinLat), lng = \(self.pinLng), color = \(self.pinColor)")
+                                    //print("Rullande: lat = \(self.pinLat), lng = \(self.pinLng), color = \(self.pinColor)")
                                     
                                     self.ownPin = OwnPin()
-                                    self.ownPin.title = "Hej"
-                                    self.ownPin.subtitle = "Tjena"
+                                    self.ownPin.title = self.pinTitle
+                                    self.ownPin.subtitle = self.pinSubTitle
                                     self.ownPin.coordinate = CLLocationCoordinate2D(latitude: self.pinLat, longitude: self.pinLng)
 //                                    self.ownPin.blight = true
                                     self.ownPin.color = self.pinColor

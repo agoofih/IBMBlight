@@ -66,7 +66,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var newsViewWrapper: UIView!
     @IBOutlet weak var cameraResultViewWrapper: UIView!
     @IBOutlet weak var CRVanalyzeButton: UIButton!
-    
+    @IBOutlet weak var mapContainerView: UIView!
     @IBOutlet weak var topWeatherContainerView: UIView!
     
     //Alert view wrapper
@@ -168,11 +168,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             locationManager.startUpdatingLocation()
         }
         mainMapView.delegate = self
-        moveMap()
+//        moveMap()
         getCurrentDateTime()
-        
-        
-        
+
     }
     
     //Changes the top statusbar to white
@@ -203,19 +201,19 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         
         topWeatherContainerView.dropShadow()
-        mainMapView.dropShadow()
+//        mainMapView.dropShadow()
+        mapContainerView.dropShadow()
         
         alertView.BadgeView()
         newsViewWrapper.BadgeView()
         CRVanalyzeButton.BadgeView()
         
-        myPintemp()
+//        myPintemp()
         
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
         }else{
             let alert = UIAlertController(title: "No internet connection", message: "Please check your connection and then restart the application", preferredStyle: .alert)
-            
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             
             self.present(alert, animated: true)
@@ -225,24 +223,24 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     //Pin creation
     
-    func myPintemp() {
-        let myPin = OwnPin()
-        myPin.title = "Hej"
-        myPin.subtitle = "Tjena"
-        myPin.coordinate = CLLocationCoordinate2D(latitude: FF1_lat, longitude: FF1_long)
-//        myPin.blight = true
-        mainMapView.addAnnotation(myPin)
-        
-        let myPin2 = OwnPin()
-        myPin2.title = "myPin2"
-        myPin2.subtitle = "Wops"
-        myPin2.coordinate = CLLocationCoordinate2D(latitude: FF2_lat, longitude: FF2_long)
-//        myPin2.blight = false
-        mainMapView.addAnnotation(myPin2)
-        
-        mainMapView.isRotateEnabled = false
-        
-    }
+//    func myPintemp() {
+//        let myPin = OwnPin()
+//        myPin.title = "Hej"
+//        myPin.subtitle = "Tjena"
+//        myPin.coordinate = CLLocationCoordinate2D(latitude: FF1_lat, longitude: FF1_long)
+////        myPin.blight = true
+//        mainMapView.addAnnotation(myPin)
+//
+//        let myPin2 = OwnPin()
+//        myPin2.title = "myPin2"
+//        myPin2.subtitle = "Wops"
+//        myPin2.coordinate = CLLocationCoordinate2D(latitude: FF2_lat, longitude: FF2_long)
+////        myPin2.blight = false
+//        mainMapView.addAnnotation(myPin2)
+//
+//        mainMapView.isRotateEnabled = false
+//
+//    }
     
     //------------------------------ ------------------------------ -------------------------------
     
@@ -257,65 +255,65 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         sendLat = "\(userLocation.coordinate.latitude)"
         sendLng = "\(userLocation.coordinate.longitude)"
         
-        let myPinOwnPlace = OwnPin()
-        myPinOwnPlace.title = "Hejsan popsan"
-        myPinOwnPlace.subtitle = "subtitle"
-        myPinOwnPlace.coordinate = CLLocationCoordinate2D(latitude: location_lat, longitude: location_lng)
-//        myPinOwnPlace.blight = false
-        mainMapView.addAnnotation(myPinOwnPlace)
+//        let myPinOwnPlace = OwnPin()
+//        myPinOwnPlace.title = "Hejsan popsan"
+//        myPinOwnPlace.subtitle = "subtitle"
+//        myPinOwnPlace.coordinate = CLLocationCoordinate2D(latitude: location_lat, longitude: location_lng)
+////        myPinOwnPlace.blight = false
+//        mainMapView.addAnnotation(myPinOwnPlace)
 
         //moveMap()
     }
     
-    func moveMap() {
-        //let initialLocation = CLLocation(latitude: localtion_lat, longitude: location_long) //correct, replase to this when live
-        let initialLocation = CLLocation(latitude: 55.606118, longitude: 13.197447) // tempdata GPS
-        let regionRadius: CLLocationDistance = 2500
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate,regionRadius * 2.0, regionRadius * 2.0)
-        mainMapView.setRegion(coordinateRegion, animated: true)
-    }
+//    func moveMap() {
+//        //let initialLocation = CLLocation(latitude: localtion_lat, longitude: location_long) //correct, replase to this when live
+//        let initialLocation = CLLocation(latitude: 55.606118, longitude: 13.197447) // tempdata GPS
+//        let regionRadius: CLLocationDistance = 2500
+//        let coordinateRegion = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate,regionRadius * 2.0, regionRadius * 2.0)
+//        mainMapView.setRegion(coordinateRegion, animated: true)
+//    }
     
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if let annotation = annotation as? OwnPin {
-            let identifier = "pin"
-            var view: MKPinAnnotationView
-            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-                as? MKPinAnnotationView {
-                dequeuedView.annotation = annotation
-                view = dequeuedView
-            } else {
-                // 3
-                view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-                view.canShowCallout = true
-                view.calloutOffset = CGPoint(x: -5, y: 5)
-                view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure) as UIView
-
-            }
-//            if annotation.blight == true {
-//                //view.pinTintColor = MKPinAnnotationView.redPinColor()
-//                view.image = UIImage(named: "blight.png")
+//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+//        if let annotation = annotation as? OwnPin {
+//            let identifier = "pin"
+//            var view: MKPinAnnotationView
+//            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+//                as? MKPinAnnotationView {
+//                dequeuedView.annotation = annotation
+//                view = dequeuedView
 //            } else {
-//                //view.pinTintColor = MKPinAnnotationView.greenPinColor()
-//                view.image = UIImage(named: "noBlight.png")
+//                // 3
+//                view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+//                view.canShowCallout = true
+//                view.calloutOffset = CGPoint(x: -5, y: 5)
+//                view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure) as UIView
+//
 //            }
-            return view
-        }
-        return nil
-    }
+////            if annotation.blight == true {
+////                //view.pinTintColor = MKPinAnnotationView.redPinColor()
+////                view.image = UIImage(named: "blight.png")
+////            } else {
+////                //view.pinTintColor = MKPinAnnotationView.greenPinColor()
+////                view.image = UIImage(named: "noBlight.png")
+////            }
+//            return view
+//        }
+//        return nil
+//    }
     
 //    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 //        let annotationView = MKAnnotationView(annotation: myPin, reuseIdentifier: <#T##String?#>)
 //    }
     
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        //print("calloutAccessoryControlTapped")
-        
-        let clickedAnnotation = view.annotation as! OwnPin
-        if clickedAnnotation.title != nil {
-            print(clickedAnnotation.title!)
-        }
-        
-    }
+//    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+//        //print("calloutAccessoryControlTapped")
+//        
+//        let clickedAnnotation = view.annotation as! OwnPin
+//        if clickedAnnotation.title != nil {
+//            print(clickedAnnotation.title!)
+//        }
+//        
+//    }
 
     
     
@@ -456,16 +454,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                     var highResultScore = 0.0
                     var highResultCoords = [Double]()
                     var highResultUrl = ""
-                    
-                    //print("this is the response: ", response.description)
 
                     do {
                         let topResponse = try JSONDecoder().decode(TopResponse.self, from: response.data!)
                    
                         for response in topResponse.files {
-                            print("blightscore: ",response.blightscore)
-                            print("coords: ",response.coords)
-                            print("url: ",response.url, "\n")
+//                            print("blightscore: ",response.blightscore)
+//                            print("coords: ",response.coords)
+//                            print("url: ",response.url, "\n")
                             if response.blightscore > highResultScore {
                                 highResultScore = response.blightscore
                                 highResultCoords = response.coords
@@ -492,7 +488,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                                 } else {
                                     self.CRVblightScore.textColor = UIColor(named: "darkRed")
                                 }
-                                self.CRVblightScore.text = "\(self.scoreCalc) %"
+                                let x = self.scoreCalc
+                                let y = Double(round(100*x)/100)
+                                self.CRVblightScore.text = "\(y) %"
+
                             }
                         }
                         
