@@ -1,0 +1,46 @@
+datelist =     (
+                {
+                DateTime = 1524909600000;
+                Wsymb2 = "<null>";
+                blightscore = 0;
+                "c_sigfr" = "<null>";
+                "cb_sig" = "<null>";
+                "ct_sig" = "<null>";
+                datetime = "<null>";
+                frsn12h = "<null>";
+                frsn1h = "<null>";
+                frsn24h = "<null>";
+                frsn3h = "<null>";
+                gust = "<null>";
+                hcc = "<null>";
+                "hcc_mean" = "<null>";
+                lcc = "<null>";
+                "lcc_mean" = "<null>";
+                mcc = "<null>";
+                "mcc_mean" = "<null>";
+                msl = "<null>";
+                pcat = "<null>";
+                pmax = "<null>";
+                pmean = "<null>";
+                pmedian = "<null>";
+                pmin = "<null>";
+                prec12h = "<null>";
+                prec1h = "<null>";
+                prec24h = "<null>";
+                prec3h = "<null>";
+                prsort = "<null>";
+                prtype = "<null>";
+                r = 55;
+                spp = "<null>";
+                t = "15.9";
+                tcc = "<null>";
+                "tcc_mean" = "<null>";
+                tiw = "<null>";
+                tmax = "<null>";
+                tmin = "<null>";
+                tstm = "<null>";
+                vis = "<null>";
+                wd = "<null>";
+                ws = "<null>";
+                }
+                )

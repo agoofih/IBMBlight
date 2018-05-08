@@ -9,7 +9,6 @@
 import UIKit
 import CoreLocation
 import MapKit
-import GEOSwift
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
@@ -20,16 +19,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     //Base setup, GPS to IBM Malmö
     var localtion_lat = 55.611868
     var location_long = 12.977738
-    
-    //FakeLocation in CPX File
-    //let initialLocation = CLLocation(latitude: 55.606118, longitude: 13.197447)
-    //Fake farm 1
-    var FF1_lat = 55.598424
-    var FF1_long = 13.214542
-    
-    //Fake farm 2
-    var FF2_lat = 55.584106
-    var FF2_long = 13.214832
     
     var pinCoords : [Double] = [0.0]
     var pinLat : Double = 0.0
@@ -68,13 +57,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         request.httpMethod = "GET"
         let session = URLSession.shared
         session.dataTask(with: request) { (data, response, error) in
-            //            if let response = response {
-            //            }
             
-            var counter : Int = 0
-            var counter2 : Int = 0
-            var counter3 : Int = 0
-            var counter4 : Int = 0
+            var coordsCounter : Int = 0
+            var colorCounter : Int = 0
+            var dateCounter : Int = 0
+            var maxBlightCounter : Int = 0
             
             if let data = data {
                 DispatchQueue.main.async {
@@ -90,8 +77,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                                         
                                         if let coordinates = geometry.value(forKey:"coordinates") as? NSArray {
                                             
-                                            self.pinCoords = coordinates[counter] as! [Double]
-                                            counter += 1
+                                            self.pinCoords = coordinates[coordsCounter] as! [Double]
+                                            coordsCounter += 1
                                             
                                             self.pinLng = self.pinCoords[0]
                                             self.pinLat = self.pinCoords[1]
@@ -102,35 +89,30 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                                         
                                         if let color = properties.value(forKey: "colour") as? [String] {
                                             
-                                            self.pinColor = color[counter2] as String
-                                            counter2 += 1
+                                            self.pinColor = color[colorCounter] as String
+                                            colorCounter += 1
                                             
                                         }
                                         
                                         if let dates = properties.value(forKey: "dates") as? NSArray {
                                             
-                                            //print("****Detta är dates :", dates)
-                                            
                                             if let date = dates.value(forKey: "date") as? NSArray {
                                                 
-                                                //print("*--*Detta är date :", date)
-                                                let abo = date[counter3] as! NSArray
-                                                let aboa = abo.count - 1
-//                                                print("abo :", abo)
-//                                                print("latest date :", abo[aboa])
-                                                self.pinSubTitle = "Latest update: \(abo[aboa])"
-                                                counter3 += 1
+                                                let x = date[dateCounter] as! NSArray
+                                                let y = x.count - 1
+                                                self.pinSubTitle = "Latest update: \(x[y])"
+                                                dateCounter += 1
                                                 
                                             }
                                             if let maxBlight = dates.value(forKey: "max_blight") as? NSArray {
                                                 
-                                                //print("----Detta är maxBlight :", maxBlight)
-                                                let abo = maxBlight[counter4] as! NSArray
-                                                let aboa = abo.count - 1
-                                                //                                                print("abo :", abo)
-                                                //                                                print("latest date :", abo[aboa])
-                                                self.pinTitle = "\(abo[aboa])"
-                                                counter4 += 1
+                                                let x = maxBlight[maxBlightCounter] as! NSArray
+                                                let y = x.count - 1
+                                                
+                                                let z = x[y] as! Double * 100
+                                                let v = Double(round(100*z)/100)
+                                                self.pinTitle = "\(v) %"
+                                                maxBlightCounter += 1
                                                 
                                             }
                                             
@@ -138,21 +120,18 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                                         
                                     }
                                     
-                                    //print("Rullande: lat = \(self.pinLat), lng = \(self.pinLng), color = \(self.pinColor)")
-                                    
                                     self.ownPin = OwnPin()
                                     self.ownPin.title = self.pinTitle
                                     self.ownPin.subtitle = self.pinSubTitle
                                     self.ownPin.coordinate = CLLocationCoordinate2D(latitude: self.pinLat, longitude: self.pinLng)
-//                                    self.ownPin.blight = true
                                     self.ownPin.color = self.pinColor
                                     self.mainMapView.addAnnotation(self.ownPin)
                                 }
                                 
                             }
-                            if let type = jsonObj!.value(forKey:"type") as? String {
-                                //                                print("type: ", type)
-                            }
+//                            if let type = jsonObj!.value(forKey:"type") as? String {
+//                                print("type: ", type)
+//                            }
                             
                         }
                         
@@ -186,52 +165,31 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     func moveMap() {
         //let initialLocation = CLLocation(latitude: localtion_lat, longitude: location_long) //correct, replase to this when live
         let initialLocation = CLLocation(latitude: 55.606118, longitude: 13.197447) // tempdata GPS
-        let regionRadius: CLLocationDistance = 112500
+        let regionRadius: CLLocationDistance = 50000
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate,regionRadius * 2.0, regionRadius * 2.0)
         mainMapView.setRegion(coordinateRegion, animated: true)
     }
     
-//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        if let annotation = annotation as? OwnPin {
-//            let identifier = "pin"
-//            var view: MKPinAnnotationView
-//            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-//                as? MKPinAnnotationView {
-//                dequeuedView.annotation = annotation
-//                view = dequeuedView
-//            } else {
-//                // 3
-//                view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-//                view.canShowCallout = true
-//                view.calloutOffset = CGPoint(x: -5, y: 5)
-//                view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure) as UIView
-//            }
-//            view.pinTintColor = UIColor(hexString: "\(annotation.color)ff")
-//
-//            return view
-//        }
-//        return nil
-//    }
-    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        // 2
+        
         guard let annotation = annotation as? OwnPin else { return nil }
-        // 3
+
         let identifier = "marker"
         var view: MKMarkerAnnotationView
-        // 4
+
         if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
             as? MKMarkerAnnotationView {
             dequeuedView.annotation = annotation
             view = dequeuedView
         } else {
-            // 5
+
             view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             view.canShowCallout = true
-            view.calloutOffset = CGPoint(x: -5, y: 5)
+            view.calloutOffset = CGPoint(x: 0, y: 5)
             view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         }
         view.markerTintColor = UIColor(hexString: "\(annotation.color)ff")
+        view.glyphImage = UIImage(named: "alarm")
         return view
     }
 
