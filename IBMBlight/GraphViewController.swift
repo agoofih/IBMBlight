@@ -11,18 +11,6 @@ import CoreLocation
 import Alamofire
 import Charts
 
-struct GraphWeatherData : Decodable {
-    let DateTime : Int
-    let blightscore : Double
-//    let r : Double
-//    let t : Double
-}
-
-struct TopLevel : Decodable {
-    let datelist : [GraphWeatherData]
-}
-
-
 class GraphViewController: UIViewController, CLLocationManagerDelegate{
     
     @IBOutlet var lineChartView: LineChartView!
@@ -36,11 +24,6 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
     var checker = 0
     
     //Recive
-    var rBligtScore : [Double] = []
-    var rR : [Int] = []
-    var rT : [Double] = []
-    var rDate : [Double] = []
-    
     var rLiveBlightScore : [Double] = []
     var rLiveR : [Int] = []
     var rLiveT : [Double] = []
@@ -53,12 +36,6 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-        
-//        rBligtScore = [2.4, 3.2, 8.3, 6.5]
-//        rR = [2, 8, 10, 4]
-//        rT = [3.4, 1.2, 9.3, 11.5]
-//        rDate = [1526274000000, 1526166000000, 1526252400000, 1526425200000]
-
     }
     
     func updateGraph(){
@@ -67,23 +44,22 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
         var lineChartEntry3  = [ChartDataEntry]()
         
         //here is the for loop
-//        for i in 0 ..< rBligtScore.count { TESTAR
         print("Blightscore count- UpdateGraph: ", rLiveBlightScore.count)
         for i in 0 ..< rLiveBlightScore.count {
         
-//            var daten = rDate[i] TESTAR
             var daten = rLiveDate[i]
             let calc = daten / 1000
             let date = Date(timeIntervalSince1970: calc) // 2018-05-14 05:00:00 +0000 ex.
             
-            print("DATE DATE DATE: ",date)
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .short
+            dateFormatter.timeStyle = .none
+            dateFormatter.locale = Locale(identifier: "sv_SV")
+            print(dateFormatter.string(from: date)) // Jan 2, 2001
             
-//            let value = ChartDataEntry(x: Double(i), y: rBligtScore[i])
-            let value = ChartDataEntry(x: Double(i), y: rLiveBlightScore[i])
-//            let value2 = ChartDataEntry(x: Double(Int(i)), y: Double(rR[i])) // here we set the X and Y status in a data chart entry
-            let value2 = ChartDataEntry(x: Double(Int(i)), y: Double(rLiveR[i])) // here we set the X and Y status in a data chart entry
-//            let value3 = ChartDataEntry(x: Double(i), y: rT[i])
-            let value3 = ChartDataEntry(x: Double(i), y: rLiveT[i])
+            let value = ChartDataEntry(x: Double(daten), y: rLiveBlightScore[i])
+            let value2 = ChartDataEntry(x: Double(Int(daten)), y: Double(rLiveR[i])) // here we set the X and Y status in a data chart entry
+            let value3 = ChartDataEntry(x: Double(daten), y: rLiveT[i])
             
             lineChartEntry.append(value) // here we add it to the data set
             lineChartEntry2.append(value2) // here we add it to the data set
@@ -95,9 +71,17 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
         let tempLine = LineChartDataSet(values: lineChartEntry3, label: "Temperature")
         
         blightLine.colors = [NSUIColor.blue] //Sets the colour to blue
-        blightLine.circleColors = [NSUIColor.red] //Sets the colour to blue
+        blightLine.circleColors = [NSUIColor.clear] //Sets the colour to blue
+        blightLine.circleHoleColor = UIColor.blue
+        blightLine.lineWidth = 1.5
         humidityLine.colors = [NSUIColor.red]
+        humidityLine.circleHoleColor = UIColor.red
+        humidityLine.circleColors = [NSUIColor.clear]
+        humidityLine.lineWidth = 1.5
         tempLine.colors = [NSUIColor.green]
+        tempLine.circleHoleColor = UIColor.green
+        tempLine.circleColors = [NSUIColor.clear]
+        tempLine.lineWidth = 1.5
         
         let data = LineChartData() //This is the object that will be added to the chart
         
@@ -105,13 +89,21 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
         data.addDataSet(humidityLine)
         data.addDataSet(tempLine)
         
-        
         lineChartView.data = data //finally - it adds the chart data to the chart and causes an update
         
         lineChartView.chartDescription?.text = "Piuni" // Here we set the description for the graph
-//        lineChartView.backgroundColor = UIColor.black
         lineChartView.xAxis.labelPosition = .bottom
+        lineChartView.xAxis.drawGridLinesEnabled = false
+        lineChartView.leftAxis.drawGridLinesEnabled = false
+        lineChartView.leftAxis.drawGridLinesEnabled = false
+        lineChartView.rightAxis.enabled = false
+        lineChartView.extraBottomOffset = 15
+        lineChartView.extraTopOffset = 30
+        lineChartView.extraLeftOffset = 10
+        lineChartView.extraRightOffset = 30
+        
         lineChartView.reloadInputViews()
+        
     }
     
     
@@ -126,32 +118,12 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
         
         //print("Graph lat lng : \(locLat) , \(locLng)")
         if checker == 0 {
-//            getGraphData()
             getGraphData2()
             checker += 1
             print("CHECKER \(checker)")
         }
         
         manager.stopUpdatingLocation()
-    }
-    
-    func getGraphData() {
-        URLSession.shared.dataTask(with: url!) { (data,response,error) in
-        
-            guard let data = data else { return }
-
-            do {
-                let topLevel = try JSONDecoder().decode(TopLevel.self, from: data)
-                print(topLevel.datelist)
-
-                print("OK")
-            } catch {
-            print("NO WAY!")
-                print(response)
-                print(error)
-            }
-
-        }.resume()
     }
     
     func nullToNil(value : Any?) -> Any? {
@@ -164,7 +136,6 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
     
     func getGraphData2() {
  
-        
         var request = URLRequest(url: url!)
         
         request.httpMethod = "GET"
@@ -270,7 +241,6 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
                 }
                 
             }}.resume()
-//        print("Blightscore count inside4: ", self.rLiveBlightScore.count)
         
     }
 }

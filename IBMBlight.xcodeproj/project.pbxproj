@@ -11,6 +11,7 @@
 		2615652E207B69AD000501AD /* OwnPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2615652D207B69AD000501AD /* OwnPin.swift */; };
 		2624270420A17A1F00F4A0D1 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2624270320A17A1F00F4A0D1 /* GraphViewController.swift */; };
 		2624270620A17D1400F4A0D1 /* test2.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 2624270520A17D1400F4A0D1 /* test2.geojson */; };
+		2624270D20A3208900F4A0D1 /* ChartXAxisFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2624270C20A3208900F4A0D1 /* ChartXAxisFormatter.swift */; };
 		262FF1982087328100FADA96 /* WeatherServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262FF1972087328100FADA96 /* WeatherServer.swift */; };
 		263C09EB208F589800551BF5 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 263C09EA208F589800551BF5 /* Colors.xcassets */; };
 		263D30372063E533005BFE8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D30362063E533005BFE8F /* AppDelegate.swift */; };
@@ -38,6 +39,7 @@
 		2615652D207B69AD000501AD /* OwnPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnPin.swift; sourceTree = "<group>"; };
 		2624270320A17A1F00F4A0D1 /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		2624270520A17D1400F4A0D1 /* test2.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = test2.geojson; sourceTree = "<group>"; };
+		2624270C20A3208900F4A0D1 /* ChartXAxisFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartXAxisFormatter.swift; sourceTree = "<group>"; };
 		262FF1972087328100FADA96 /* WeatherServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherServer.swift; sourceTree = "<group>"; };
 		263C09EA208F589800551BF5 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		263D30332063E533005BFE8F /* IBMBlight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IBMBlight.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,6 +113,7 @@
 				26D8E4A22073847F00B69962 /* NewsTableViewCell.swift */,
 				263D303A2063E533005BFE8F /* Main.storyboard */,
 				2624270320A17A1F00F4A0D1 /* GraphViewController.swift */,
+				2624270C20A3208900F4A0D1 /* ChartXAxisFormatter.swift */,
 				263C09EA208F589800551BF5 /* Colors.xcassets */,
 				269437EF207CD55400728DEA /* TopWeatherDataVC.swift */,
 				263D303D2063E534005BFE8F /* Assets.xcassets */,
@@ -273,6 +276,7 @@
 				269437F0207CD55400728DEA /* TopWeatherDataVC.swift in Sources */,
 				26D8E4A32073847F00B69962 /* NewsTableViewCell.swift in Sources */,
 				269BF574207E1C62008DED4C /* Reachability.swift in Sources */,
+				2624270D20A3208900F4A0D1 /* ChartXAxisFormatter.swift in Sources */,
 				26D8E4A720738C6E00B69962 /* NewsViewController.swift in Sources */,
 				2624270420A17A1F00F4A0D1 /* GraphViewController.swift in Sources */,
 				26D8E4A12073740900B69962 /* AlertTableViewCell.swift in Sources */,
