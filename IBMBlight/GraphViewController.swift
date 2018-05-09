@@ -54,10 +54,10 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         
-        rBligtScore = [2.4, 3.2, 8.3, 6.5]
-        rR = [2, 8, 10, 4]
-        rT = [3.4, 1.2, 9.3, 11.5]
-        rDate = [1526274000000, 1526166000000, 1526252400000, 1526425200000]
+//        rBligtScore = [2.4, 3.2, 8.3, 6.5]
+//        rR = [2, 8, 10, 4]
+//        rT = [3.4, 1.2, 9.3, 11.5]
+//        rDate = [1526274000000, 1526166000000, 1526252400000, 1526425200000]
 
     }
     

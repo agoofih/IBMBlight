@@ -1,24 +1,22 @@
 PODS:
   - Alamofire (4.7.2)
-  - geos (3.5.0)
-  - GEOSwift (2.1.3):
-    - geos (= 3.5.0)
+  - Charts (3.1.1):
+    - Charts/Core (= 3.1.1)
+  - Charts/Core (3.1.1)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
-  - GEOSwift
+  - Charts
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Alamofire
-    - geos
-    - GEOSwift
+    - Charts
 
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
-  geos: e96c6ca3f3ce02d20feaa8d90d4af383e11e7198
-  GEOSwift: dd9755c2122e6564f6f049213599b7bc8abcb699
+  Charts: 90a4d61da0f6e06684c591e3bcab11940fe61736
 
-PODFILE CHECKSUM: c803dacc4826b2108924e79913d05b60356cbd54
+PODFILE CHECKSUM: 5fdfe175b43f2a6b2611a618e1d6762c6f9c3b5d
 
 COCOAPODS: 1.5.0
