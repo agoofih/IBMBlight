@@ -134,9 +134,9 @@ class AlertViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         tableView.separatorStyle = .none
 
-        cell.titleLabel.text = ""
-        cell.descriptionLabel.text = ""
-        cell.dateLabel.text = ""
+        cell.titleLabel.text = "No Title set"
+        cell.descriptionLabel.text = "No text set"
+        cell.dateLabel.text = "No date set"
         cell.imageOutlet.image = UIImage(named: "earthTabel")
         
         if feedList[indexPath.row].is_alert == true {
