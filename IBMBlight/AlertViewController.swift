@@ -131,14 +131,17 @@ class AlertViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "alertCell", for: indexPath) as! AlertTableViewCell
-        
-//        print("cell for row at feedlist ", feedList.count)
+
         tableView.separatorStyle = .none
 
         cell.titleLabel.text = ""
         cell.descriptionLabel.text = ""
         cell.dateLabel.text = ""
+        cell.imageOutlet.image = UIImage(named: "earthTabel")
         
+        if feedList[indexPath.row].is_alert == true {
+            cell.imageOutlet.image = UIImage(named: "alarmTable")
+        }
         if feedList[indexPath.row].title != nil {
             cell.titleLabel.text = feedList[indexPath.row].title
         }
