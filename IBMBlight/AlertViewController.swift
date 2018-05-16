@@ -66,45 +66,7 @@ class AlertViewController: UIViewController, UITableViewDelegate, UITableViewDat
             do {
                 let alerts = try JSONDecoder().decode(TopLevel.self, from: data)
                 
-                self.feedList = alerts.alerts
-                
-//                print("Json decode : ",self.feedList)
-//                DispatchQueue.main.async {
-//                    print("Count123: ",self.feedList.count)
-////                    self.alertTableView.reloadData()
-//                }
-                
-                
-//                for run in alerts.alerts {
-//
-//                    self.feed.append(run)
-//
-//                    print(self.feed)
-//
-//                    if run.id != nil {
-//                        print(run.id!)
-//                    }
-//                    if run.title != nil {
-//                        print(run.title!)
-//                    }
-//                    if run.date != nil {
-//                        print(run.date!)
-//                    }
-//                    if run.description != nil {
-//                        print(run.description!)
-//                    }
-//                    if run.is_alert != nil {
-//                        print(run.is_alert!)
-//                    }
-//                    if run.lat != nil {
-//                        print(run.lat!)
-//                    }
-//                    if run.lng != nil {
-//                        print(run.lng!)
-//                    }
-//                    print("----------------------")
-//
-//                }
+                self.feedList = alerts.alerts.reversed()
 
                 
             } catch {
