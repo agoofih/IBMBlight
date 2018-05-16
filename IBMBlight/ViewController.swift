@@ -64,6 +64,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var imageResultViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var CRVSendView: UIView!
     @IBOutlet weak var newsViewWrapper: UIView!
+    
+    @IBOutlet weak var graphViewWrapper: UIView!
     @IBOutlet weak var cameraResultViewWrapper: UIView!
     @IBOutlet weak var CRVanalyzeButton: UIButton!
     @IBOutlet weak var mapContainerView: UIView!
@@ -207,6 +209,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         alertView.BadgeView()
         newsViewWrapper.BadgeView()
         CRVanalyzeButton.BadgeView()
+        graphViewWrapper.BadgeView()
         
 //        myPintemp()
         

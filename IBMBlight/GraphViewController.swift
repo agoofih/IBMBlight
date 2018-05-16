@@ -21,13 +21,25 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
     var locLng : String = ""
     var jsonUrlString : String = ""
     var url = URL(string: "")
+    
+    //Used to update position only ones
     var checker = 0
+
+    //variables to check so the data is not nil
+    var tSave : Double = 0.0
+    var rSave : Int = 0
+    var dateSave : Double = 0.0
+    var blightSave : Double = 0.0
+
     
     //Recive
     var rLiveBlightScore : [Double] = []
     var rLiveR : [Int] = []
     var rLiveT : [Double] = []
     var rLiveDate : [Double] = []
+    
+    var poundBool = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,71 +51,134 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
     }
     
     func updateGraph(){
-        var lineChartEntry  = [ChartDataEntry]() //this is the Array that will eventually be displayed on the graph.
+        
+        //this is the Arrays that will eventually be displayed on the graph.
+        var lineChartEntry  = [ChartDataEntry]()
         var lineChartEntry2  = [ChartDataEntry]()
         var lineChartEntry3  = [ChartDataEntry]()
-        
+
         //here is the for loop
-        print("Blightscore count- UpdateGraph: ", rLiveBlightScore.count)
+        var addCounter = 0
         for i in 0 ..< rLiveBlightScore.count {
-        
-            var daten = rLiveDate[i]
+
+            let daten = rLiveDate[i]
             let calc = daten / 1000
-            let date = Date(timeIntervalSince1970: calc) // 2018-05-14 05:00:00 +0000 ex.
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .short
             dateFormatter.timeStyle = .none
             dateFormatter.locale = Locale(identifier: "sv_SV")
-            print(dateFormatter.string(from: date)) // Jan 2, 2001
             
-            let value = ChartDataEntry(x: Double(daten), y: rLiveBlightScore[i])
-            let value2 = ChartDataEntry(x: Double(Int(daten)), y: Double(rLiveR[i])) // here we set the X and Y status in a data chart entry
-            let value3 = ChartDataEntry(x: Double(daten), y: rLiveT[i])
+            let todayTimestamp = NSDate().timeIntervalSince1970
             
-            lineChartEntry.append(value) // here we add it to the data set
-            lineChartEntry2.append(value2) // here we add it to the data set
-            lineChartEntry3.append(value3)
+            if rLiveR[i] < -99 || rLiveT[i] < -99.0 || rLiveBlightScore[i] < -99.0 {
+                
+            }else{
+                
+                if calc <= (todayTimestamp + 187200) {
+                    
+                    if addCounter == 2 { // Before Today
+                        
+                        // here we set the X and Y status in a data chart entry
+                        let value = ChartDataEntry(x: Double(calc), y: rLiveBlightScore[i])
+                        let value2 = ChartDataEntry(x: Double(Int(calc)), y: Double(rLiveR[i]))
+                        let value3 = ChartDataEntry(x: Double(calc), y: rLiveT[i])
+                        
+                        // here we add it to the data set
+                        lineChartEntry.append(value)
+                        lineChartEntry2.append(value2)
+                        lineChartEntry3.append(value3)
+                        addCounter = 0
+                        
+                    }else{
+                        addCounter += 1
+                    }
+                    
+                } else { // After today
+
+                    // here we set the X and Y status in a data chart entry
+                    let value = ChartDataEntry(x: Double(calc), y: rLiveBlightScore[i])
+                    let value2 = ChartDataEntry(x: Double(Int(calc)), y: Double(rLiveR[i]))
+                    let value3 = ChartDataEntry(x: Double(calc), y: rLiveT[i])
+                    
+                    lineChartEntry.append(value)
+                    lineChartEntry2.append(value2)
+                    lineChartEntry3.append(value3)
+                    
+                }
+            }
         }
         
-        let blightLine = LineChartDataSet(values: lineChartEntry, label: "BlightScore")
-        let humidityLine = LineChartDataSet(values: lineChartEntry2, label: "Humidity") //Here we convert lineChartEntry to a LineChartDataSet
-        let tempLine = LineChartDataSet(values: lineChartEntry3, label: "Temperature")
+        //Clear up the arrays after data is added
+        rLiveR.removeAll()
+        rLiveT.removeAll()
+        rLiveDate.removeAll()
+        rLiveBlightScore.removeAll()
         
-        blightLine.colors = [NSUIColor.blue] //Sets the colour to blue
+        //Here we convert lineChartEntry to a LineChartDataSet
+        let blightLine = LineChartDataSet(values: lineChartEntry, label: "Blight probability in %")
+        let humidityLine = LineChartDataSet(values: lineChartEntry2, label: "Humidity in %")
+        let tempLine = LineChartDataSet(values: lineChartEntry3, label: "Temperature in °C")
+        
+        //Some Styling for the chart lines
+        blightLine.colors = [NSUIColor.orange] //Sets the colour to blue
+        blightLine.circleHoleColor = UIColor.orange
         blightLine.circleColors = [NSUIColor.clear] //Sets the colour to blue
-        blightLine.circleHoleColor = UIColor.blue
-        blightLine.lineWidth = 1.5
-        humidityLine.colors = [NSUIColor.red]
-        humidityLine.circleHoleColor = UIColor.red
+        blightLine.lineWidth = 2
+        
+        humidityLine.colors = [NSUIColor.blue]
+        humidityLine.circleHoleColor = UIColor.blue
         humidityLine.circleColors = [NSUIColor.clear]
         humidityLine.lineWidth = 1.5
-        tempLine.colors = [NSUIColor.green]
-        tempLine.circleHoleColor = UIColor.green
+        
+        tempLine.colors = [NSUIColor.red]
+        tempLine.circleHoleColor = UIColor.red
         tempLine.circleColors = [NSUIColor.clear]
         tempLine.lineWidth = 1.5
+
+        //This is the object that will be added to the chart
+        let data = LineChartData()
         
-        let data = LineChartData() //This is the object that will be added to the chart
-        
-        data.addDataSet(blightLine) //Adds the line to the dataSet
+        //Adds the lines to the dataSet
+        data.addDataSet(blightLine)
         data.addDataSet(humidityLine)
         data.addDataSet(tempLine)
         
-        lineChartView.data = data //finally - it adds the chart data to the chart and causes an update
+        //finally - it adds the chart data to the chart and causes an update
+        lineChartView.data = data
         
-        lineChartView.chartDescription?.text = "Piuni" // Here we set the description for the graph
+        lineChartView.chartDescription?.text = ""
         lineChartView.xAxis.labelPosition = .bottom
         lineChartView.xAxis.drawGridLinesEnabled = false
         lineChartView.leftAxis.drawGridLinesEnabled = false
-        lineChartView.leftAxis.drawGridLinesEnabled = false
         lineChartView.rightAxis.enabled = false
-        lineChartView.extraBottomOffset = 15
-        lineChartView.extraTopOffset = 30
+        lineChartView.extraBottomOffset = 10
+        lineChartView.extraTopOffset = 60
         lineChartView.extraLeftOffset = 10
         lineChartView.extraRightOffset = 30
         
-        lineChartView.reloadInputViews()
+        let xAxis = lineChartView.xAxis
+        xAxis.labelFont = .systemFont(ofSize: 10, weight: .light)
+        xAxis.centerAxisLabelsEnabled = true
+        xAxis.granularity = 3600
+        xAxis.valueFormatter = DateValueFormatter()
         
+        lineChartView.reloadInputViews()
+    }
+    
+    
+    @IBAction func poundButton(_ sender: Any) {
+        let xAxis = lineChartView.xAxis
+        if poundBool == false {
+            xAxis.drawGridLinesEnabled = true
+            lineChartView.leftAxis.drawGridLinesEnabled = true
+            poundBool = true
+        } else {
+            xAxis.drawGridLinesEnabled = false
+            lineChartView.leftAxis.drawGridLinesEnabled = false
+            poundBool = false
+        }
+        lineChartView.notifyDataSetChanged()
     }
     
     
@@ -116,13 +191,13 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
         jsonUrlString = "http://blighttoaster.eu-gb.mybluemix.net/api/weather?lat=\(locLat)&lng=\(locLng)"
         url = URL(string: jsonUrlString)
         
-        //print("Graph lat lng : \(locLat) , \(locLng)")
-        if checker == 0 {
-            getGraphData2()
-            checker += 1
-            print("CHECKER \(checker)")
-        }
+//        print(jsonUrlString)
         
+        if checker == 0 {
+            getFullGraphDataCheck()
+            checker += 1
+//            print("CHECKER \(checker)")
+        }
         manager.stopUpdatingLocation()
     }
     
@@ -133,9 +208,9 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
             return value
         }
     }
-    
-    func getGraphData2() {
- 
+
+    func getFullGraphDataCheck() {
+        
         var request = URLRequest(url: url!)
         
         request.httpMethod = "GET"
@@ -148,83 +223,65 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
                         if let jsonObj = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? NSDictionary {
                             
                             if let topLevel = jsonObj!.value(forKey:"datelist") as? NSArray {
-
-                                var dateCounter = 0
-                                var blightCounter = 0
-                                var tempCounter = 0
-                                var humidCounter = 0
-     
+                                
+                                
+                                
                                 if let dateTime = topLevel.value(forKey:"DateTime") as? NSArray {
-                                        
+                                    
                                     for item in dateTime {
-                                        dateCounter += 1
-                                        
-                                        if dateCounter == 6 {
-                                            self.rLiveDate.append(item as! Double)
-                                            dateCounter = 0
-                                        }
+                                        self.rLiveDate.append(item as! Double)
                                     }
                                     
                                 } else {
                                     print("WRONG DateTime ", "Error : ", error ?? "")
                                 }
                                 
+                                
                                 if let blightScore = topLevel.value(forKey: "blightscore") as? NSArray {
-                                        
-                                    for item in blightScore {
-                                        blightCounter += 1
-                                        
-                                        if blightCounter == 6 {
-                                            self.rLiveBlightScore.append(item as! Double)
-                                            blightCounter = 0
+                                    
+                                    for var item in blightScore {
+                                        let tempNil = self.nullToNil(value: item)
+                                        if tempNil == nil {
+                                            item = -100.0
                                         }
-                                        
+                                        self.rLiveBlightScore.append(item as! Double)
                                     }
-//                                    print(self.rLiveBlightScore)
-                                    print("Blightscore count inside: ", self.rLiveBlightScore.count)
                                     
                                 } else {
-                                    print("WRONG blightscore ", "Error : ", error)
+                                    print("WRONG blightscore ", "Error : ", error as Any)
                                 }
+                                
+//                                print("rLiveBlightScore in json loop: ", self.rLiveBlightScore.count)
                                 
                                 if let temp = topLevel.value(forKey: "t") as? NSArray {
                                     
                                     for var item in temp {
-                                        tempCounter += 1
-
-                                        if tempCounter == 6 {
-                                            let tempNil = self.nullToNil(value: item)
-                                            if tempNil == nil {
-                                                item = -10.0
-                                            }
-                                            self.rLiveT.append(item as! Double)
-                                            tempCounter = 0
+                                        let tempNil = self.nullToNil(value: item)
+                                        if tempNil == nil {
+                                            item = -100.0
                                         }
+                                        self.rLiveT.append(item as! Double)
                                     }
                                     
                                 } else {
-                                    print("WRONG temp (t)", "Error : ", error)
+                                    print("WRONG temp (t)", "Error : ", error as Any)
                                 }
                                 
                                 if let humid = topLevel.value(forKey: "r") as? NSArray {
                                     
                                     for var item in humid {
-                                        humidCounter += 1
-                                        
-                                        if humidCounter == 6 {
-                                            let tempNil = self.nullToNil(value: item)
-                                            if tempNil == nil {
-                                                item = -10
-                                            }
-                                            self.rLiveR.append(item as! Int)
-                                            humidCounter = 0
+                                        let tempNil = self.nullToNil(value: item)
+                                        if tempNil == nil {
+                                            item = -100
                                         }
+                                        self.rLiveR.append(item as! Int)
                                     }
                                     
+                                    
+                                    
                                 } else {
-                                    print("WRONG temp (t)", "Error : ", error)
+                                    print("WRONG humidity (r)", "Error : ", error as Any)
                                 }
-                                print("Blightscore count inside2: ", self.rLiveBlightScore.count)
                             } else {
                                 print("WRONG 3")
                             }
@@ -235,7 +292,6 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
                         print("WRONG 1")
                     }
                 }
-                print("Blightscore count inside3: ", self.rLiveBlightScore.count)
                 DispatchQueue.main.async {
                     self.updateGraph()
                 }
@@ -243,4 +299,6 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
             }}.resume()
         
     }
+
+    
 }

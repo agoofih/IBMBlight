@@ -15,6 +15,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var locationManager : CLLocationManager!
     
     @IBOutlet weak var mainMapView: MKMapView!
+    @IBOutlet weak var centerMap: UIButton!
     
     //Base setup, GPS to IBM Malmö
     var localtion_lat = 55.611868
@@ -63,6 +64,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             var dateCounter : Int = 0
             var maxBlightCounter : Int = 0
             
+            if response != nil {
+//                print("This is respons: ", response)
+            }
+            
+            if error != nil {
+                print("This is error: ", error)
+            }
+            
             if let data = data {
                 DispatchQueue.main.async {
                     do {
@@ -106,6 +115,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                                             }
                                             if let maxBlight = dates.value(forKey: "max_blight") as? NSArray {
                                                 
+                                                
                                                 let x = maxBlight[maxBlightCounter] as! NSArray
                                                 let y = x.count - 1
                                                 
@@ -146,7 +156,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     override func viewDidAppear(_ animated: Bool) {
         getPins()
     }
-
+    
+    
+    @IBAction func centerMap(_ sender: UIButton) {
+        zoomInUserLocation()
+    }
+    
     
     //------------------------------ ------------------------------ -------------------------------
     
@@ -163,9 +178,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func moveMap() {
-        //let initialLocation = CLLocation(latitude: localtion_lat, longitude: location_long) //correct, replase to this when live
-        let initialLocation = CLLocation(latitude: 55.606118, longitude: 13.197447) // tempdata GPS
-        let regionRadius: CLLocationDistance = 50000
+        let initialLocation = CLLocation(latitude: localtion_lat, longitude: location_long) //correct, replase to this when live
+        let regionRadius: CLLocationDistance = 90000
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate,regionRadius * 2.0, regionRadius * 2.0)
+        mainMapView.setRegion(coordinateRegion, animated: true)
+    }
+    
+    func zoomInUserLocation () {
+        let initialLocation = CLLocation(latitude: localtion_lat, longitude: location_long) //correct, replase to this when live
+        let regionRadius: CLLocationDistance = 1000
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate,regionRadius * 2.0, regionRadius * 2.0)
         mainMapView.setRegion(coordinateRegion, animated: true)
     }
@@ -182,7 +203,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             dequeuedView.annotation = annotation
             view = dequeuedView
         } else {
-
             view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             view.canShowCallout = true
             view.calloutOffset = CGPoint(x: 0, y: 5)
@@ -194,8 +214,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
 
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        print("calloutAccessoryControlTapped")
         
+        print("calloutAccessoryControlTapped")
         let clickedAnnotation = view.annotation as! OwnPin
         if clickedAnnotation.title != nil {
             print(clickedAnnotation.title!)
