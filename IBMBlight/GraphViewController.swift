@@ -58,7 +58,8 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
         var lineChartEntry3  = [ChartDataEntry]()
 
         //here is the for loop
-        var addCounter = 0
+        var prevdate = 0.0
+        
         for i in 0 ..< rLiveBlightScore.count {
 
             let daten = rLiveDate[i]
@@ -69,44 +70,21 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
             dateFormatter.timeStyle = .none
             dateFormatter.locale = Locale(identifier: "sv_SV")
             
-            let todayTimestamp = NSDate().timeIntervalSince1970
-            
-            if rLiveR[i] < -99 || rLiveT[i] < -99.0 || rLiveBlightScore[i] < -99.0 {
+            if((calc - prevdate) > (6 * 3600)) && rLiveBlightScore[i] != -100.0 && rLiveR[i] != -100 && rLiveT[i] != -100.0 {
+                print(calc, prevdate)
                 
-            }else{
+                let value = ChartDataEntry(x: Double(calc), y: rLiveBlightScore[i])
+                let value2 = ChartDataEntry(x: Double(Int(calc)), y: Double(rLiveR[i]))
+                let value3 = ChartDataEntry(x: Double(calc), y: rLiveT[i])
+        
+                lineChartEntry.append(value)
+                lineChartEntry2.append(value2)
+                lineChartEntry3.append(value3)
                 
-                if calc <= (todayTimestamp + 187200) {
-                    
-                    if addCounter == 2 { // Before Today
-                        
-                        // here we set the X and Y status in a data chart entry
-                        let value = ChartDataEntry(x: Double(calc), y: rLiveBlightScore[i])
-                        let value2 = ChartDataEntry(x: Double(Int(calc)), y: Double(rLiveR[i]))
-                        let value3 = ChartDataEntry(x: Double(calc), y: rLiveT[i])
-                        
-                        // here we add it to the data set
-                        lineChartEntry.append(value)
-                        lineChartEntry2.append(value2)
-                        lineChartEntry3.append(value3)
-                        addCounter = 0
-                        
-                    }else{
-                        addCounter += 1
-                    }
-                    
-                } else { // After today
+                prevdate = calc
 
-                    // here we set the X and Y status in a data chart entry
-                    let value = ChartDataEntry(x: Double(calc), y: rLiveBlightScore[i])
-                    let value2 = ChartDataEntry(x: Double(Int(calc)), y: Double(rLiveR[i]))
-                    let value3 = ChartDataEntry(x: Double(calc), y: rLiveT[i])
-                    
-                    lineChartEntry.append(value)
-                    lineChartEntry2.append(value2)
-                    lineChartEntry3.append(value3)
-                    
-                }
             }
+            
         }
         
         //Clear up the arrays after data is added

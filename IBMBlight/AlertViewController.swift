@@ -124,15 +124,21 @@ class AlertViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return feedList.count
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 155
+    }
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "alertCell", for: indexPath) as! AlertTableViewCell
         
 //        print("cell for row at feedlist ", feedList.count)
         tableView.separatorStyle = .none
 
-//        if feedList[indexPath.row].is_alert == true {
-//            cell.alertImageView.image = UIImage(named: "alarmTable")!
-//        }
+        cell.titleLabel.text = ""
+        cell.descriptionLabel.text = ""
+        cell.dateLabel.text = ""
+        
         if feedList[indexPath.row].title != nil {
             cell.titleLabel.text = feedList[indexPath.row].title
         }

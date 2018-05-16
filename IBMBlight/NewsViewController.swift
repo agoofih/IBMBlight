@@ -29,7 +29,7 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Dispose of any resources that can be recreated.
     }
     
-    var tempNews = ["1. BREAKING NEWS! Don't know", "2. Well there has to be something new... No?", "3. Some hackers did something bad. No shit..!", "4. The world ENDS! Bad day for us all. Free icecream!", "5. Something more something less, donno..,", "6. Ohh well aliens won, new bosses.. Most other people dead.. maybe it's MY TIME TO SHINE!! Take the good with the bad"]
+    var tempNews = ["1. BREAKING NEWS! Don't know", "2. Well there has to be something new... No?", "3. Some hackers did something bad. No shit..!", "4. The world ENDS! Bad day for us all. Free icecream!", "5. Something more something less, donno.., awdwada dadadad a d ada da dadad adad adada ad a dadada d adadad adada ", "6. Ohh well aliens won, new bosses.. Most other people dead.. maybe it's MY TIME TO SHINE!! Take the good with the bad"]
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tempNews.count
