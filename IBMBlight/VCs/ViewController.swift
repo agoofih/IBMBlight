@@ -315,16 +315,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     //------------------------------ ------------------------------ -------------------------------
     
-    
-    
+//    var fakeLat = 55.609913
+//    var fakeLng = 12.980590
+
     @IBAction func analyzeClick(_ sender: UIButton) {
-        print("SEND")
         if imageResultView.image != nil {
             let img = imageResultView.image
             let data = UIImageJPEGRepresentation(img!, 1.0)
             
-            print("**** - Classifierid: \(sendClassifierId), lat: \(location_lat), lng: \(location_lng)")
             let para = ["tile_images" : "true", "classifier_id" : sendClassifierId, "lat" : location_lat, "lng" : location_lng] as [String : Any]
+//            let para = ["tile_images" : "true", "classifier_id" : sendClassifierId, "lat" : fakeLat, "lng" : fakeLng] as [String : Any]
             
             sendDataFunc(endUrl: urlSend, imageData: data, parameters: para)
         } else {
@@ -408,11 +408,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                             }
                         }
                         
-                        print("---- Highest blightscore is: \(highResultScore) and the coords is: \(highResultCoords) and the imageURL is: \(highResultUrl) ----")
                         self.CRVSendView.isHidden = true
                         UIViewController.removeSpinner(spinner: sv)
-                        print("Done with image - inside")
-                        NotificationCenter.default.post(name: .argentina, object: nil)
+                        NotificationCenter.default.post(name: .updateMap, object: nil)
                         
                     } catch {
                         print("response.debugDescription ERROR: ", response.debugDescription)

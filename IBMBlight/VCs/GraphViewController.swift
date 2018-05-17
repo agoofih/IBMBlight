@@ -130,7 +130,7 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
         lineChartView.leftAxis.drawGridLinesEnabled = false
         lineChartView.rightAxis.enabled = false
         lineChartView.extraBottomOffset = 10
-        lineChartView.extraTopOffset = 60
+        lineChartView.extraTopOffset = 105
         lineChartView.extraLeftOffset = 10
         lineChartView.extraRightOffset = 30
         

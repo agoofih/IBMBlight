@@ -48,13 +48,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         mainMapView.isRotateEnabled = false
         moveMap()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(setToArgentina(notfication:)), name: .argentina, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(runRequest(notfication:)), name: .updateMap, object: nil)
         
         print("added notificationObserver")
         
     }
 
-    @objc func setToArgentina(notfication: NSNotification) {
+    @objc func runRequest(notfication: NSNotification) {
         getPins()
     }
     
@@ -251,7 +251,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 }
 
 extension Notification.Name {
-    static let argentina = Notification.Name("argentina")
+    static let updateMap = Notification.Name("updateMap")
 }
 
 extension UIColor {
