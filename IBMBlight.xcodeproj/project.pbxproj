@@ -81,24 +81,48 @@
 		263D30352063E533005BFE8F /* IBMBlight */ = {
 			isa = PBXGroup;
 			children = (
-				26ABC2592091D1CC00A2AC39 /* MapViewController.swift */,
+				26410D9120AD772F0037C350 /* Support Files */,
+				26410D9020AD76D90037C350 /* VCs */,
+				26410D8F20AD765C0037C350 /* Storyboards */,
 				263D30362063E533005BFE8F /* AppDelegate.swift */,
-				263D30382063E533005BFE8F /* ViewController.swift */,
-				262FF1972087328100FADA96 /* WeatherServer.swift */,
-				269BF573207E1C62008DED4C /* Reachability.swift */,
-				26D8E4A420738C6000B69962 /* AlertViewController.swift */,
-				26D8E4A02073740900B69962 /* AlertTableViewCell.swift */,
-				263D303A2063E533005BFE8F /* Main.storyboard */,
-				2624270320A17A1F00F4A0D1 /* GraphViewController.swift */,
-				2624271120A449C900F4A0D1 /* DateValueFormatter.swift */,
 				263C09EA208F589800551BF5 /* Colors.xcassets */,
-				269437EF207CD55400728DEA /* TopWeatherDataVC.swift */,
-				263D303F2063E534005BFE8F /* LaunchScreen.storyboard */,
 				263D30422063E534005BFE8F /* Info.plist */,
-				2615652D207B69AD000501AD /* OwnPin.swift */,
 				266AAA7F20AC181A00FFC9FA /* Assets.xcassets */,
 			);
 			path = IBMBlight;
+			sourceTree = "<group>";
+		};
+		26410D8F20AD765C0037C350 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				263D303A2063E533005BFE8F /* Main.storyboard */,
+				263D303F2063E534005BFE8F /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		26410D9020AD76D90037C350 /* VCs */ = {
+			isa = PBXGroup;
+			children = (
+				26ABC2592091D1CC00A2AC39 /* MapViewController.swift */,
+				263D30382063E533005BFE8F /* ViewController.swift */,
+				26D8E4A420738C6000B69962 /* AlertViewController.swift */,
+				2624270320A17A1F00F4A0D1 /* GraphViewController.swift */,
+				269437EF207CD55400728DEA /* TopWeatherDataVC.swift */,
+			);
+			path = VCs;
+			sourceTree = "<group>";
+		};
+		26410D9120AD772F0037C350 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				262FF1972087328100FADA96 /* WeatherServer.swift */,
+				269BF573207E1C62008DED4C /* Reachability.swift */,
+				26D8E4A02073740900B69962 /* AlertTableViewCell.swift */,
+				2624271120A449C900F4A0D1 /* DateValueFormatter.swift */,
+				2615652D207B69AD000501AD /* OwnPin.swift */,
+			);
+			path = "Support Files";
 			sourceTree = "<group>";
 		};
 		A4D1B0C09DE0676280AC6C52 /* Frameworks */ = {
