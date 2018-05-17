@@ -48,9 +48,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         mainMapView.isRotateEnabled = false
         moveMap()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(setToArgentina(notfication:)), name: .argentina, object: nil)
+        
+        print("added notificationObserver")
+        
     }
-    
-    
+
+    @objc func setToArgentina(notfication: NSNotification) {
+        getPins()
+    }
     
     func getPins () {
         let url = URL(string: "https://blighttoaster.eu-gb.mybluemix.net/api/blight_per_point")
@@ -242,6 +248,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
     }
 
+}
+
+extension Notification.Name {
+    static let argentina = Notification.Name("argentina")
 }
 
 extension UIColor {

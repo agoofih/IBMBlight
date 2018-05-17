@@ -411,7 +411,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                         print("---- Highest blightscore is: \(highResultScore) and the coords is: \(highResultCoords) and the imageURL is: \(highResultUrl) ----")
                         self.CRVSendView.isHidden = true
                         UIViewController.removeSpinner(spinner: sv)
-                        
+                        print("Done with image - inside")
+                        NotificationCenter.default.post(name: .argentina, object: nil)
                         
                     } catch {
                         print("response.debugDescription ERROR: ", response.debugDescription)
@@ -431,6 +432,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 self.dataUsageError()
             }
         }
+    
     }
     
     func dataUsageError() {
