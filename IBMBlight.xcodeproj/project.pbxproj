@@ -7,10 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2615652C207B5EB6000501AD /* fakeLocation.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 2615652B207B5EB6000501AD /* fakeLocation.gpx */; };
 		2615652E207B69AD000501AD /* OwnPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2615652D207B69AD000501AD /* OwnPin.swift */; };
 		2624270420A17A1F00F4A0D1 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2624270320A17A1F00F4A0D1 /* GraphViewController.swift */; };
-		2624270620A17D1400F4A0D1 /* test2.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 2624270520A17D1400F4A0D1 /* test2.geojson */; };
 		2624271220A449C900F4A0D1 /* DateValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2624271120A449C900F4A0D1 /* DateValueFormatter.swift */; };
 		262FF1982087328100FADA96 /* WeatherServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262FF1972087328100FADA96 /* WeatherServer.swift */; };
 		263C09EB208F589800551BF5 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 263C09EA208F589800551BF5 /* Colors.xcassets */; };
@@ -18,27 +16,18 @@
 		263D30392063E533005BFE8F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D30382063E533005BFE8F /* ViewController.swift */; };
 		263D303C2063E533005BFE8F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 263D303A2063E533005BFE8F /* Main.storyboard */; };
 		263D30412063E534005BFE8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 263D303F2063E534005BFE8F /* LaunchScreen.storyboard */; };
-		264DDC832080E75200493734 /* image1.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 264DDC822080E75200493734 /* image1.jpeg */; };
 		266AAA8020AC181A00FFC9FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 266AAA7F20AC181A00FFC9FA /* Assets.xcassets */; };
 		269437F0207CD55400728DEA /* TopWeatherDataVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269437EF207CD55400728DEA /* TopWeatherDataVC.swift */; };
 		269BF574207E1C62008DED4C /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269BF573207E1C62008DED4C /* Reachability.swift */; };
-		26ABC2562091C9A500A2AC39 /* noBlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 26ABC2532091C9A400A2AC39 /* noBlight.png */; };
-		26ABC2572091C9A500A2AC39 /* warningBlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 26ABC2542091C9A400A2AC39 /* warningBlight.png */; };
-		26ABC2582091C9A500A2AC39 /* blight.png in Resources */ = {isa = PBXBuildFile; fileRef = 26ABC2552091C9A500A2AC39 /* blight.png */; };
 		26ABC25A2091D1CC00A2AC39 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ABC2592091D1CC00A2AC39 /* MapViewController.swift */; };
-		26D2556E209B280E00400733 /* test.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 26D2556D209B280E00400733 /* test.geojson */; };
 		26D8E4A12073740900B69962 /* AlertTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A02073740900B69962 /* AlertTableViewCell.swift */; };
-		26D8E4A32073847F00B69962 /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A22073847F00B69962 /* NewsTableViewCell.swift */; };
 		26D8E4A520738C6000B69962 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A420738C6000B69962 /* AlertViewController.swift */; };
-		26D8E4A720738C6E00B69962 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D8E4A620738C6E00B69962 /* NewsViewController.swift */; };
 		854F6C107575894D46E97D6E /* Pods_IBMBlight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7679362CE38592F5F95F6456 /* Pods_IBMBlight.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2615652B207B5EB6000501AD /* fakeLocation.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = fakeLocation.gpx; sourceTree = "<group>"; };
 		2615652D207B69AD000501AD /* OwnPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnPin.swift; sourceTree = "<group>"; };
 		2624270320A17A1F00F4A0D1 /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
-		2624270520A17D1400F4A0D1 /* test2.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = test2.geojson; sourceTree = "<group>"; };
 		2624271120A449C900F4A0D1 /* DateValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateValueFormatter.swift; sourceTree = "<group>"; };
 		262FF1972087328100FADA96 /* WeatherServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherServer.swift; sourceTree = "<group>"; };
 		263C09EA208F589800551BF5 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
@@ -48,19 +37,12 @@
 		263D303B2063E533005BFE8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		263D30402063E534005BFE8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		263D30422063E534005BFE8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		264DDC822080E75200493734 /* image1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image1.jpeg; sourceTree = "<group>"; };
 		266AAA7F20AC181A00FFC9FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		269437EF207CD55400728DEA /* TopWeatherDataVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopWeatherDataVC.swift; sourceTree = "<group>"; };
 		269BF573207E1C62008DED4C /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
-		26ABC2532091C9A400A2AC39 /* noBlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noBlight.png; sourceTree = "<group>"; };
-		26ABC2542091C9A400A2AC39 /* warningBlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warningBlight.png; sourceTree = "<group>"; };
-		26ABC2552091C9A500A2AC39 /* blight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blight.png; sourceTree = "<group>"; };
 		26ABC2592091D1CC00A2AC39 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		26D2556D209B280E00400733 /* test.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = test.geojson; sourceTree = "<group>"; };
 		26D8E4A02073740900B69962 /* AlertTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTableViewCell.swift; sourceTree = "<group>"; };
-		26D8E4A22073847F00B69962 /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
 		26D8E4A420738C6000B69962 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
-		26D8E4A620738C6E00B69962 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		28F4D5D69094BD2F49C29023 /* Pods-IBMBlight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IBMBlight.release.xcconfig"; path = "Pods/Target Support Files/Pods-IBMBlight/Pods-IBMBlight.release.xcconfig"; sourceTree = "<group>"; };
 		69ED3C9779BA0C61EE4B74AD /* Pods-IBMBlight.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IBMBlight.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IBMBlight/Pods-IBMBlight.debug.xcconfig"; sourceTree = "<group>"; };
 		7679362CE38592F5F95F6456 /* Pods_IBMBlight.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IBMBlight.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,17 +82,12 @@
 			isa = PBXGroup;
 			children = (
 				26ABC2592091D1CC00A2AC39 /* MapViewController.swift */,
-				26D2556D209B280E00400733 /* test.geojson */,
-				2624270520A17D1400F4A0D1 /* test2.geojson */,
-				264DDC822080E75200493734 /* image1.jpeg */,
 				263D30362063E533005BFE8F /* AppDelegate.swift */,
 				263D30382063E533005BFE8F /* ViewController.swift */,
 				262FF1972087328100FADA96 /* WeatherServer.swift */,
 				269BF573207E1C62008DED4C /* Reachability.swift */,
 				26D8E4A420738C6000B69962 /* AlertViewController.swift */,
 				26D8E4A02073740900B69962 /* AlertTableViewCell.swift */,
-				26D8E4A620738C6E00B69962 /* NewsViewController.swift */,
-				26D8E4A22073847F00B69962 /* NewsTableViewCell.swift */,
 				263D303A2063E533005BFE8F /* Main.storyboard */,
 				2624270320A17A1F00F4A0D1 /* GraphViewController.swift */,
 				2624271120A449C900F4A0D1 /* DateValueFormatter.swift */,
@@ -118,12 +95,8 @@
 				269437EF207CD55400728DEA /* TopWeatherDataVC.swift */,
 				263D303F2063E534005BFE8F /* LaunchScreen.storyboard */,
 				263D30422063E534005BFE8F /* Info.plist */,
-				2615652B207B5EB6000501AD /* fakeLocation.gpx */,
 				2615652D207B69AD000501AD /* OwnPin.swift */,
-				26ABC2552091C9A500A2AC39 /* blight.png */,
-				26ABC2532091C9A400A2AC39 /* noBlight.png */,
 				266AAA7F20AC181A00FFC9FA /* Assets.xcassets */,
-				26ABC2542091C9A400A2AC39 /* warningBlight.png */,
 			);
 			path = IBMBlight;
 			sourceTree = "<group>";
@@ -207,15 +180,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				263D30412063E534005BFE8F /* LaunchScreen.storyboard in Resources */,
-				2615652C207B5EB6000501AD /* fakeLocation.gpx in Resources */,
 				266AAA8020AC181A00FFC9FA /* Assets.xcassets in Resources */,
-				26ABC2562091C9A500A2AC39 /* noBlight.png in Resources */,
-				26ABC2572091C9A500A2AC39 /* warningBlight.png in Resources */,
 				263C09EB208F589800551BF5 /* Colors.xcassets in Resources */,
-				2624270620A17D1400F4A0D1 /* test2.geojson in Resources */,
-				264DDC832080E75200493734 /* image1.jpeg in Resources */,
-				26D2556E209B280E00400733 /* test.geojson in Resources */,
-				26ABC2582091C9A500A2AC39 /* blight.png in Resources */,
 				263D303C2063E533005BFE8F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,9 +241,7 @@
 				26D8E4A520738C6000B69962 /* AlertViewController.swift in Sources */,
 				2615652E207B69AD000501AD /* OwnPin.swift in Sources */,
 				269437F0207CD55400728DEA /* TopWeatherDataVC.swift in Sources */,
-				26D8E4A32073847F00B69962 /* NewsTableViewCell.swift in Sources */,
 				269BF574207E1C62008DED4C /* Reachability.swift in Sources */,
-				26D8E4A720738C6E00B69962 /* NewsViewController.swift in Sources */,
 				2624270420A17A1F00F4A0D1 /* GraphViewController.swift in Sources */,
 				26D8E4A12073740900B69962 /* AlertTableViewCell.swift in Sources */,
 				263D30372063E533005BFE8F /* AppDelegate.swift in Sources */,
