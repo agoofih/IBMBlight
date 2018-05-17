@@ -71,7 +71,6 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
             dateFormatter.locale = Locale(identifier: "sv_SV")
             
             if((calc - prevdate) > (6 * 3600)) && rLiveBlightScore[i] != -100.0 && rLiveR[i] != -100 && rLiveT[i] != -100.0 {
-                print(calc, prevdate)
                 
                 let value = ChartDataEntry(x: Double(calc), y: rLiveBlightScore[i])
                 let value2 = ChartDataEntry(x: Double(Int(calc)), y: Double(rLiveR[i]))
@@ -169,12 +168,9 @@ class GraphViewController: UIViewController, CLLocationManagerDelegate{
         jsonUrlString = "http://blighttoaster.eu-gb.mybluemix.net/api/weather?lat=\(locLat)&lng=\(locLng)"
         url = URL(string: jsonUrlString)
         
-//        print(jsonUrlString)
-        
         if checker == 0 {
             getFullGraphDataCheck()
             checker += 1
-//            print("CHECKER \(checker)")
         }
         manager.stopUpdatingLocation()
     }

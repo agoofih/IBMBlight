@@ -30,12 +30,7 @@ class AlertViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        alertTableView.register(AlertTableViewCell.self, forCellReuseIdentifier: "alertCell")
         getAlertsAndNews()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -45,7 +40,6 @@ class AlertViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     
     func getAlertsAndNews() {
-        print("RUNNING")
         
         let jsonUrlString = "http://blighttoaster.eu-gb.mybluemix.net/api/get_news_and_alerts"
         guard let url = URL(string: jsonUrlString) else { return }
@@ -73,7 +67,6 @@ class AlertViewController: UIViewController, UITableViewDelegate, UITableViewDat
              print("bupp", error)
             }
             DispatchQueue.main.async {
-//                print("reload")
                 self.alertTableView.reloadData()
             }
         }.resume()
@@ -118,16 +111,5 @@ class AlertViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         return cell
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

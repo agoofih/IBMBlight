@@ -16,11 +16,11 @@
             <objects>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="BYZ-38-t0r" customClass="ViewController" customModule="IBMBlight" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="3000"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="2200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" contentInsetAdjustmentBehavior="never" translatesAutoresizingMaskIntoConstraints="NO" id="q2D-Ie-XK5" userLabel="mainScrollView">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="3000"/>
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="2200"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="usn-rf-x7s" userLabel="topScrollViewFix">
                                         <rect key="frame" x="0.0" y="0.0" width="768" height="1"/>
@@ -658,7 +658,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <size key="freeformSize" width="768" height="3000"/>
+                    <size key="freeformSize" width="768" height="2200"/>
                     <connections>
                         <outlet property="CRVSendView" destination="AGR-IE-NsF" id="4hv-Oq-b1V"/>
                         <outlet property="CRVanalyzeButton" destination="ceZ-nk-QSy" id="jSK-Na-43W"/>
@@ -776,7 +776,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tCF-gB-6tS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="734" y="-32"/>
+            <point key="canvasLocation" x="2020" y="45"/>
         </scene>
         <!--Alert View Controller-->
         <scene sceneID="vtC-Nt-9DC">
@@ -805,7 +805,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="so6-m0-jvi" userLabel="titleLabel">
-                                                    <rect key="frame" x="117" y="20" width="591" height="33"/>
+                                                    <rect key="frame" x="110" y="20" width="598" height="33"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="33" id="TzY-Qu-qJS"/>
                                                     </constraints>
@@ -814,7 +814,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PUk-cQ-Ogm" userLabel="descriptionLabel">
-                                                    <rect key="frame" x="117" y="53" width="591" height="50"/>
+                                                    <rect key="frame" x="110" y="53" width="598" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="XjM-Mf-1F7"/>
                                                     </constraints>
@@ -830,7 +830,7 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LAV-hp-0IR" userLabel="dateLabel">
-                                                    <rect key="frame" x="117" y="112" width="591" height="21"/>
+                                                    <rect key="frame" x="110" y="112" width="598" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="iAA-8V-sa5"/>
                                                     </constraints>
@@ -839,14 +839,14 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="earthTabel" translatesAutoresizingMaskIntoConstraints="NO" id="0wW-QN-Phb">
-                                                    <rect key="frame" x="30" y="65" width="25" height="25"/>
+                                                    <rect key="frame" x="23" y="65" width="25" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="aow-pq-j0t"/>
                                                         <constraint firstAttribute="width" constant="25" id="bbP-d7-F52"/>
                                                     </constraints>
                                                 </imageView>
                                                 <view alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UsM-On-vMd" userLabel="devider2">
-                                                    <rect key="frame" x="85" y="20" width="2" height="114.5"/>
+                                                    <rect key="frame" x="78" y="20" width="2" height="114.5"/>
                                                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="2" id="6xy-Bs-g6I"/>
@@ -925,7 +925,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b7u-di-eiH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-577.34375" y="-191.015625"/>
+            <point key="canvasLocation" x="-577" y="118"/>
         </scene>
         <!--Top Weather DataVC-->
         <scene sceneID="Ykg-ZM-i9D">
@@ -1093,7 +1093,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2bk-dC-92o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-596" y="-819"/>
+            <point key="canvasLocation" x="-577" y="-534"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="D2M-Q8-Jq5">
@@ -1136,7 +1136,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xP1-Te-sVV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="754" y="-648"/>
+            <point key="canvasLocation" x="762" y="-408"/>
         </scene>
         <!--Graph View Controller-->
         <scene sceneID="qxN-sc-V2a">
@@ -1149,7 +1149,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AOB-Ca-Oyj">
                                 <rect key="frame" x="0.0" y="0.0" width="718" height="50"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Analytics at your position" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6bt-Ja-rqS">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Blight at your position" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6bt-Ja-rqS">
                                         <rect key="frame" x="0.0" y="0.0" width="718" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
@@ -1203,7 +1203,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jgy-5I-V2b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-577.34375" y="144.7265625"/>
+            <point key="canvasLocation" x="-577" y="439"/>
         </scene>
     </scenes>
     <resources>
