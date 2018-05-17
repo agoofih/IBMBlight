@@ -50,6 +50,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
     }
     
+    
+    
     func getPins () {
         let url = URL(string: "https://blighttoaster.eu-gb.mybluemix.net/api/blight_per_point")
         
@@ -163,6 +165,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     
+    
+    
     //------------------------------ ------------------------------ -------------------------------
     
     //------------------------------ Map -------------------------------
@@ -205,21 +209,36 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         } else {
             view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             view.canShowCallout = true
+            view.isEnabled = true
             view.calloutOffset = CGPoint(x: 0, y: 5)
-            view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+            let btn = UIButton(type: .detailDisclosure)
+            view.rightCalloutAccessoryView = btn
         }
+        
+        
+        
+        view.animatesWhenAdded = true
+        view.clusteringIdentifier = nil
+        view.displayPriority = .required
         view.markerTintColor = UIColor(hexString: "\(annotation.color)ff")
         view.glyphImage = UIImage(named: "alarm")
         return view
     }
 
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        
-        print("calloutAccessoryControlTapped")
         let clickedAnnotation = view.annotation as! OwnPin
-        if clickedAnnotation.title != nil {
-            print(clickedAnnotation.title!)
+        if clickedAnnotation.title != nil && clickedAnnotation.subtitle != nil && clickedAnnotation.coordinate != nil{
+            
+            let title = clickedAnnotation.title!
+            let subtitle = clickedAnnotation.subtitle!
+            let coords = clickedAnnotation.coordinate
+            
+            let ac = UIAlertController(title: "\(title) risk of infection", message: "\(subtitle) \n\nCoords:\nLatitude: \(coords.latitude)\n Longitued: \(coords.longitude)", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
         }
+        
+        
         
     }
 

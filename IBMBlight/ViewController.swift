@@ -176,7 +176,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             imageResultViewTopConstraint.constant = 25
             
             let savedImage = UserDefaults.standard.object(forKey: "savedImage") as! NSData
-            imageResultView.image = UIImage(data: savedImage as Data)
+//            imageResultView.image = UIImage(data: savedImage as Data)
+            let currentUIImage = UIImage(data: savedImage as Data)
+            self.imageResultView.image = rotateImage(image: currentUIImage!)
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
                 self.cameraResultView.BadgeView()
             }
@@ -198,6 +201,27 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.present(alert, animated: true)
         }
         getClassifierID()
+    }
+    
+    func rotateImage(image:UIImage) -> UIImage
+    {
+        var rotatedImage = UIImage()
+        switch image.imageOrientation
+        {
+        case .right:
+            rotatedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .down)
+            
+        case .down:
+            rotatedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .left)
+            
+        case .left:
+            rotatedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .up)
+            
+        default:
+            rotatedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .right)
+        }
+        
+        return rotatedImage
     }
     
     
@@ -273,7 +297,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         //Decode image and display
         let activeImage = UserDefaults.standard.object(forKey: "savedImage") as! NSData
-        imageResultView.image = UIImage(data: activeImage as Data)
+//        imageResultView.image = UIImage(data: activeImage as Data)
+        let currentUIImage = UIImage(data: activeImage as Data)
+        self.imageResultView.image = rotateImage(image: currentUIImage!)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
             self.cameraResultView.dropShadow()
