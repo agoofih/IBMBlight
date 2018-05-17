@@ -90,24 +90,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var location_lat = 55.611868
     var location_lng = 12.977738
     
-    //FakeLocation in CPX File
-    //let initialLocation = CLLocation(latitude: 55.606118, longitude: 13.197447)
-    //Fake farm 1
-    var FF1_lat = 55.598424
-    var FF1_long = 13.214542
-    
-    //Fake farm 2
-    var FF2_lat = 55.584106
-    var FF2_long = 13.214832
-    
-    //Fake farm 3
-    var FF3_lat = 55.592145
-    var FF3_long = 13.191919
-    
-    //Fake farm 4
-    var FF4_lat = 55.606739
-    var FF4_long = 13.196711
-    
     //Mailadress user puts in befor sending the report
     var recipientValueMail : String = ""
     
@@ -170,9 +152,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             locationManager.startUpdatingLocation()
         }
         mainMapView.delegate = self
-//        moveMap()
         getCurrentDateTime()
-
     }
     
     //Changes the top statusbar to white
@@ -203,15 +183,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         
         topWeatherContainerView.dropShadow()
-//        mainMapView.dropShadow()
         mapContainerView.dropShadow()
         
         alertView.BadgeView()
-        newsViewWrapper.BadgeView()
         CRVanalyzeButton.BadgeView()
         graphViewWrapper.BadgeView()
-        
-//        myPintemp()
         
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
@@ -224,26 +200,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         getClassifierID()
     }
     
-    //Pin creation
-    
-//    func myPintemp() {
-//        let myPin = OwnPin()
-//        myPin.title = "Hej"
-//        myPin.subtitle = "Tjena"
-//        myPin.coordinate = CLLocationCoordinate2D(latitude: FF1_lat, longitude: FF1_long)
-////        myPin.blight = true
-//        mainMapView.addAnnotation(myPin)
-//
-//        let myPin2 = OwnPin()
-//        myPin2.title = "myPin2"
-//        myPin2.subtitle = "Wops"
-//        myPin2.coordinate = CLLocationCoordinate2D(latitude: FF2_lat, longitude: FF2_long)
-////        myPin2.blight = false
-//        mainMapView.addAnnotation(myPin2)
-//
-//        mainMapView.isRotateEnabled = false
-//
-//    }
     
     //------------------------------ ------------------------------ -------------------------------
     
@@ -251,73 +207,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     //------------------------------ ------------------------------ -------------------------------
     
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let userLocation:CLLocation = locations[0]
         location_lat = userLocation.coordinate.latitude
         location_lng = userLocation.coordinate.longitude
         sendLat = "\(userLocation.coordinate.latitude)"
         sendLng = "\(userLocation.coordinate.longitude)"
-        
-//        let myPinOwnPlace = OwnPin()
-//        myPinOwnPlace.title = "Hejsan popsan"
-//        myPinOwnPlace.subtitle = "subtitle"
-//        myPinOwnPlace.coordinate = CLLocationCoordinate2D(latitude: location_lat, longitude: location_lng)
-////        myPinOwnPlace.blight = false
-//        mainMapView.addAnnotation(myPinOwnPlace)
-
-        //moveMap()
     }
     
-//    func moveMap() {
-//        //let initialLocation = CLLocation(latitude: localtion_lat, longitude: location_long) //correct, replase to this when live
-//        let initialLocation = CLLocation(latitude: 55.606118, longitude: 13.197447) // tempdata GPS
-//        let regionRadius: CLLocationDistance = 2500
-//        let coordinateRegion = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate,regionRadius * 2.0, regionRadius * 2.0)
-//        mainMapView.setRegion(coordinateRegion, animated: true)
-//    }
-    
-//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        if let annotation = annotation as? OwnPin {
-//            let identifier = "pin"
-//            var view: MKPinAnnotationView
-//            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-//                as? MKPinAnnotationView {
-//                dequeuedView.annotation = annotation
-//                view = dequeuedView
-//            } else {
-//                // 3
-//                view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-//                view.canShowCallout = true
-//                view.calloutOffset = CGPoint(x: -5, y: 5)
-//                view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure) as UIView
-//
-//            }
-////            if annotation.blight == true {
-////                //view.pinTintColor = MKPinAnnotationView.redPinColor()
-////                view.image = UIImage(named: "blight.png")
-////            } else {
-////                //view.pinTintColor = MKPinAnnotationView.greenPinColor()
-////                view.image = UIImage(named: "noBlight.png")
-////            }
-//            return view
-//        }
-//        return nil
-//    }
-    
-//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        let annotationView = MKAnnotationView(annotation: myPin, reuseIdentifier: <#T##String?#>)
-//    }
-    
-//    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-//        //print("calloutAccessoryControlTapped")
-//        
-//        let clickedAnnotation = view.annotation as! OwnPin
-//        if clickedAnnotation.title != nil {
-//            print(clickedAnnotation.title!)
-//        }
-//        
-//    }
-
     
     
     //------------------------------ ------------------------------ -------------------------------
@@ -423,9 +321,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func sendDataFunc(endUrl: String, imageData: Data?, parameters: [String : Any], onError: ((Error?) -> Void)? = nil){
         let sv = UIViewController.displaySpinner(onView: self.view)
-        urlSend = "https://blighttoaster.eu-gb.mybluemix.net/api/analyze_images" /* your API url */
+        urlSend = "https://blighttoaster.eu-gb.mybluemix.net/api/analyze_images"
         let headers: HTTPHeaders = [
-            /* "Authorization": "your_access_token",  in case you need authorization header */
             "Content-type": "multipart/form-data"
         ]
         Alamofire.upload(multipartFormData: { (multipartFormData) in
@@ -462,28 +359,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                         let topResponse = try JSONDecoder().decode(TopResponse.self, from: response.data!)
                    
                         for response in topResponse.files {
-//                            print("blightscore: ",response.blightscore)
-//                            print("coords: ",response.coords)
-//                            print("url: ",response.url, "\n")
                             if response.blightscore > highResultScore {
                                 highResultScore = response.blightscore
                                 highResultCoords = response.coords
-//                                self.reciveLat = highResultCoords[0]
-//                                self.reciveLng = highResultCoords[1]
                                 highResultUrl = "https://blighttoaster.eu-gb.mybluemix.net\(response.url)"
                                 self.scoreCalc = highResultScore * 100
-                                
-                                //print("Lat is: ", self.reciveLat)
-                                //print("Lng is: ", self.reciveLng)
-                                //print(highResultUrl)
+
                                 
                                 self.imageResultView.downloadedFrom(link: highResultUrl)
-                                
-//                                if #available(iOS 11.0, *) {
-//                                    let color: UIColor = UIColor(named: "MartianRed")!
-//                                    self.view.backgroundColor = color
-//                                }
-                                
+
                                 if self.scoreCalc <= 30.0 {
                                     self.CRVblightScore.textColor = UIColor(named: "darkGreen")
                                 } else if self.scoreCalc > 30.0 && self.scoreCalc < 60.0 {
@@ -587,8 +471,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         mailComposerVC.setToRecipients(["\(recipientValueMail)"])
         mailComposerVC.setSubject("Result of analysis: \(todaysDate)")
-        //mailComposerVC.setMessageBody("<h2 style='color:#3271BB'>Hi</h2><h4>Here is the \(CRVheader.text!) from \(todaysDate)</h4><p>\(CRVsuggestedInfectionHeader.text!)</p><h6>\(CRVsuggestedInfectionTypeValue.text!)</h6></br><p>\(CRVprababilityHeader.text!)</p><h6>\(CRVsuggestedInfectionTypeValue.text!)</h6><p>\(CRVstageHeader.text!)</p><h6>\(CRVstageValue.text!)</h6></br><p>The picture that got this result is down below</p><p>Please get back to me, Best regards </br> \(mailImage)", isHTML: true)
-
+    
         mailComposerVC.setMessageBody("<h2 style='color:#3271BB'>Hi</h2><h5>Here is the blightscore from \(todaysDate)</h5></br><p>This image got an score of:</p><h3>\(CRVblightScore.text!)</h3></br><p>The picture that got this result is down below</p><p>Please get back to me, Best regards </br> \(mailImage)", isHTML: true)
 
         return mailComposerVC

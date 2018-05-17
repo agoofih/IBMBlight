@@ -207,7 +207,6 @@ class TopWeatherDataVC: UIViewController, CLLocationManagerDelegate {
                                         print("failure")
                                         print("The wind bearing is BULLSHIT)")
                                     }
-                                    //self.windDirectionLabel.text = "\(UserDefaults.standard.value(forKey: "weatherWindDirection")!) heading"
                                 }
                                 
                             } else {

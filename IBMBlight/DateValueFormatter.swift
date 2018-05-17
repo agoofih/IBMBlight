@@ -20,8 +20,6 @@ public class DateValueFormatter: NSObject, IAxisValueFormatter {
     }
     
     public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
-//        print(dateFormatter.string(from: Date(timeIntervalSince1970: value)))
-        
         return dateFormatter.string(from: Date(timeIntervalSince1970: value))
     }
 }
